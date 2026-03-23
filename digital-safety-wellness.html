@@ -1890,19 +1890,241 @@ const MODULE_CONTENT = [
     }
   ],
 
-  // ── MODULE 3 placeholder ──────────────────────────────
+  // ── MODULE 3: Account Security, Passwords & Authentication ──
   [
-    { type: 'lesson', title: 'Module 3 Coming Soon', icon: '🔑', body: 'This module is under construction.', cards: [] },
-    { type: 'minitest', title: `Module 3 Check`, subtitle: `Module 3 · 8 questions`, questions: [
-      { format: 'truefalse', question: 'Placeholder question.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 2.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 3.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 4.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 5.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 6.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 7.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 8.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] }
-    ]}
+    // ── INTRO LESSON ──
+    {
+      type: 'lesson',
+      title: 'Why Account Security Matters',
+      icon: '🔑',
+      body: `Most people think getting hacked looks like a shadowy figure typing furiously at a keyboard, breaking through layers of code. Reality is much less dramatic — and much more avoidable.<br><br>
+      Around <strong>80% of hacking-related breaches are caused by weak, stolen, or reused passwords</strong>. Attackers often don't need to "hack" anything — they just try credentials that already leaked from another site, or run automated tools that guess simple passwords in seconds. One weak password, reused across accounts, can give an intruder access to your email, bank, streaming services, and university portal all at once.`,
+      cards: [
+        {
+          icon: '⚡',
+          title: 'What Makes a Password Strong?',
+          body: `Four things determine how resistant a password is to being cracked:<br><br>
+          <strong>Length</strong> — at least 12–16 characters. Every extra character exponentially increases the number of combinations an attacker has to try. Short passwords (under 8 characters) can be cracked in seconds with modern tools.<br><br>
+          <strong>Complexity</strong> — mix uppercase, lowercase, numbers, and symbols. A diverse character set eliminates simple patterns.<br><br>
+          <strong>Unpredictability</strong> — avoid anything personal: birthdays, pet names, sports teams, your university's name. If it's easy for you to remember because it's meaningful to you, it may be guessable from your social media.<br><br>
+          <strong>Uniqueness</strong> — never reuse a password across accounts. If one site is breached, attackers try those credentials everywhere else (called a <em>credential stuffing attack</em>). One reused password can cascade into losing control of every account that shares it.`
+        }
+      ]
+    },
+
+    // ── SCENARIO 1: The Credential Stuffing Attack ──
+    {
+      type: 'scenario',
+      badge: 'Scenario 1 of 2',
+      title: 'The Domino Effect',
+      persona: 'first',
+      text: `You've had the same password — <strong>Panthers2019!</strong> — since high school. It's got uppercase, lowercase, a number, and a symbol, so it always passes the strength meter. You use it (with minor tweaks like changing the year) for most of your accounts: your university email, Spotify, a gaming forum you joined years ago, and your bank's app.<br><br>
+      One morning you wake up to an email: the gaming forum you forgot you even had an account on was breached — 4 million usernames and passwords exposed. You don't think much of it. It's just a gaming forum.<br><br>
+      By noon, your Spotify has been taken over. By 2pm, someone has tried — and nearly succeeded — logging into your university email. Your bank sends a fraud alert.`,
+      // ── IMAGE SLOT ──────────────────────────────────────────────────────────
+      // To add a mock breach notification email screenshot here:
+      //   image: { src: 'images/breach-notification.png', alt: 'Data breach notification email', caption: 'The email you almost ignored' }
+      // ────────────────────────────────────────────────────────────────────────
+      highlight: `"It's just a gaming forum." — Famous last words.`
+    },
+    {
+      type: 'question',
+      format: 'multiple',
+      question: `Why were Spotify and the university email at risk when it was the gaming forum that got breached?`,
+      options: [
+        { text: 'The gaming forum shared user data with Spotify and the university directly.', correct: false },
+        { text: 'Attackers used the leaked gaming forum credentials in a credential stuffing attack — automatically trying the same username and password across hundreds of other sites.', correct: true },
+        { text: 'The breach gave attackers access to the device, which had saved passwords in the browser.', correct: false },
+        { text: 'Spotify and the university were also breached at the same time — it was a coincidence.', correct: false }
+      ],
+      hint: `The common thread between all the affected accounts is the reused password. What do attackers do when they get a list of username/password pairs from a breach?`,
+      explanation: `This is a <strong>credential stuffing attack</strong> — one of the most common and effective ways accounts get taken over. When a site is breached, attackers immediately run automated scripts that try those exact credentials on hundreds of other services: Gmail, banks, streaming platforms, university portals. If you reused the password, they're in. The gaming forum didn't share your data — they just provided the key that unlocked everywhere else you used the same one.`
+    },
+    {
+      type: 'question',
+      format: 'multiselect',
+      question: `Which of these would have prevented or significantly limited the damage in this scenario? Select all that apply.`,
+      options: [
+        { text: 'Using a unique password for every account so a breach on one site doesn\'t affect others.', correct: true },
+        { text: 'Using a password manager to generate and store strong, unique passwords.', correct: true },
+        { text: 'Enabling multi-factor authentication on important accounts like email and banking.', correct: true },
+        { text: 'Using a stronger version of the same password pattern — like Panthers2020!! instead.', correct: false },
+        { text: 'Signing up with a different email address for less important sites.', correct: true }
+      ],
+      hint: `Think about what actually breaks the chain — the fact that one password worked everywhere. What strategies address that specific problem?`,
+      explanation: `Three things break the credential stuffing chain: unique passwords per site (so one breach can't cascade), a password manager (makes unique passwords actually manageable), and MFA on critical accounts (so even if a password leaks, a second factor blocks access). Using a different email for throwaway accounts also limits exposure — if that email/password combo leaks, it's not connected to your real identity. Tweaking the same password pattern doesn't help — attackers' scripts try common variations automatically.`
+    },
+    {
+      type: 'lesson',
+      icon: '🗄️',
+      title: 'Password Managers: The Practical Fix',
+      body: `The reason most people reuse passwords is simple: human brains can't reliably remember dozens of unique, complex passwords. Password managers solve exactly this problem.`,
+      cards: [
+        {
+          icon: '🛡️',
+          title: 'How Password Managers Work',
+          body: `A password manager generates, stores, and auto-fills strong passwords for every account you have. You only need to remember <strong>one master password</strong> — the manager handles everything else.<br><br>
+          <strong>What you get:</strong><br>
+          <ul class="lesson-list">
+            <li><strong>Unique 16+ character passwords for every site</strong> — generated randomly, impossible to guess</li>
+            <li><strong>Encrypted storage</strong> — your passwords are stored in an encrypted vault; even if the manager is breached, the data is unreadable without your master key</li>
+            <li><strong>Auto-fill across devices</strong> — works on your phone, laptop, and browser so there's no temptation to use something simple</li>
+            <li><strong>Breach alerts</strong> — many managers notify you when a site you use has been compromised</li>
+          </ul>
+          <br><strong>Trusted options:</strong> 1Password, Bitwarden (free and open-source), Dashlane, or Apple's built-in iCloud Keychain if you're in the Apple ecosystem. Any of these is dramatically better than reusing passwords.`
+        }
+      ]
+    },
+
+    // ── SCENARIO 2: The MFA Moment ──
+    {
+      type: 'scenario',
+      badge: 'Scenario 2 of 2',
+      title: 'One Extra Step',
+      persona: 'third',
+      text: `Sam has a genuinely strong password on her university email — 18 characters, random, stored in a password manager. She's proud of it. What she hasn't set up is multi-factor authentication, mostly because she's been meaning to and it feels like one extra step.<br><br>
+      A phishing email fools her into entering her credentials on a convincing fake login page. The attacker now has her password — the strong one she carefully generated. Within minutes they're in her email, and from there they trigger password resets on her linked accounts: her student financial aid portal, her university housing application, her course registration system.<br><br>
+      Sam's strong password didn't fail her. The absence of a second factor did.`,
+      highlight: `"It feels like one extra step." — It is. It also would have stopped this entirely.`
+    },
+    {
+      type: 'question',
+      format: 'multiple',
+      question: `Sam had a strong, unique password. Why wasn't that enough to stop the attacker?`,
+      options: [
+        { text: 'Her password manager was hacked and exposed her credentials.', correct: false },
+        { text: 'Strong passwords can always be cracked given enough time.', correct: false },
+        { text: 'She was phished — she entered her password on a fake site herself, handing it to the attacker directly. MFA would have blocked access even with the correct password.', correct: true },
+        { text: 'The attacker guessed her password through a dictionary attack.', correct: false }
+      ],
+      hint: `The password wasn't cracked — it was given away. Think about what MFA adds to the equation when a password is already compromised.`,
+      explanation: `Phishing bypasses password strength entirely — it tricks you into handing over your credentials voluntarily. No matter how strong a password is, if you type it into a fake login page, the attacker has it. <strong>MFA is the critical second layer</strong>: even with the correct password, the attacker would also need access to Sam's phone or authenticator app to log in. Microsoft and Google report that MFA blocks over 99% of automated account takeover attacks.`
+    },
+    {
+      type: 'question',
+      format: 'multiple',
+      question: `Which type of MFA is most secure?`,
+      options: [
+        { text: 'SMS text message with a one-time code sent to your phone number.', correct: false },
+        { text: 'Security questions like "What was the name of your first pet?"', correct: false },
+        { text: 'A hardware security key (like a YubiKey) that physically must be present to authenticate.', correct: true },
+        { text: 'An email with a one-time login link.', correct: false }
+      ],
+      hint: `Think about which option an attacker could intercept or guess remotely — and which one requires physically having a specific object in hand.`,
+      explanation: `<strong>Hardware security keys</strong> are the gold standard — they use cryptographic authentication and cannot be intercepted remotely. An attacker would literally need to steal the physical device. SMS codes are the weakest MFA option: phone numbers can be hijacked through SIM swapping, and codes can be intercepted. Authenticator apps (like Google Authenticator) are much better than SMS — codes generate locally on your device and don't travel over the phone network. Security questions aren't really MFA at all — they're just a second password, often with guessable answers.`
+    },
+    {
+      type: 'lesson',
+      icon: '🔐',
+      title: 'Multi-Factor Authentication & Account Recovery',
+      body: `MFA means logging in requires more than one "factor" — something you <em>know</em> (password), something you <em>have</em> (your phone or a key), or something you <em>are</em> (biometrics). Combining at least two makes an account dramatically harder to take over.`,
+      cards: [
+        {
+          icon: '🔄',
+          title: 'Securing Your Account Recovery',
+          body: `Your account is only as secure as its weakest recovery option. Attackers often skip the password entirely and target the recovery process instead.<br><br>
+          <strong>Use a separate recovery email</strong> — create a secondary email address used only for account recovery messages. Never use it for anything else. If no one knows it exists, it's much harder to target.<br><br>
+          <strong>Keep recovery info up to date</strong> — an old phone number you no longer own could be receiving your reset codes. Remove it.<br><br>
+          <strong>Don't answer security questions honestly</strong> — "What was your first pet's name?" is guessable from your social media. Treat security question answers like passwords: random, unguessable, stored in your password manager.<br><br>
+          <strong>Generate and store backup codes</strong> — most major platforms (Google, Instagram, etc.) let you download one-time backup codes. Save them somewhere secure — a locked note in your password manager, or printed and physically stored. These are your lifeline if you lose access to your authenticator app.`
+        }
+      ]
+    },
+
+    // ── MINI TEST ──
+    {
+      type: 'minitest',
+      title: `Let's see what stuck`,
+      subtitle: `Module 3 · 8 questions · Need 80% to pass`,
+      questions: [
+        {
+          format: 'multiple',
+          question: `A credential stuffing attack works by doing which of the following?`,
+          options: [
+            { text: 'Brute-forcing a password by trying every possible character combination.', correct: false },
+            { text: 'Taking leaked username/password pairs from one breach and automatically trying them on other sites.', correct: true },
+            { text: 'Installing keylogging malware to capture passwords as you type them.', correct: false },
+            { text: 'Intercepting your login request as it travels over the network.', correct: false }
+          ],
+          explanation: `Credential stuffing exploits password reuse. When a site is breached, attackers run the stolen credentials against hundreds of other services automatically. If you used the same password on the breached site as on your bank or email, they're in — no hacking required, just automation.`
+        },
+        {
+          format: 'truefalse',
+          question: `A password like "Panthers2019!" that passes a strength meter is safe to reuse across multiple accounts.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False', correct: true }
+          ],
+          explanation: `Passing a strength meter means the password is harder to guess or brute-force in isolation. But if it's reused and one site leaks it, the password's complexity becomes irrelevant — attackers already have it in plaintext. Uniqueness matters as much as complexity. A password manager is the solution: it makes unique, strong passwords practical.`
+        },
+        {
+          format: 'multiple',
+          question: `What is the primary advantage of an authenticator app over SMS for multi-factor authentication?`,
+          options: [
+            { text: 'Authenticator apps send codes faster than SMS.', correct: false },
+            { text: 'Authenticator app codes generate locally on your device and don\'t travel over the phone network, making them immune to SIM swapping attacks.', correct: true },
+            { text: 'Authenticator apps are free, while SMS MFA costs money.', correct: false },
+            { text: 'SMS codes expire immediately, while authenticator codes last longer.', correct: false }
+          ],
+          explanation: `SIM swapping is an attack where a criminal convinces your carrier to transfer your phone number to their SIM card — after which they receive all your SMS messages, including MFA codes. Authenticator apps generate codes locally using a shared secret key, so they're never transmitted over the phone network and can't be intercepted via SIM swapping.`
+        },
+        {
+          format: 'multiselect',
+          question: `Which of the following are good password practices? Select all that apply.`,
+          options: [
+            { text: 'Using a unique password for every account.', correct: true },
+            { text: 'Making passwords at least 12–16 characters long.', correct: true },
+            { text: 'Using your dog\'s name plus your birth year — easy to remember and personal.', correct: false },
+            { text: 'Using a password manager to generate and store credentials.', correct: true },
+            { text: 'Changing your password slightly each time you update it (e.g., Panthers2019 → Panthers2020).', correct: false }
+          ],
+          hint: `Think about what actually makes a password resistant: uniqueness, length, unpredictability. Which options address those, and which ones just feel like they do?`,
+          explanation: `Good practices are uniqueness (prevents credential stuffing), length (slows brute force), and using a password manager (makes both practical). Using personal info makes passwords guessable from your social media. Minor incremental changes — Panthers2019 → Panthers2020 — are one of the first variations attackers' scripts try in hybrid attacks; it provides almost no additional security.`
+        },
+        {
+          format: 'multiple',
+          question: `What is a rainbow table attack?`,
+          options: [
+            { text: 'An attack where every possible password combination is tried one by one.', correct: false },
+            { text: 'An attack that uses a precomputed database of password hashes to instantly reverse a stolen hash back to the original password.', correct: true },
+            { text: 'An attack that sends phishing emails in many colors and formats to avoid spam filters.', correct: false },
+            { text: 'An attack targeting Wi-Fi networks using signal analysis.', correct: false }
+          ],
+          explanation: `When websites store passwords, they store a hashed version (a one-way encrypted string), not the password itself. A rainbow table is a massive precomputed lookup table mapping common passwords to their hashes — so instead of cracking the hash, an attacker just looks it up. This is why using long, random, unique passwords matters: common or short passwords are likely already in rainbow tables.`
+        },
+        {
+          format: 'truefalse',
+          question: `Security questions like "What was your mother's maiden name?" are a strong form of account protection.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False', correct: true }
+          ],
+          explanation: `Security questions are one of the weakest forms of account protection. Answers are often findable through social media, public records, or social engineering. They're essentially a second password — but one with a limited set of predictable answers. If a service requires them, treat the answers like passwords: use random, unguessable responses and store them in your password manager.`
+        },
+        {
+          format: 'multiple',
+          question: `You lose your phone — the one with your authenticator app on it. What should you have prepared in advance to still recover your accounts?`,
+          options: [
+            { text: 'Your security questions — they\'re the backup method for exactly this scenario.', correct: false },
+            { text: 'Nothing — you\'ll need to contact every service individually and prove your identity.', correct: false },
+            { text: 'Backup recovery codes generated by each service, stored securely somewhere other than your phone.', correct: true },
+            { text: 'A second phone number for SMS backup — always kept active.', correct: false }
+          ],
+          explanation: `Most major platforms let you generate one-time backup recovery codes when you set up MFA — specifically for situations like losing your device. These should be downloaded and stored somewhere secure: a locked note in your password manager, or printed and physically stored. They're a lifeline. Security questions are weak and SMS is vulnerable to SIM swapping, so recovery codes stored offline are the gold standard backup.`
+        },
+        {
+          format: 'multiple',
+          question: `Sam has a strong unique password but no MFA. An attacker phishes her login and gets in. Which of these would have prevented account access even after the phishing attack succeeded?`,
+          options: [
+            { text: 'A longer password — 24 characters instead of 18.', correct: false },
+            { text: 'Multi-factor authentication — the attacker would need a second factor (phone, key) they don\'t have.', correct: true },
+            { text: 'A different password manager — some are more phishing-resistant.', correct: false },
+            { text: 'Reporting the phishing email to her university IT department first.', correct: false }
+          ],
+          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials. MFA is the layer that protects you even when a password is compromised: the attacker also needs physical access to your second factor (your phone, your hardware key). Without it, a stolen password is all they need. This is why MFA on your most important accounts — email, banking, university — is non-negotiable.`
+        }
+      ]
+    }
   ],
 
   // ── MODULE 4 placeholder ──────────────────────────────
