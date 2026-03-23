@@ -1517,7 +1517,7 @@ const MODULE_CONTENT = [
       ]
     },
 
-    // MINI TEST
+    // MINI TEST — Module 1
     {
       type: 'minitest',
       title: `Let's see what stuck`,
@@ -1528,28 +1528,31 @@ const MODULE_CONTENT = [
           question: `What is "out-of-band verification"?`,
           options: [
             { text: 'Replying directly to a suspicious email to ask if it\'s real.', correct: false },
+            { text: 'Looking up a word in a dictionary to verify a claim.', correct: false },
             { text: 'Confirming a request using a different channel from the one the request came in.', correct: true },
-            { text: 'Looking up a word in a dictionary.', correct: false },
-            { text: 'Checking a website\'s SSL certificate.', correct: false }
-          ]
+            { text: 'Checking a website\'s SSL certificate padlock icon.', correct: false }
+          ],
+          explanation: `Out-of-band verification means using a completely separate channel — one the attacker can't control. If you got a suspicious email, you verify by calling the sender's known phone number or visiting their official website directly, not by replying to the email.`
         },
         {
           format: 'truefalse',
           question: `A phone caller who sounds exactly like your mom is definitely your mom.`,
           options: [
             { text: 'True', correct: false },
-            { text: 'False — AI voice cloning can replicate anyone\'s voice from a short audio sample.', correct: true }
-          ]
+            { text: 'False', correct: true }
+          ],
+          explanation: `AI voice cloning technology can replicate anyone's voice convincingly from just a few seconds of audio — a voicemail, a video, or a social media clip. Always hang up and call back on a number you already have stored.`
         },
         {
           format: 'multiple',
-          question: `In the fake job scam, what is the attacker's actual goal?`,
+          question: `You check a WHOIS lookup on a domain that supposedly belongs to a major bank, and find it was registered 3 weeks ago. What does this tell you?`,
           options: [
-            { text: 'To steal your university login credentials.', correct: false },
-            { text: 'To get you to send real money after depositing a fake check.', correct: true },
-            { text: 'To install malware on your computer via the job application.', correct: false },
-            { text: 'To collect your resume for identity theft.', correct: false }
-          ]
+            { text: 'The bank recently rebranded and updated their domain.', correct: false },
+            { text: 'The domain is almost certainly fraudulent — legitimate institutions have established domains years old.', correct: true },
+            { text: 'WHOIS data is unreliable and tells you nothing useful.', correct: false },
+            { text: 'The bank is a startup and this is normal.', correct: false }
+          ],
+          explanation: `Scam websites are typically freshly registered — spun up days or weeks before a campaign. A real bank's domain will have existed for many years. A very recent registration date for a domain claiming to be an established institution is a strong red flag.`
         },
         {
           format: 'multiselect',
@@ -1557,49 +1560,55 @@ const MODULE_CONTENT = [
           options: [
             { text: 'Authority — impersonating a boss, bank, or official', correct: true },
             { text: 'Urgency — demanding immediate action', correct: true },
-            { text: 'Generosity — offering you something valuable', correct: false },
+            { text: 'Pure generosity — giving you something with no strings attached', correct: false },
             { text: 'Scarcity — "only a few spots left"', correct: true },
             { text: 'Fear — threatening consequences', correct: true },
             { text: 'Liking — building trust and rapport first', correct: true }
-          ]
+          ],
+          hint: `Think back to the five levers covered in the lesson. "Pure generosity" is a trap — when scammers offer something, there are always strings.`,
+          explanation: `Scammers use Authority, Urgency, Scarcity, Fear, and Liking (affinity). "Generosity" isn't one of the five — when something seems like a gift with no catch, it almost always has one (the overpayment scam is a perfect example).`
         },
         {
           format: 'truefalse',
-          question: `If a suspicious email uses your real name and university logo, it must be legitimate.`,
+          question: `If a suspicious email uses your real name and your university's logo, it must be from a legitimate source.`,
           options: [
             { text: 'True', correct: false },
-            { text: 'False — scammers harvest personal details from social media and data breaches to appear legitimate.', correct: true }
-          ]
+            { text: 'False', correct: true }
+          ],
+          explanation: `Scammers harvest personal details from social media, data breaches, and public records to make messages feel personal. Anyone can download a university logo. Personalization is a tactic, not proof of legitimacy.`
         },
         {
           format: 'multiple',
-          question: `Someone sends you $300 on Venmo by "mistake" and asks for it back. What should you do?`,
+          question: `Someone sends you $300 on Venmo by "mistake" and asks you to send it back. What's the safest move?`,
           options: [
             { text: 'Send it back immediately — it\'s the honest thing to do.', correct: false },
-            { text: 'Ignore them forever.', correct: false },
-            { text: 'Contact Venmo support to handle it — do not send money directly back to the stranger.', correct: true },
-            { text: 'Send it back but only $200 to be safe.', correct: false }
-          ]
+            { text: 'Send back only $150 to be safe.', correct: false },
+            { text: 'Contact Venmo support to handle the reversal — do not send money directly to the stranger.', correct: true },
+            { text: 'Wait a week and see if your balance changes before doing anything.', correct: false }
+          ],
+          explanation: `The "accidental" payment is almost always sent from a stolen card or hacked account. The platform will eventually reverse it — but any money you send back to the stranger goes directly to the scammer and is gone. Always route these through the app's support team, never send real money back.`
         },
         {
           format: 'multiple',
           question: `What distinguishes spear phishing from regular phishing?`,
           options: [
-            { text: 'Spear phishing uses text messages instead of email.', correct: false },
-            { text: 'Spear phishing is targeted — the attacker researches the specific victim and customizes the message.', correct: true },
-            { text: 'Spear phishing always involves malware downloads.', correct: false },
-            { text: 'Spear phishing only targets businesses, not individuals.', correct: false }
-          ]
+            { text: 'Spear phishing only happens via text messages, not email.', correct: false },
+            { text: 'Spear phishing always installs malware automatically.', correct: false },
+            { text: 'Spear phishing only targets large corporations, not individuals.', correct: false },
+            { text: 'Spear phishing is targeted — the attacker researches a specific victim and customizes the message to them.', correct: true }
+          ],
+          explanation: `Regular phishing is a mass blast — millions of identical emails hoping someone bites. Spear phishing is precise: the attacker researches you (your name, school, professor, recent posts) and crafts a message that feels personal and credible. This makes it significantly more dangerous.`
         },
         {
           format: 'multiple',
-          question: `What is the Social Engineering Attack Cycle in order?`,
+          question: `What is the correct order of the Social Engineering Attack Cycle?`,
           options: [
             { text: 'Hook → Research → Play → Exit', correct: false },
-            { text: 'Research → Hook → Play → Exit', correct: true },
             { text: 'Play → Research → Hook → Exit', correct: false },
-            { text: 'Research → Play → Hook → Exit', correct: false }
-          ]
+            { text: 'Research → Play → Hook → Exit', correct: false },
+            { text: 'Research → Hook → Play → Exit', correct: true }
+          ],
+          explanation: `Research (gathering intel on the target) comes first. Then Hook (making contact and building trust). Then Play (executing the actual scam). Then Exit (disappearing before the victim realizes). The attacker does their homework before ever reaching out.`
         }
       ]
     }
@@ -1791,15 +1800,37 @@ function nextStep() {
 
 // ─── LESSON ───
 function renderLesson(step) {
+  // ── VIDEO SLOT ──────────────────────────────────────────────────────────────
+  // To embed a YouTube video in any lesson card:
+  //   1. Add a `video` property to the lesson's card object in MODULE_CONTENT, e.g.:
+  //        video: { embed: '<iframe width="560" ... allowfullscreen></iframe>', caption: 'Watch: How hackers use social engineering' }
+  //   2. Paste the full YouTube <iframe> embed code as the `embed` string.
+  //   3. The video will render at the bottom of that card, above the Continue button.
+  //
+  // Example card object with video:
+  //   { icon: '🎬', title: 'See It In Action', body: 'Watch this short video...', video: { embed: '<iframe ...></iframe>', caption: 'Social engineering explained' } }
+  // ────────────────────────────────────────────────────────────────────────────
+
   let cardsHTML = '';
   if (step.cards && step.cards.length > 0) {
-    cardsHTML = step.cards.map(c => `
-      <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;margin-top:20px;border:1px solid rgba(15,34,64,0.08)">
-        <div style="font-size:20px;margin-bottom:10px">${c.icon}</div>
-        <div class="lesson-title" style="font-size:18px">${c.title}</div>
-        <div class="lesson-body">${c.body}</div>
-      </div>
-    `).join('');
+    cardsHTML = step.cards.map(c => {
+      const videoHTML = c.video ? `
+        <div style="margin-top:20px">
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-sm);background:#000">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+              ${c.video.embed.replace('width="560"','width="100%"').replace('height="315"','height="100%"').replace('<iframe','<iframe style="position:absolute;inset:0;width:100%;height:100%"')}
+            </div>
+          </div>
+          ${c.video.caption ? `<div style="font-size:12px;color:var(--slate-light);margin-top:8px;text-align:center">${c.video.caption}</div>` : ''}
+        </div>` : '';
+      return `
+        <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;margin-top:20px;border:1px solid rgba(15,34,64,0.08)">
+          <div style="font-size:20px;margin-bottom:10px">${c.icon}</div>
+          <div class="lesson-title" style="font-size:18px">${c.title}</div>
+          <div class="lesson-body">${c.body}</div>
+          ${videoHTML}
+        </div>`;
+    }).join('');
   }
 
   document.getElementById('step-container').innerHTML = `
@@ -1822,6 +1853,19 @@ function renderLesson(step) {
 
 // ─── SCENARIO ───
 function renderScenario(step) {
+  // ── IMAGE SLOT ──────────────────────────────────────────────────────────────
+  // To add a fake email/text/screenshot image to any scenario:
+  //   1. Add an `image` property to the scenario object in MODULE_CONTENT, e.g.:
+  //        image: { src: 'images/fake-job-email.png', alt: 'Fake job offer email', caption: 'The email Maya received' }
+  //   2. Drop your image file into an `images/` folder next to the HTML file.
+  //   3. The image will render between the scenario text and the highlight quote.
+  // ────────────────────────────────────────────────────────────────────────────
+  const imageHTML = step.image ? `
+    <div style="margin:20px 0;border-radius:var(--radius-sm);overflow:hidden;border:1px solid rgba(15,34,64,0.10);box-shadow:var(--shadow-card)">
+      <img src="${step.image.src}" alt="${step.image.alt}" style="width:100%;display:block;max-height:400px;object-fit:contain;background:#f0f0f0">
+      ${step.image.caption ? `<div style="padding:10px 16px;font-size:12px;color:var(--slate-light);background:var(--warm-white);border-top:1px solid rgba(15,34,64,0.06)">${step.image.caption}</div>` : ''}
+    </div>` : '';
+
   document.getElementById('step-container').innerHTML = `
     <div class="content-card">
       <div class="content-card-header">
@@ -1830,6 +1874,7 @@ function renderScenario(step) {
       </div>
       <div class="content-card-body">
         <div class="scenario-text">${step.text}</div>
+        ${imageHTML}
         ${step.highlight ? `<div class="scenario-highlight">${step.highlight}</div>` : ''}
         <div class="card-nav">
           <button class="btn-nav primary" onclick="nextStep()">What happens next →</button>
@@ -1919,39 +1964,75 @@ function handleOptionClick(idx, isMulti) {
 
 function submitMulti() {
   const step = window._currentQuestion;
-  const sel = window._selectedMulti;
+  const sel  = window._selectedMulti;
   const correctIndices = new Set(step.options.map((o,i) => o.correct ? i : -1).filter(i => i >= 0));
-
   const allCorrect = [...correctIndices].every(i => sel.has(i)) && [...sel].every(i => correctIndices.has(i));
 
-  const allBtns = document.querySelectorAll('.option-btn');
-  allBtns.forEach(b => b.style.pointerEvents = 'none');
+  if (allCorrect) {
+    // ── CORRECT on any attempt ──
+    document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+    step.options.forEach((o, i) => {
+      document.getElementById(`opt-${i}`).classList.remove('selected');
+      if (o.correct) document.getElementById(`opt-${i}`).classList.add('correct');
+      else           document.getElementById(`opt-${i}`).classList.add('dimmed');
+    });
+    document.getElementById('submit-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display   = 'inline-block';
+    showFeedback('correct', step.explanation);
+    window._answered = true;
+    return;
+  }
 
+  // ── WRONG ──
+  wrongAttempts++;
+
+  if (wrongAttempts === 1) {
+    // Mark existing picks as right (green) or wrong (red), keep unselected options clickable
+    const wronglySelected   = [...sel].filter(i => !correctIndices.has(i));
+    const correctlySelected = [...sel].filter(i =>  correctIndices.has(i));
+    const missing           = [...correctIndices].filter(i => !sel.has(i));
+
+    sel.forEach(i => {
+      const btn = document.getElementById(`opt-${i}`);
+      btn.classList.remove('selected');
+      btn.style.pointerEvents = 'none'; // lock in their picks
+      if (correctIndices.has(i)) btn.classList.add('correct');
+      else                       btn.classList.add('incorrect');
+    });
+    // Leave unselected options interactive so they can pick the missing ones
+    step.options.forEach((o, i) => {
+      if (!sel.has(i)) document.getElementById(`opt-${i}`).style.pointerEvents = '';
+    });
+
+    // Carry forward the correct picks so second submit knows what's already locked
+    window._selectedMulti = new Set(correctlySelected);
+
+    const wrongCount   = wronglySelected.length;
+    const missingCount = missing.length;
+    let hintMsg = step.hint + '<br><br>';
+    if (wrongCount > 0 && missingCount > 0)
+      hintMsg += `<strong>${wrongCount} incorrect</strong> selection${wrongCount>1?'s':''} (shown in red) and <strong>${missingCount} still missing</strong>. Try selecting the missing ${missingCount>1?'ones':'one'}.`;
+    else if (wrongCount > 0)
+      hintMsg += `<strong>${wrongCount} of your selections ${wrongCount>1?'were':'was'} incorrect</strong> (shown in red) — deselect ${wrongCount>1?'them':'it'} by selecting the right options instead.`;
+    else
+      hintMsg += `Good start — <strong>${missingCount} more answer${missingCount>1?'s':''} still needed</strong>. Look for what's missing.`;
+
+    showFeedback('hint', hintMsg);
+    return; // keep submit button visible for retry
+  }
+
+  // ── SECOND wrong attempt — reveal everything ──
+  document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
   step.options.forEach((o, i) => {
     const btn = document.getElementById(`opt-${i}`);
-    if (o.correct && sel.has(i))  btn.classList.add('correct');
-    else if (o.correct)           btn.classList.add('correct');
-    else if (!o.correct && sel.has(i)) btn.classList.add('incorrect');
+    btn.classList.remove('selected','correct','incorrect');
+    if (o.correct) btn.classList.add('correct');
+    else if (sel.has(i) || window._selectedMulti.has(i)) btn.classList.add('incorrect');
     else btn.classList.add('dimmed');
   });
-
   document.getElementById('submit-btn').style.display = 'none';
-  document.getElementById('next-btn').style.display = 'inline-block';
-
-  if (allCorrect) {
-    showFeedback('correct', step.explanation);
-  } else {
-    wrongAttempts++;
-    if (wrongAttempts === 1 && !allCorrect) {
-      showFeedback('hint', step.hint);
-      allBtns.forEach(b => { b.style.pointerEvents = ''; b.classList.remove('selected','correct','incorrect','dimmed'); });
-      window._selectedMulti = new Set();
-      document.getElementById('submit-btn').style.display = 'inline-block';
-      document.getElementById('next-btn').style.display = 'none';
-    } else {
-      showFeedback('wrong', step.explanation);
-    }
-  }
+  document.getElementById('next-btn').style.display   = 'inline-block';
+  showFeedback('wrong', step.explanation);
   window._answered = true;
 }
 
@@ -2002,11 +2083,15 @@ function renderTestQuestion() {
     </button>
   `).join('');
 
+  const headerLabel = q.format === 'truefalse' ? 'True or False'
+    : q.format === 'multiselect' ? 'Select all that apply'
+    : 'Choose one';
+
   document.getElementById('test-question-area').innerHTML = `
     <div class="content-card">
       <div class="content-card-header">
         <span class="content-type-badge test">Mini-Test</span>
-        <div class="content-card-title">${q.format === 'truefalse' ? 'True or False' : q.format === 'multiselect' ? 'Select all that apply' : 'Choose one'}</div>
+        <div class="content-card-title">${headerLabel}</div>
       </div>
       <div class="content-card-body">
         <div class="question-text">${q.question}</div>
@@ -2039,58 +2124,109 @@ function handleTestOption(idx, isMulti) {
     return;
   }
 
-  window._testAnswered = true;
   const correct = q.options[idx].correct;
   const allBtns = document.querySelectorAll('.option-btn');
   allBtns.forEach(b => b.style.pointerEvents = 'none');
 
   if (correct) {
     document.getElementById(`topt-${idx}`).classList.add('correct');
-    showTestFeedback('correct', 'Correct!');
+    showTestFeedback('correct', q.explanation || 'Correct!');
     testAnswers.push(true);
+    window._testAnswered = true;
+    document.getElementById('tnext').style.display = 'inline-block';
+    document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
   } else {
     document.getElementById(`topt-${idx}`).classList.add('incorrect');
     window._testWrong++;
     if (window._testWrong === 1) {
-      const hintText = `💡 Not quite — take another look.`;
-      showTestFeedback('hint', hintText);
+      showTestFeedback('hint', `💡 Not quite — take another look.`);
       allBtns.forEach(b => { b.style.pointerEvents = ''; });
       document.getElementById(`topt-${idx}`).style.pointerEvents = 'none';
       document.getElementById(`topt-${idx}`).classList.remove('incorrect');
-      window._testAnswered = false;
+      // don't set _testAnswered — allow retry
       return;
     } else {
       q.options.forEach((o,i) => {
         if (o.correct) document.getElementById(`topt-${i}`).classList.add('correct');
         else if (i !== idx) document.getElementById(`topt-${i}`).classList.add('dimmed');
       });
-      showTestFeedback('wrong', 'The correct answer has been revealed.');
+      showTestFeedback('wrong', q.explanation || 'The correct answer has been revealed.');
       testAnswers.push(false);
+      window._testAnswered = true;
+      document.getElementById('tnext').style.display = 'inline-block';
+      document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
     }
   }
-  document.getElementById('tnext').style.display = 'inline-block';
-  document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
 }
 
 function submitTestMulti() {
-  const q = window._currentTestQ;
+  const q   = window._currentTestQ;
   const sel = window._testSelected;
   const correctIndices = new Set(q.options.map((o,i) => o.correct ? i : -1).filter(i => i >= 0));
   const allCorrect = [...correctIndices].every(i => sel.has(i)) && [...sel].every(i => correctIndices.has(i));
 
-  const allBtns = document.querySelectorAll('.option-btn');
-  allBtns.forEach(b => b.style.pointerEvents = 'none');
+  if (allCorrect) {
+    document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+    q.options.forEach((o, i) => {
+      document.getElementById(`topt-${i}`).classList.remove('selected');
+      if (o.correct) document.getElementById(`topt-${i}`).classList.add('correct');
+      else           document.getElementById(`topt-${i}`).classList.add('dimmed');
+    });
+    document.getElementById('tsubmit') && (document.getElementById('tsubmit').style.display = 'none');
+    testAnswers.push(true);
+    showTestFeedback('correct', q.explanation || 'Correct!');
+    document.getElementById('tnext').style.display = 'inline-block';
+    document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
+    window._testAnswered = true;
+    return;
+  }
+
+  window._testWrong++;
+
+  if (window._testWrong === 1) {
+    const wronglySelected   = [...sel].filter(i => !correctIndices.has(i));
+    const correctlySelected = [...sel].filter(i =>  correctIndices.has(i));
+    const missing           = [...correctIndices].filter(i => !sel.has(i));
+
+    sel.forEach(i => {
+      const btn = document.getElementById(`topt-${i}`);
+      btn.classList.remove('selected');
+      btn.style.pointerEvents = 'none';
+      if (correctIndices.has(i)) btn.classList.add('correct');
+      else                       btn.classList.add('incorrect');
+    });
+    q.options.forEach((o, i) => {
+      if (!sel.has(i)) document.getElementById(`topt-${i}`).style.pointerEvents = '';
+    });
+    window._testSelected = new Set(correctlySelected);
+
+    const wrongCount = wronglySelected.length, missingCount = missing.length;
+    let msg = `💡 Not quite. `;
+    if (wrongCount > 0 && missingCount > 0)
+      msg += `<strong>${wrongCount} incorrect</strong> (red) and <strong>${missingCount} missing</strong>. Select the missing ${missingCount>1?'ones':'one'}.`;
+    else if (wrongCount > 0)
+      msg += `<strong>${wrongCount} incorrect</strong> selection${wrongCount>1?'s':''} shown in red. Select the right ${wrongCount>1?'ones':'one'} instead.`;
+    else
+      msg += `<strong>${missingCount} more needed</strong>. Look for what's missing.`;
+
+    showTestFeedback('hint', msg);
+    return;
+  }
+
+  // Second wrong — reveal all
+  document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
   q.options.forEach((o, i) => {
     const btn = document.getElementById(`topt-${i}`);
+    btn.classList.remove('selected','correct','incorrect');
     if (o.correct) btn.classList.add('correct');
-    else if (!o.correct && sel.has(i)) btn.classList.add('incorrect');
+    else if (sel.has(i) || window._testSelected.has(i)) btn.classList.add('incorrect');
     else btn.classList.add('dimmed');
   });
-
   document.getElementById('tsubmit') && (document.getElementById('tsubmit').style.display = 'none');
-  testAnswers.push(allCorrect);
-  showTestFeedback(allCorrect ? 'correct' : 'wrong', allCorrect ? 'Correct!' : 'Review the highlighted answers.');
+  testAnswers.push(false);
+  showTestFeedback('wrong', q.explanation || 'The correct answers have been revealed.');
   document.getElementById('tnext').style.display = 'inline-block';
+  document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
   window._testAnswered = true;
 }
 
