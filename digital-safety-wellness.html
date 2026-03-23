@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Safety & Wellness Modules</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0f2240;
+    --navy-mid:   #1a3560;
+    --teal:       #1a7f78;
+    --teal-light: #22a99f;
+    --gold:       #c8922a;
+    --gold-light: #e5b04a;
+    --cream:      #f7f4ef;
+    --warm-white: #fdfcfa;
+    --slate:      #4a5568;
+    --slate-light:#718096;
+    --locked:     #c4c9d4;
+    --error:      #c0392b;
+    --success:    #1a7f78;
+
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    --shadow-card: 0 4px 24px rgba(15,34,64,0.10), 0 1px 4px rgba(15,34,64,0.06);
+    --shadow-hover: 0 12px 40px rgba(15,34,64,0.16), 0 2px 8px rgba(15,34,64,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── BACKGROUND TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(26,127,120,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(15,34,64,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    background: var(--navy);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    box-shadow: 0 2px 16px rgba(15,34,64,0.18);
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--teal-light), var(--teal));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark svg { width: 18px; height: 18px; }
+
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: white;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  .logo-text span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--teal);
+    opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+
+  .hero p {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--slate);
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 32px;
+  }
+
+  /* ─── NAME ENTRY GATE ─── */
+  #name-gate {
+    background: white;
+    border: 1px solid rgba(15,34,64,0.08);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-card);
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  #name-gate h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+
+  #name-gate p {
+    font-size: 14px;
+    color: var(--slate-light);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .input-row input {
+    flex: 1;
+    padding: 13px 18px;
+    border: 1.5px solid rgba(15,34,64,0.15);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    background: var(--warm-white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-row input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(26,127,120,0.12);
+  }
+
+  .input-row input::placeholder { color: var(--locked); }
+
+  .btn-primary {
+    padding: 13px 22px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover {
+    background: var(--navy-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(15,34,64,0.22);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .input-error {
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 8px;
+    display: none;
+  }
+
+  /* ─── MODULE GRID ─── */
+  #module-hub {
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hub-greeting {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .hub-greeting h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .hub-greeting p {
+    font-size: 15px;
+    color: var(--slate-light);
+  }
+
+  .progress-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 1px solid rgba(15,34,64,0.08);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--slate);
+    margin-top: 16px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  /* ─── MODULE CARD ─── */
+  .module-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(15,34,64,0.07);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: default;
+    position: relative;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .module-card:nth-child(1) { animation-delay: 0.05s; }
+  .module-card:nth-child(2) { animation-delay: 0.12s; }
+  .module-card:nth-child(3) { animation-delay: 0.19s; }
+  .module-card:nth-child(4) { animation-delay: 0.26s; }
+
+  .module-card.unlocked {
+    cursor: pointer;
+    border-color: rgba(15,34,64,0.10);
+  }
+
+  .module-card.unlocked:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--teal);
+  }
+
+  .module-card.completed {
+    border-color: rgba(26,127,120,0.3);
+  }
+
+  .module-card.locked {
+    opacity: 0.72;
+  }
+
+  /* Card color bar */
+  .card-bar {
+    height: 5px;
+    width: 100%;
+  }
+
+  .module-card:nth-child(1) .card-bar { background: linear-gradient(90deg, #1a7f78, #22a99f); }
+  .module-card:nth-child(2) .card-bar { background: linear-gradient(90deg, #0f2240, #1a3560); }
+  .module-card:nth-child(3) .card-bar { background: linear-gradient(90deg, #c8922a, #e5b04a); }
+  .module-card:nth-child(4) .card-bar { background: linear-gradient(90deg, #1a3560, #1a7f78); }
+
+  .card-inner {
+    padding: 28px 28px 24px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .module-number {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    margin-bottom: 6px;
+  }
+
+  .card-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    line-height: 1.25;
+    color: var(--navy);
+    max-width: 180px;
+  }
+
+  /* Progress ring */
+  .progress-ring-wrap {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+  }
+
+  .progress-ring-wrap svg {
+    transform: rotate(-90deg);
+    width: 48px;
+    height: 48px;
+  }
+
+  .ring-bg { fill: none; stroke: rgba(15,34,64,0.08); stroke-width: 3; }
+  .ring-fill {
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 113;
+    stroke-dashoffset: 113;
+    transition: stroke-dashoffset 0.6s ease;
+  }
+
+  .ring-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .card-description {
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--slate-light);
+    font-weight: 400;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--cream);
+    border-radius: 100px;
+    padding: 4px 10px;
+  }
+
+  .card-action {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: none;
+    cursor: inherit;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .unlocked .card-action {
+    background: var(--navy);
+    color: white;
+    cursor: pointer;
+  }
+
+  .unlocked .card-action:hover {
+    background: var(--teal);
+  }
+
+  .completed .card-action {
+    background: rgba(26,127,120,0.12);
+    color: var(--teal);
+    cursor: pointer;
+  }
+
+  .locked .card-action {
+    background: rgba(15,34,64,0.06);
+    color: var(--locked);
+    cursor: not-allowed;
+  }
+
+  /* Lock overlay */
+  .lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(247,244,239,0.5);
+    backdrop-filter: blur(1px);
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+
+  .locked:hover .lock-overlay { opacity: 1; }
+
+  .lock-message {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 10px 18px;
+    font-size: 13px;
+    color: var(--slate);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── TOPICS LIST ─── */
+  .topics {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .topic-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--slate);
+  }
+
+  .topic-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .locked .topic-dot { background: var(--locked); }
+
+  /* ─── COMPLETION BADGE SECTION ─── */
+  .completion-banner {
+    margin-top: 48px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: var(--shadow-hover);
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .banner-text h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .banner-text p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .btn-certificate {
+    padding: 14px 28px;
+    background: var(--gold);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-certificate:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(200,146,42,0.35);
+  }
+
+  /* ─── MODULE VIEW ─── */
+  #module-view {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .module-view-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1.5px solid rgba(15,34,64,0.10);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--slate);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .module-view-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+  }
+
+  /* Progress bar across top of module */
+  .module-progress-bar {
+    height: 4px;
+    background: rgba(15,34,64,0.08);
+    border-radius: 4px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .module-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* Content card */
+  .content-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(15,34,64,0.07);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .content-card-header {
+    background: var(--navy);
+    padding: 24px 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .content-type-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .content-type-badge.scenario { background: rgba(26,127,120,0.35); color: #7dd8d4; }
+  .content-type-badge.question { background: rgba(200,146,42,0.35); color: #e5b04a; }
+  .content-type-badge.lesson   { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.75); }
+  .content-type-badge.test     { background: rgba(200,146,42,0.25); color: #e5c07a; }
+
+  .content-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: white;
+  }
+
+  .content-card-body {
+    padding: 36px;
+  }
+
+  /* Scenario text */
+  .scenario-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--slate);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  .scenario-highlight {
+    background: rgba(26,127,120,0.07);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--navy);
+    font-style: italic;
+    margin: 20px 0;
+  }
+
+  /* Question */
+  .question-text {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1.5px solid rgba(15,34,64,0.10);
+    border-radius: var(--radius-sm);
+    background: var(--warm-white);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px;
+    color: var(--navy);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .option-btn:hover {
+    border-color: var(--teal);
+    background: rgba(26,127,120,0.04);
+  }
+
+  .option-btn.selected {
+    border-color: var(--teal);
+    background: rgba(26,127,120,0.07);
+  }
+
+  .option-btn.correct {
+    border-color: var(--success);
+    background: rgba(26,127,120,0.10);
+    color: var(--navy);
+  }
+
+  .option-btn.incorrect {
+    border-color: var(--error);
+    background: rgba(192,57,43,0.06);
+    color: var(--error);
+  }
+
+  .option-btn.dimmed {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .option-letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: rgba(15,34,64,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--slate);
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0;
+    transition: all 0.18s;
+  }
+
+  .option-btn.selected .option-letter {
+    background: var(--teal);
+    color: white;
+  }
+
+  .option-btn.correct .option-letter {
+    background: var(--success);
+    color: white;
+  }
+
+  .option-btn.incorrect .option-letter {
+    background: var(--error);
+    color: white;
+  }
+
+  /* Feedback box */
+  .feedback-box {
+    display: none;
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .feedback-box.hint {
+    background: rgba(200,146,42,0.10);
+    border: 1px solid rgba(200,146,42,0.25);
+    color: #7a5a10;
+  }
+
+  .feedback-box.correct-feedback {
+    background: rgba(26,127,120,0.09);
+    border: 1px solid rgba(26,127,120,0.25);
+    color: #0f5e58;
+  }
+
+  .feedback-box.wrong-feedback {
+    background: rgba(192,57,43,0.08);
+    border: 1px solid rgba(192,57,43,0.20);
+    color: #8b2015;
+  }
+
+  .feedback-label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Lesson card styles */
+  .lesson-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .lesson-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .lesson-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--slate);
+    font-weight: 300;
+  }
+
+  .lesson-body strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .lesson-list {
+    margin: 12px 0 12px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lesson-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    color: var(--slate);
+    list-style: none;
+    line-height: 1.6;
+  }
+
+  .lesson-list li::before {
+    content: '→';
+    color: var(--teal);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Navigation */
+  .card-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn-nav {
+    padding: 13px 28px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-nav.primary {
+    background: var(--navy);
+    color: white;
+  }
+
+  .btn-nav.primary:hover {
+    background: var(--teal);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(26,127,120,0.3);
+  }
+
+  .btn-nav.secondary {
+    background: transparent;
+    border: 1.5px solid rgba(15,34,64,0.15);
+    color: var(--slate);
+  }
+
+  .btn-nav.secondary:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+  }
+
+  .btn-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  /* ─── MINI TEST ─── */
+  .test-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .test-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .test-header p {
+    font-size: 15px;
+    color: var(--slate-light);
+  }
+
+  .test-counter {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    background: rgba(26,127,120,0.08);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-top: 12px;
+  }
+
+  /* ─── SCORE SCREEN ─── */
+  .score-screen {
+    text-align: center;
+    padding: 48px 36px;
+  }
+
+  .score-circle {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .score-circle svg {
+    transform: rotate(-90deg);
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-circle-bg { fill: none; stroke: rgba(15,34,64,0.08); stroke-width: 8; }
+  .score-circle-fill {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 1s ease 0.3s, stroke 0.3s;
+  }
+
+  .score-circle-fill.passing { stroke: var(--teal); }
+  .score-circle-fill.failing { stroke: var(--error); }
+
+  .score-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+  }
+
+  .score-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: var(--navy);
+  }
+
+  .score-screen p {
+    font-size: 15px;
+    color: var(--slate-light);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  /* ─── CERTIFICATE ─── */
+  #cert-view {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .certificate {
+    background: white;
+    border: 2px solid rgba(15,34,64,0.08);
+    border-radius: var(--radius-lg);
+    max-width: 720px;
+    margin: 0 auto;
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
+  }
+
+  .cert-top {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--teal) 100%);
+    padding: 48px 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .cert-badge-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+
+  .cert-program {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 10px;
+  }
+
+  .cert-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .cert-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .cert-body {
+    padding: 40px 48px;
+    text-align: center;
+  }
+
+  .cert-presented {
+    font-size: 13px;
+    color: var(--slate-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .cert-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  .cert-description {
+    font-size: 14.5px;
+    color: var(--slate);
+    line-height: 1.7;
+    max-width: 460px;
+    margin: 0 auto 32px;
+  }
+
+  .cert-divider {
+    height: 1px;
+    background: rgba(15,34,64,0.08);
+    margin: 28px 0;
+  }
+
+  .cert-modules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .cert-module-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--slate);
+  }
+
+  .cert-check {
+    width: 20px;
+    height: 20px;
+    background: rgba(26,127,120,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .cert-date {
+    font-size: 12px;
+    color: var(--slate-light);
+    margin-bottom: 28px;
+  }
+
+  .cert-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  .pop { animation: pop 0.3s ease; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    header { padding: 0 20px; }
+    main   { padding: 40px 16px 60px; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .input-row { flex-direction: column; }
+    .cert-modules { grid-template-columns: 1fr; }
+    .cert-top, .cert-body { padding: 32px 24px; }
+    .content-card-body { padding: 24px; }
+    .content-card-header { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 1L2 4.5V9C2 12.75 5.05 16.25 9 17C12.95 16.25 16 12.75 16 9V4.5L9 1Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M6 9L8 11L12 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      Digital Safety & Wellness
+      <span>Training Modules</span>
+    </div>
+  </div>
+  <div class="header-badge">Cyber Privacy</div>
+</header>
+
+<!-- ─── MAIN ─── -->
+<main>
+
+  <!-- ① NAME GATE (shown first) -->
+  <div id="name-gate-section">
+    <div class="hero">
+      <div class="hero-eyebrow">Student Training</div>
+      <h1>Stay Safe in the<br><em>Digital World</em></h1>
+      <p>Four interactive modules covering scams, social media, account security, and your rights — built for real situations you'll actually face.</p>
+    </div>
+
+    <div id="name-gate">
+      <h2>Let's get started</h2>
+      <p>Enter your name to begin. It'll appear on your certificate when you finish all four modules.</p>
+      <div class="input-row">
+        <input type="text" id="student-name-input" placeholder="Your full name" autocomplete="name" maxlength="60">
+        <button class="btn-primary" onclick="startTraining()">Begin →</button>
+      </div>
+      <div class="input-error" id="name-error">Please enter your name to continue.</div>
+    </div>
+  </div>
+
+  <!-- ② MODULE HUB (shown after name entry) -->
+  <div id="module-hub">
+    <div class="hub-greeting">
+      <h2>Welcome, <span id="display-name"></span></h2>
+      <p>Complete each module in order to unlock the next. You'll earn a certificate when all four are done.</p>
+      <div class="progress-summary">
+        <div class="progress-dot"></div>
+        <span id="hub-progress-text">0 of 4 modules completed</span>
+      </div>
+    </div>
+
+    <div class="modules-grid" id="modules-grid">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div class="completion-banner" id="completion-banner">
+      <div class="banner-text">
+        <h3>🎉 All modules complete!</h3>
+        <p>You've finished the Digital Safety & Wellness Training. Your certificate is ready.</p>
+      </div>
+      <button class="btn-certificate" onclick="showCertificate()">View My Certificate →</button>
+    </div>
+  </div>
+
+  <!-- ③ MODULE VIEW (shown when a module is opened) -->
+  <div id="module-view">
+    <div class="module-view-header">
+      <button class="back-btn" onclick="goToHub()">← Back to Modules</button>
+      <div class="module-view-title" id="module-view-title"></div>
+    </div>
+    <div class="module-progress-bar">
+      <div class="module-progress-fill" id="module-progress-fill"></div>
+    </div>
+    <div id="step-container"></div>
+  </div>
+
+  <!-- ④ CERTIFICATE VIEW -->
+  <div id="cert-view">
+    <div class="module-view-header">
+      <button class="back-btn" onclick="showHub()">← Back to Modules</button>
+    </div>
+    <div class="certificate">
+      <div class="cert-top">
+        <span class="cert-badge-icon">🛡️</span>
+        <div class="cert-program">Certificate of Completion</div>
+        <div class="cert-title">Digital Safety<br>& Wellness</div>
+        <div class="cert-subtitle">Training Modules · Cyber Privacy</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-presented">This certifies that</div>
+        <div class="cert-name" id="cert-name"></div>
+        <div class="cert-description">
+          has successfully completed all four modules of the Digital Safety &amp; Wellness Training Program, demonstrating understanding of cybersecurity, social media well-being, account security, and student digital rights.
+        </div>
+        <div class="cert-divider"></div>
+        <div class="cert-modules" id="cert-modules-list"></div>
+        <div class="cert-date" id="cert-date"></div>
+        <div class="cert-actions">
+          <button class="btn-nav secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+          <button class="btn-nav primary" onclick="showHub()">← Back to Hub</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let studentName = '';
+let moduleProgress = [false, false, false, false]; // completed?
+let currentModule = null;
+let currentStep = 0;
+let wrongAttempts = 0;    // for hint logic
+let testAnswers = [];     // for mini-test scoring
+let testQuestions = [];   // current shuffled test
+let testIndex = 0;
+
+// ═══════════════════════════════════════════════════════════
+// MODULE METADATA
+// ═══════════════════════════════════════════════════════════
+const MODULE_META = [
+  {
+    title: 'Scams, Social Engineering & Digital Exploitation',
+    short: 'Scams & Social Engineering',
+    time: '~15 min',
+    scenarios: 4,
+    topics: ['Phishing & smishing', 'Fake job scams', 'Romance & sextortion', 'Deepfake scams'],
+    color: 'teal'
+  },
+  {
+    title: 'Social Media & Digital Well-being',
+    short: 'Social Media & Well-being',
+    time: '~12 min',
+    scenarios: 3,
+    topics: ['Digital footprints', 'Privacy settings', 'Algorithmic rabbit holes', 'Grooming patterns'],
+    color: 'navy'
+  },
+  {
+    title: 'Account Security, Passwords & Authentication',
+    short: 'Account Security',
+    time: '~10 min',
+    scenarios: 2,
+    topics: ['Strong passwords', 'Password managers', 'Multi-factor authentication', 'Account recovery'],
+    color: 'gold'
+  },
+  {
+    title: 'Reporting & Student Rights',
+    short: 'Reporting & Rights',
+    time: '~12 min',
+    scenarios: 3,
+    topics: ['What counts as an incident', 'Containment steps', 'Evidence preservation', 'California privacy rights'],
+    color: 'mixed'
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+// MODULE CONTENT — Module 1
+// ═══════════════════════════════════════════════════════════
+const MODULE_CONTENT = [
+  // ── MODULE 1 ──────────────────────────────────────────
+  [
+    // INTRO LESSON
+    {
+      type: 'lesson',
+      title: 'What is Cybersecurity?',
+      icon: '🔐',
+      body: `Cybersecurity is the practice of protecting computers, networks, and data from unauthorized access or harm. But here's the thing most people miss: <strong>attackers don't usually hack systems — they hack people.</strong><br><br>
+      Studies show that around 99% of cyberattacks rely on some form of human interaction or error to succeed. Sending a convincing scam message is far easier than breaking through a well-secured system. That's why understanding the human side of security matters just as much as having a strong password.`,
+      cards: [
+        {
+          icon: '⚡',
+          title: 'Threat vs. Vulnerability vs. Attack',
+          body: `These three words get used interchangeably, but they mean different things:<br><br>
+          <strong>Threat:</strong> A potential danger — like someone trying to break into your email.<br>
+          <strong>Vulnerability:</strong> A weakness they can exploit — like a weak password or leaving your laptop unlocked.<br>
+          <strong>Attack:</strong> When the threat acts on the vulnerability — the actual unauthorized access or harm.<br><br>
+          In this module, we focus mostly on <em>social engineering attacks</em> — ones that target your judgment, not your software.`
+        }
+      ]
+    },
+
+    // SCENARIO 1: Fake Job Scam
+    {
+      type: 'scenario',
+      badge: 'Scenario 1 of 4',
+      title: 'The Dream Job Email',
+      persona: 'third',
+      text: `Maya is a sophomore looking for a summer internship. One afternoon, she gets an email that looks like it's from her university's Career Center with the subject line: <em>"Paid Remote Internship — $25/hr, Flexible Hours, Apply Now."</em>
+      <br><br>The email mentions her by name, uses the university's logo, and says she's been pre-selected based on her GPA. All she has to do is reply with her interest and they'll send her the onboarding paperwork.
+      <br><br>Maya notices the sender's email is <strong>careers@university-jobs-support.com</strong> instead of her school's usual .edu address — but the rest of the email looks totally legit.`,
+      highlight: `"Hi Maya — Congratulations! You've been pre-selected for a paid remote position. Reply now — only 3 spots remain."`
+    },
+    {
+      type: 'question',
+      format: 'branching',
+      question: `Maya is excited but that email address is nagging at her. What should she do?`,
+      options: [
+        { text: 'Reply to the email — it looks legit enough and the opportunity is too good to pass up.', correct: false },
+        { text: 'Go to her university\'s official website and look up the Career Center\'s real contact info to verify.', correct: true },
+        { text: 'Forward the email to a friend to see what they think.', correct: false },
+        { text: 'Google the company name mentioned in the email.', correct: false }
+      ],
+      hint: `When an email urges you to act fast and something feels slightly off, that's a signal to slow down — not speed up. Where should Maya go to find the Career Center's real address?`,
+      explanation: `The right move is always <strong>out-of-band verification</strong> — confirming using a channel the sender can't control. Going to the university's official website to find the real Career Center contact means she's not relying on information provided in a potentially fake email. Googling the company or asking a friend doesn't confirm whether this specific email is real.`
+    },
+    {
+      type: 'lesson',
+      icon: '🎣',
+      title: 'The Anatomy of a Phishing Email',
+      body: `Phishing is when fraudsters send emails posing as trusted sources — banks, universities, companies — to get you to click, share info, or send money. Here's what to look for:`,
+      cards: [
+        {
+          icon: '🔍',
+          title: 'How to Spot a Phishing Attempt',
+          body: `<ul class="lesson-list">
+            <li><strong>Check the actual email domain</strong> — not just the display name. <em>careers@university-jobs-support.com</em> ≠ <em>careers@university.edu</em></li>
+            <li><strong>Urgency + scarcity</strong> — "Only 3 spots remain!" is a pressure tactic to stop you from thinking clearly</li>
+            <li><strong>Unsolicited personalization</strong> — using your name or GPA doesn't mean it's real; scammers harvest that data</li>
+            <li><strong>Out-of-band verification</strong> — always confirm via an official channel you found yourself, not one in the email</li>
+          </ul>`
+        }
+      ]
+    },
+
+    // SCENARIO 2: Payment App Scam
+    {
+      type: 'scenario',
+      badge: 'Scenario 2 of 4',
+      title: 'The Accidental Venmo',
+      persona: 'first',
+      text: `You're eating lunch when your phone buzzes — someone named "Alex R." just sent you $250 on Venmo with the memo "rent — oops wrong person."
+      <br><br>A few minutes later you get a message from the same account: <em>"Hey! So embarrassed — I meant to send that to my roommate. My rent is due tonight and I'll get in trouble with my landlord. Can you send it back? I can send you $20 for the trouble."</em>
+      <br><br>The $250 is already showing in your Venmo balance. You feel bad for them — it seems like an honest mistake.`,
+      highlight: `"Please send it back quick — my landlord is going to lock me out tonight 😭"`
+    },
+    {
+      type: 'question',
+      format: 'multiple',
+      question: `What is most likely happening here?`,
+      options: [
+        { text: 'An honest mistake — people accidentally send money to wrong numbers all the time.', correct: false },
+        { text: 'A scam where the initial $250 was sent from a stolen card or hacked account, and will be reversed by the platform later — leaving you out $250.', correct: true },
+        { text: 'A test by Venmo to see if users act honestly.', correct: false },
+        { text: 'A phishing attempt to steal your Venmo login.', correct: false }
+      ],
+      hint: `Think about what happens to your balance if the original $250 payment gets reversed by the bank — and what would happen to any money you sent back in the meantime.`,
+      explanation: `This is the classic <strong>accidental payment scam</strong>. The $250 was likely sent from a stolen credit card or hacked account. Once the real owner disputes it, the platform reverses the charge — but any money <em>you</em> already sent back is gone forever. The scammer gets real money; you take the loss. Never send money back to strangers through P2P apps — contact the app's support instead.`
+    },
+    {
+      type: 'question',
+      format: 'multiselect',
+      question: `Which of these were red flags in this scenario? Select all that apply.`,
+      options: [
+        { text: 'The sender was a stranger you\'ve never interacted with before.', correct: true },
+        { text: 'There was extreme urgency — "my landlord is locking me out tonight."', correct: true },
+        { text: 'They offered you $20 extra to send it back.', correct: true },
+        { text: 'The Venmo balance showed $250 immediately.', correct: false },
+        { text: 'The request came with a sad emoji.', correct: false }
+      ],
+      hint: `Think about the psychological levers we mentioned: urgency, unexpected gifts, strangers. Which of these apply?`,
+      explanation: `Strangers sending unsolicited money, manufactured urgency, and a small "bonus" to sweeten the deal are all classic manipulation tactics. The balance showing up immediately is actually normal for Venmo — it doesn't confirm the payment is legitimate. The emoji is just part of the emotional pressure, not a red flag by itself.`
+    },
+
+    // SCENARIO 3: Romance Scam
+    {
+      type: 'scenario',
+      badge: 'Scenario 3 of 4',
+      title: 'The Perfect Match',
+      persona: 'third',
+      text: `Jordan matched with someone on a dating app three weeks ago. The person — who says they're a surgeon working abroad for six months — messages constantly, always says the right things, and has become someone Jordan genuinely looks forward to talking to.
+      <br><br>They've never video called, despite Jordan asking twice. The surgeon says their camera is broken and they're embarrassed. This week, something came up: a problem with a patient's surgery bill that could end their career if not resolved before Monday. They ask Jordan to send $600 via wire transfer — just a loan until they're back.`,
+      highlight: `"I've never connected with anyone like this. I hate asking, but I trust you more than anyone right now."`
+    },
+    {
+      type: 'question',
+      format: 'multiselect',
+      question: `Which of these are red flags that this could be a romance scam? Select all that apply.`,
+      options: [
+        { text: 'They consistently avoid video calls with a convenient excuse.', correct: true },
+        { text: 'They professed deep feelings very quickly.', correct: true },
+        { text: 'They\'re asking for money via wire transfer, not a regular bank transfer.', correct: true },
+        { text: 'They\'re working abroad in a medical field.', correct: true },
+        { text: 'They message frequently and consistently.', correct: false },
+        { text: 'The financial crisis conveniently has a deadline.', correct: true }
+      ],
+      hint: `Think about the grooming pattern: quick emotional investment, avoiding verification, professional cover story, and the money ask. Which of these fit?`,
+      explanation: `All except "messages frequently" are red flags. Consistent communication isn't itself suspicious — but avoiding video calls, fast emotional escalation, asking for wire transfers (which are hard to trace/reverse), using an overseas professional cover story, and a deadline-driven financial emergency are the classic romance scam playbook. The FTC reports romance scams cause some of the highest financial losses per victim of any scam type.`
+    },
+
+    // SCENARIO 4: Deepfake Voice Scam
+    {
+      type: 'scenario',
+      badge: 'Scenario 4 of 4',
+      title: 'Mom\'s Voice',
+      persona: 'first',
+      text: `You're in class when you step out for a call. It's your mom's number — but the voice is panicked, different somehow. She says she's been in a minor car accident and her phone is nearly dead. A man takes over the call and says there's a legal fee to avoid her being detained overnight: $800 via Zelle or gift cards, right now.
+      <br><br>The voice sounded like your mom. The number was hers. You're scared.`,
+      highlight: `"Please just pay it — I don't have time to explain everything right now. Just trust me."`
+    },
+    {
+      type: 'question',
+      format: 'branching',
+      question: `What do you do right now?`,
+      options: [
+        { text: 'Pay the $800 via Zelle immediately — it sounds like her and you don\'t want to risk it.', correct: false },
+        { text: 'Hang up, then immediately call your mom back on her number from your contacts to verify she\'s safe.', correct: true },
+        { text: 'Ask the man for more details about which police station she\'s at.', correct: false },
+        { text: 'Call your dad to ask what to do first.', correct: false }
+      ],
+      hint: `The fastest way to verify this is to hang up and call the person back yourself — using a number you already have, not one the caller gives you. What's your mom's number in your contacts?`,
+      explanation: `This is a <strong>deepfake voice + vishing scam</strong>. AI can clone a voice from just a few seconds of audio found online. Hanging up and calling back directly from your contacts is the only way to verify — no genuine emergency will be made worse by a 30-second call to confirm. Engaging the caller further (asking for the station, etc.) wastes time and gives them more opportunity to manipulate you. Gift cards and Zelle payments are irreversible — authorities never request them.`
+    },
+    {
+      type: 'lesson',
+      icon: '🤖',
+      title: 'Deepfakes & Voice Cloning',
+      body: `AI can now clone a voice convincingly from just a few seconds of audio — a voicemail, a TikTok, a YouTube video. Scammers use this to impersonate family members in fake emergencies.`,
+      cards: [
+        {
+          icon: '🧠',
+          title: 'Your Defense Against Deepfakes',
+          body: `<ul class="lesson-list">
+            <li><strong>Hang up, call back yourself</strong> — use the number in your contacts, never a number the caller provides</li>
+            <li><strong>Set a family code word</strong> — a word only your family knows to use in real emergencies</li>
+            <li><strong>Real emergencies don't require gift cards or Zelle</strong> — any payment request in an "emergency" is a scam signal</li>
+            <li><strong>Urgency is a weapon</strong> — scammers rush you so you don't think. Slowing down costs you 60 seconds; falling for it can cost thousands</li>
+          </ul>`
+        }
+      ]
+    },
+
+    // MINI TEST
+    {
+      type: 'minitest',
+      title: `Let's see what stuck`,
+      subtitle: `Module 1 · 8 questions · Need 80% to pass`,
+      questions: [
+        {
+          format: 'multiple',
+          question: `What is "out-of-band verification"?`,
+          options: [
+            { text: 'Replying directly to a suspicious email to ask if it\'s real.', correct: false },
+            { text: 'Confirming a request using a different channel from the one the request came in.', correct: true },
+            { text: 'Looking up a word in a dictionary.', correct: false },
+            { text: 'Checking a website\'s SSL certificate.', correct: false }
+          ]
+        },
+        {
+          format: 'truefalse',
+          question: `A phone caller who sounds exactly like your mom is definitely your mom.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False — AI voice cloning can replicate anyone\'s voice from a short audio sample.', correct: true }
+          ]
+        },
+        {
+          format: 'multiple',
+          question: `In the fake job scam, what is the attacker's actual goal?`,
+          options: [
+            { text: 'To steal your university login credentials.', correct: false },
+            { text: 'To get you to send real money after depositing a fake check.', correct: true },
+            { text: 'To install malware on your computer via the job application.', correct: false },
+            { text: 'To collect your resume for identity theft.', correct: false }
+          ]
+        },
+        {
+          format: 'multiselect',
+          question: `Which psychological levers do scammers commonly use? Select all that apply.`,
+          options: [
+            { text: 'Authority — impersonating a boss, bank, or official', correct: true },
+            { text: 'Urgency — demanding immediate action', correct: true },
+            { text: 'Generosity — offering you something valuable', correct: false },
+            { text: 'Scarcity — "only a few spots left"', correct: true },
+            { text: 'Fear — threatening consequences', correct: true },
+            { text: 'Liking — building trust and rapport first', correct: true }
+          ]
+        },
+        {
+          format: 'truefalse',
+          question: `If a suspicious email uses your real name and university logo, it must be legitimate.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False — scammers harvest personal details from social media and data breaches to appear legitimate.', correct: true }
+          ]
+        },
+        {
+          format: 'multiple',
+          question: `Someone sends you $300 on Venmo by "mistake" and asks for it back. What should you do?`,
+          options: [
+            { text: 'Send it back immediately — it\'s the honest thing to do.', correct: false },
+            { text: 'Ignore them forever.', correct: false },
+            { text: 'Contact Venmo support to handle it — do not send money directly back to the stranger.', correct: true },
+            { text: 'Send it back but only $200 to be safe.', correct: false }
+          ]
+        },
+        {
+          format: 'multiple',
+          question: `What distinguishes spear phishing from regular phishing?`,
+          options: [
+            { text: 'Spear phishing uses text messages instead of email.', correct: false },
+            { text: 'Spear phishing is targeted — the attacker researches the specific victim and customizes the message.', correct: true },
+            { text: 'Spear phishing always involves malware downloads.', correct: false },
+            { text: 'Spear phishing only targets businesses, not individuals.', correct: false }
+          ]
+        },
+        {
+          format: 'multiple',
+          question: `What is the Social Engineering Attack Cycle in order?`,
+          options: [
+            { text: 'Hook → Research → Play → Exit', correct: false },
+            { text: 'Research → Hook → Play → Exit', correct: true },
+            { text: 'Play → Research → Hook → Exit', correct: false },
+            { text: 'Research → Play → Hook → Exit', correct: false }
+          ]
+        }
+      ]
+    }
+  ],
+
+  // ── MODULE 2 placeholder ──────────────────────────────
+  [
+    { type: 'lesson', title: 'Module 2 Coming Soon', icon: '📱', body: 'This module is under construction.', cards: [] },
+    { type: 'minitest', title: `Module 2 Check`, subtitle: `Module 2 · 8 questions`, questions: [
+      { format: 'truefalse', question: 'Placeholder question.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 2.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 3.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 4.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 5.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 6.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 7.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 8.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] }
+    ]}
+  ],
+
+  // ── MODULE 3 placeholder ──────────────────────────────
+  [
+    { type: 'lesson', title: 'Module 3 Coming Soon', icon: '🔑', body: 'This module is under construction.', cards: [] },
+    { type: 'minitest', title: `Module 3 Check`, subtitle: `Module 3 · 8 questions`, questions: [
+      { format: 'truefalse', question: 'Placeholder question.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 2.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 3.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 4.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 5.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 6.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 7.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 8.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] }
+    ]}
+  ],
+
+  // ── MODULE 4 placeholder ──────────────────────────────
+  [
+    { type: 'lesson', title: 'Module 4 Coming Soon', icon: '⚖️', body: 'This module is under construction.', cards: [] },
+    { type: 'minitest', title: `Module 4 Check`, subtitle: `Module 4 · 8 questions`, questions: [
+      { format: 'truefalse', question: 'Placeholder question.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 2.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 3.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 4.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 5.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 6.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 7.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
+      { format: 'truefalse', question: 'Placeholder question 8.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] }
+    ]}
+  ]
+];
+
+// ═══════════════════════════════════════════════════════════
+// NAV HELPERS
+// ═══════════════════════════════════════════════════════════
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+function show(id, display='block') { document.getElementById(id).style.display = display; }
+
+function startTraining() {
+  const input = document.getElementById('student-name-input');
+  const err   = document.getElementById('name-error');
+  studentName = input.value.trim();
+  if (!studentName) { err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  hide('name-gate-section');
+  renderHub();
+  show('module-hub');
+}
+
+function renderHub() {
+  document.getElementById('display-name').textContent = studentName.split(' ')[0];
+  const completed = moduleProgress.filter(Boolean).length;
+  document.getElementById('hub-progress-text').textContent = `${completed} of 4 modules completed`;
+
+  const grid = document.getElementById('modules-grid');
+  grid.innerHTML = '';
+
+  MODULE_META.forEach((m, i) => {
+    const isCompleted = moduleProgress[i];
+    const isUnlocked  = i === 0 || moduleProgress[i - 1];
+    const isLocked    = !isUnlocked;
+
+    const progress = isCompleted ? 113 : 0;
+    const statusClass = isCompleted ? 'completed' : isUnlocked ? 'unlocked' : 'locked';
+    const actionText  = isCompleted ? 'Review ↩' : isUnlocked ? 'Start →' : '🔒 Locked';
+    const ringIcon    = isCompleted ? '✓' : isLocked ? '🔒' : `${i+1}`;
+
+    const topicsHTML = m.topics.map(t =>
+      `<div class="topic-item"><div class="topic-dot"></div>${t}</div>`
+    ).join('');
+
+    const card = document.createElement('div');
+    card.className = `module-card ${statusClass}`;
+    card.innerHTML = `
+      <div class="card-bar"></div>
+      <div class="card-inner">
+        <div class="card-header">
+          <div>
+            <div class="module-number">Module ${i+1}</div>
+            <h3>${m.short}</h3>
+          </div>
+          <div class="progress-ring-wrap">
+            <svg viewBox="0 0 48 48">
+              <circle class="ring-bg" cx="24" cy="24" r="18"/>
+              <circle class="ring-fill" cx="24" cy="24" r="18" style="stroke-dashoffset:${isCompleted ? 0 : 113}"/>
+            </svg>
+            <div class="ring-icon">${isCompleted ? '✓' : isLocked ? '🔒' : (i+1)}</div>
+          </div>
+        </div>
+        <div class="topics">${topicsHTML}</div>
+        <div class="card-footer">
+          <div class="card-meta">
+            <div class="meta-pill">⏱ ${m.time}</div>
+            <div class="meta-pill">📋 ${m.scenarios} scenarios</div>
+          </div>
+          <button class="card-action" onclick="openModule(${i})" ${isLocked ? 'disabled' : ''}>${actionText}</button>
+        </div>
+      </div>
+      ${isLocked ? `<div class="lock-overlay"><div class="lock-message">🔒 Complete Module ${i} first</div></div>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+
+  const allDone = moduleProgress.every(Boolean);
+  document.getElementById('completion-banner').style.display = allDone ? 'flex' : 'none';
+}
+
+function goToHub() {
+  hide('module-view');
+  renderHub();
+  show('module-hub');
+}
+
+function showHub() {
+  hide('cert-view');
+  hide('module-view');
+  renderHub();
+  show('module-hub');
+}
+
+function showCertificate() {
+  hide('module-hub');
+  renderCertificate();
+  show('cert-view');
+}
+
+// ═══════════════════════════════════════════════════════════
+// MODULE PLAYER
+// ═══════════════════════════════════════════════════════════
+function openModule(idx) {
+  if (idx > 0 && !moduleProgress[idx - 1]) return;
+  currentModule = idx;
+  currentStep = 0;
+  wrongAttempts = 0;
+
+  hide('module-hub');
+  document.getElementById('module-view-title').textContent = `Module ${idx+1}: ${MODULE_META[idx].short}`;
+  show('module-view');
+  renderStep();
+}
+
+function renderStep() {
+  const steps = MODULE_CONTENT[currentModule];
+  const total = steps.length;
+  const pct = Math.round((currentStep / total) * 100);
+  document.getElementById('module-progress-fill').style.width = pct + '%';
+
+  const step = steps[currentStep];
+  wrongAttempts = 0;
+
+  if (step.type === 'minitest') {
+    renderMiniTest(step);
+  } else if (step.type === 'lesson') {
+    renderLesson(step);
+  } else if (step.type === 'scenario') {
+    renderScenario(step);
+  } else if (step.type === 'question') {
+    renderQuestion(step);
+  }
+}
+
+function nextStep() {
+  const steps = MODULE_CONTENT[currentModule];
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    renderStep();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ─── LESSON ───
+function renderLesson(step) {
+  let cardsHTML = '';
+  if (step.cards && step.cards.length > 0) {
+    cardsHTML = step.cards.map(c => `
+      <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;margin-top:20px;border:1px solid rgba(15,34,64,0.08)">
+        <div style="font-size:20px;margin-bottom:10px">${c.icon}</div>
+        <div class="lesson-title" style="font-size:18px">${c.title}</div>
+        <div class="lesson-body">${c.body}</div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge lesson">Lesson</span>
+        <div class="content-card-title">${step.title}</div>
+      </div>
+      <div class="content-card-body">
+        <span class="lesson-icon">${step.icon}</span>
+        <div class="lesson-body">${step.body}</div>
+        ${cardsHTML}
+        <div class="card-nav" style="margin-top:28px">
+          <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── SCENARIO ───
+function renderScenario(step) {
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge scenario">${step.badge || 'Scenario'}</span>
+        <div class="content-card-title">${step.title}</div>
+      </div>
+      <div class="content-card-body">
+        <div class="scenario-text">${step.text}</div>
+        ${step.highlight ? `<div class="scenario-highlight">${step.highlight}</div>` : ''}
+        <div class="card-nav">
+          <button class="btn-nav primary" onclick="nextStep()">What happens next →</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── QUESTION ───
+function renderQuestion(step) {
+  const letters = ['A','B','C','D','E','F'];
+  const isMulti = step.format === 'multiselect';
+  let selectedIndices = new Set();
+
+  const optionsHTML = step.options.map((o, i) => `
+    <button class="option-btn" id="opt-${i}" onclick="handleOptionClick(${i}, ${isMulti})">
+      <div class="option-letter">${letters[i]}</div>
+      <div>${o.text}</div>
+    </button>
+  `).join('');
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge question">Question</span>
+        <div class="content-card-title">${step.format === 'multiselect' ? 'Select all that apply' : step.format === 'truefalse' ? 'True or False' : step.format === 'branching' ? 'What would you do?' : 'Choose one'}</div>
+      </div>
+      <div class="content-card-body">
+        <div class="question-text">${step.question}</div>
+        <div class="options-list" id="options-list">${optionsHTML}</div>
+        <div class="feedback-box" id="feedback-box"></div>
+        <div class="card-nav">
+          ${isMulti ? `<button class="btn-nav secondary" id="submit-btn" onclick="submitMulti()">Submit Answer</button>` : ''}
+          <button class="btn-nav primary" id="next-btn" onclick="nextStep()" style="display:none">Continue →</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  window._currentQuestion = step;
+  window._selectedMulti = selectedIndices;
+  window._answered = false;
+}
+
+function handleOptionClick(idx, isMulti) {
+  if (window._answered) return;
+  const step = window._currentQuestion;
+
+  if (isMulti) {
+    const sel = window._selectedMulti;
+    const btn = document.getElementById(`opt-${idx}`);
+    if (sel.has(idx)) { sel.delete(idx); btn.classList.remove('selected'); }
+    else              { sel.add(idx); btn.classList.add('selected'); }
+    return;
+  }
+
+  // single / branching / truefalse
+  window._answered = true;
+  const correct = step.options[idx].correct;
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+  if (correct) {
+    document.getElementById(`opt-${idx}`).classList.add('correct');
+    showFeedback('correct', step.explanation);
+    document.getElementById('next-btn').style.display = 'inline-block';
+  } else {
+    document.getElementById(`opt-${idx}`).classList.add('incorrect');
+    wrongAttempts++;
+    if (wrongAttempts === 1) {
+      showFeedback('hint', step.hint);
+      allBtns.forEach(b => b.style.pointerEvents = '');
+      document.getElementById(`opt-${idx}`).style.pointerEvents = 'none';
+      window._answered = false;
+    } else {
+      // reveal correct
+      step.options.forEach((o, i) => {
+        if (o.correct) document.getElementById(`opt-${i}`).classList.add('correct');
+        else if (i !== idx) document.getElementById(`opt-${i}`).classList.add('dimmed');
+      });
+      showFeedback('wrong', step.explanation);
+      document.getElementById('next-btn').style.display = 'inline-block';
+    }
+  }
+}
+
+function submitMulti() {
+  const step = window._currentQuestion;
+  const sel = window._selectedMulti;
+  const correctIndices = new Set(step.options.map((o,i) => o.correct ? i : -1).filter(i => i >= 0));
+
+  const allCorrect = [...correctIndices].every(i => sel.has(i)) && [...sel].every(i => correctIndices.has(i));
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+  step.options.forEach((o, i) => {
+    const btn = document.getElementById(`opt-${i}`);
+    if (o.correct && sel.has(i))  btn.classList.add('correct');
+    else if (o.correct)           btn.classList.add('correct');
+    else if (!o.correct && sel.has(i)) btn.classList.add('incorrect');
+    else btn.classList.add('dimmed');
+  });
+
+  document.getElementById('submit-btn').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'inline-block';
+
+  if (allCorrect) {
+    showFeedback('correct', step.explanation);
+  } else {
+    wrongAttempts++;
+    if (wrongAttempts === 1 && !allCorrect) {
+      showFeedback('hint', step.hint);
+      allBtns.forEach(b => { b.style.pointerEvents = ''; b.classList.remove('selected','correct','incorrect','dimmed'); });
+      window._selectedMulti = new Set();
+      document.getElementById('submit-btn').style.display = 'inline-block';
+      document.getElementById('next-btn').style.display = 'none';
+    } else {
+      showFeedback('wrong', step.explanation);
+    }
+  }
+  window._answered = true;
+}
+
+function showFeedback(type, text) {
+  const box = document.getElementById('feedback-box');
+  box.style.display = 'block';
+  if (type === 'hint') {
+    box.className = 'feedback-box hint';
+    box.innerHTML = `<span class="feedback-label">💡 Hint</span>${text}`;
+  } else if (type === 'correct') {
+    box.className = 'feedback-box correct-feedback';
+    box.innerHTML = `<span class="feedback-label">✓ Correct</span>${text}`;
+  } else {
+    box.className = 'feedback-box wrong-feedback';
+    box.innerHTML = `<span class="feedback-label">Here's why</span>${text}`;
+  }
+}
+
+// ─── MINI-TEST ───
+function renderMiniTest(step) {
+  // shuffle questions
+  testQuestions = [...step.questions].sort(() => Math.random() - 0.5);
+  testIndex = 0;
+  testAnswers = [];
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="test-header">
+      <h2>${step.title}</h2>
+      <p>${step.subtitle}</p>
+      <div class="test-counter" id="test-counter">Question 1 of ${testQuestions.length}</div>
+    </div>
+    <div id="test-question-area"></div>
+  `;
+  renderTestQuestion();
+}
+
+function renderTestQuestion() {
+  const q = testQuestions[testIndex];
+  const letters = ['A','B','C','D','E','F'];
+  const total = testQuestions.length;
+  document.getElementById('test-counter').textContent = `Question ${testIndex+1} of ${total}`;
+
+  const isMulti = q.format === 'multiselect';
+  const optHTML = q.options.map((o, i) => `
+    <button class="option-btn" id="topt-${i}" onclick="handleTestOption(${i}, ${isMulti})">
+      <div class="option-letter">${letters[i]}</div>
+      <div>${o.text}</div>
+    </button>
+  `).join('');
+
+  document.getElementById('test-question-area').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge test">Mini-Test</span>
+        <div class="content-card-title">${q.format === 'truefalse' ? 'True or False' : q.format === 'multiselect' ? 'Select all that apply' : 'Choose one'}</div>
+      </div>
+      <div class="content-card-body">
+        <div class="question-text">${q.question}</div>
+        <div class="options-list">${optHTML}</div>
+        <div class="feedback-box" id="test-feedback"></div>
+        <div class="card-nav">
+          ${isMulti ? `<button class="btn-nav secondary" id="tsubmit" onclick="submitTestMulti()">Submit</button>` : ''}
+          <button class="btn-nav primary" id="tnext" onclick="advanceTest()" style="display:none">
+            ${testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  window._testSelected = new Set();
+  window._testAnswered = false;
+  window._testWrong = 0;
+  window._currentTestQ = q;
+}
+
+function handleTestOption(idx, isMulti) {
+  if (window._testAnswered) return;
+  const q = window._currentTestQ;
+
+  if (isMulti) {
+    const sel = window._testSelected;
+    const btn = document.getElementById(`topt-${idx}`);
+    if (sel.has(idx)) { sel.delete(idx); btn.classList.remove('selected'); }
+    else              { sel.add(idx); btn.classList.add('selected'); }
+    return;
+  }
+
+  window._testAnswered = true;
+  const correct = q.options[idx].correct;
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+  if (correct) {
+    document.getElementById(`topt-${idx}`).classList.add('correct');
+    showTestFeedback('correct', 'Correct!');
+    testAnswers.push(true);
+  } else {
+    document.getElementById(`topt-${idx}`).classList.add('incorrect');
+    window._testWrong++;
+    if (window._testWrong === 1) {
+      const hintText = `💡 Not quite — take another look.`;
+      showTestFeedback('hint', hintText);
+      allBtns.forEach(b => { b.style.pointerEvents = ''; });
+      document.getElementById(`topt-${idx}`).style.pointerEvents = 'none';
+      document.getElementById(`topt-${idx}`).classList.remove('incorrect');
+      window._testAnswered = false;
+      return;
+    } else {
+      q.options.forEach((o,i) => {
+        if (o.correct) document.getElementById(`topt-${i}`).classList.add('correct');
+        else if (i !== idx) document.getElementById(`topt-${i}`).classList.add('dimmed');
+      });
+      showTestFeedback('wrong', 'The correct answer has been revealed.');
+      testAnswers.push(false);
+    }
+  }
+  document.getElementById('tnext').style.display = 'inline-block';
+  document.getElementById('tnext').textContent = testIndex < testQuestions.length - 1 ? 'Next Question →' : 'See Results →';
+}
+
+function submitTestMulti() {
+  const q = window._currentTestQ;
+  const sel = window._testSelected;
+  const correctIndices = new Set(q.options.map((o,i) => o.correct ? i : -1).filter(i => i >= 0));
+  const allCorrect = [...correctIndices].every(i => sel.has(i)) && [...sel].every(i => correctIndices.has(i));
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+  q.options.forEach((o, i) => {
+    const btn = document.getElementById(`topt-${i}`);
+    if (o.correct) btn.classList.add('correct');
+    else if (!o.correct && sel.has(i)) btn.classList.add('incorrect');
+    else btn.classList.add('dimmed');
+  });
+
+  document.getElementById('tsubmit') && (document.getElementById('tsubmit').style.display = 'none');
+  testAnswers.push(allCorrect);
+  showTestFeedback(allCorrect ? 'correct' : 'wrong', allCorrect ? 'Correct!' : 'Review the highlighted answers.');
+  document.getElementById('tnext').style.display = 'inline-block';
+  window._testAnswered = true;
+}
+
+function showTestFeedback(type, text) {
+  const box = document.getElementById('test-feedback');
+  box.style.display = 'block';
+  if (type === 'hint')    { box.className = 'feedback-box hint'; box.innerHTML = text; }
+  else if (type === 'correct') { box.className = 'feedback-box correct-feedback'; box.innerHTML = `<span class="feedback-label">✓ Correct</span>${text}`; }
+  else                         { box.className = 'feedback-box wrong-feedback'; box.innerHTML = `<span class="feedback-label">Here's why</span>${text}`; }
+}
+
+function advanceTest() {
+  testIndex++;
+  if (testIndex < testQuestions.length) {
+    renderTestQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showTestResults();
+  }
+}
+
+function showTestResults() {
+  const total   = testQuestions.length;
+  const correct = testAnswers.filter(Boolean).length;
+  const pct     = Math.round((correct / total) * 100);
+  const passing = pct >= 80;
+  const offset  = 283 - (283 * pct / 100);
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-body">
+        <div class="score-screen">
+          <div class="score-circle">
+            <svg viewBox="0 0 100 100">
+              <circle class="score-circle-bg" cx="50" cy="50" r="45"/>
+              <circle class="score-circle-fill ${passing ? 'passing' : 'failing'}" cx="50" cy="50" r="45"
+                style="stroke-dashoffset:${offset}"/>
+            </svg>
+            <div class="score-number">${pct}%</div>
+          </div>
+          <h2>${passing ? '🎉 Well done!' : '📚 Almost there'}</h2>
+          <p>${correct} out of ${total} correct — ${passing
+            ? 'You\'ve passed this module. On to the next one!'
+            : 'You need 80% to pass. Review the material and try again — you\'ve got this.'}</p>
+          ${passing
+            ? `<button class="btn-nav primary" onclick="completeModule()">Complete Module ${currentModule+1} →</button>`
+            : `<button class="btn-nav secondary" onclick="retakeTest()">Retake Mini-Test</button>`}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function completeModule() {
+  moduleProgress[currentModule] = true;
+  hide('module-view');
+  renderHub();
+  show('module-hub');
+  // Animate the newly completed card's ring
+  setTimeout(() => {
+    const rings = document.querySelectorAll('.ring-fill');
+    if (rings[currentModule]) rings[currentModule].style.strokeDashoffset = '0';
+  }, 200);
+}
+
+function retakeTest() {
+  const steps = MODULE_CONTENT[currentModule];
+  const testStep = steps.find(s => s.type === 'minitest');
+  renderMiniTest(testStep);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── CERTIFICATE ───
+function renderCertificate() {
+  document.getElementById('cert-name').textContent = studentName;
+  const modulesList = MODULE_META.map((m, i) => `
+    <div class="cert-module-item">
+      <div class="cert-check">✓</div>
+      <span>${m.short}</span>
+    </div>
+  `).join('');
+  document.getElementById('cert-modules-list').innerHTML = modulesList;
+  document.getElementById('cert-date').textContent = `Completed ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+}
+
+// ─── INIT ───
+document.getElementById('student-name-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startTraining();
+});
+</script>
+</body>
+</html>
