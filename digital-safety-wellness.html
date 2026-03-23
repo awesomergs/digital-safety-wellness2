@@ -1614,19 +1614,280 @@ const MODULE_CONTENT = [
     }
   ],
 
-  // ── MODULE 2 placeholder ──────────────────────────────
+  // ── MODULE 2: Social Media & Digital Well-being ───────
   [
-    { type: 'lesson', title: 'Module 2 Coming Soon', icon: '📱', body: 'This module is under construction.', cards: [] },
-    { type: 'minitest', title: `Module 2 Check`, subtitle: `Module 2 · 8 questions`, questions: [
-      { format: 'truefalse', question: 'Placeholder question.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 2.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 3.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 4.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 5.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 6.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 7.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] },
-      { format: 'truefalse', question: 'Placeholder question 8.', options: [{ text: 'True', correct: true }, { text: 'False', correct: false }] }
-    ]}
+    // ── INTRO LESSON ──
+    {
+      type: 'lesson',
+      title: 'Your Digital Footprint',
+      icon: '👣',
+      body: `Everything you do online leaves a trace — posts, comments, likes, location check-ins, even things you've deleted. Together, these form your <strong>digital footprint</strong>: a permanent record that employers, universities, and bad actors can all access.<br><br>
+      Studies show that <strong>70% of employers screen candidates' social media</strong> before hiring, and over half have decided not to hire someone based on what they found. Your online presence is already part of your professional identity — whether you've thought about it that way or not.`,
+      cards: [
+        {
+          icon: '🌐',
+          title: 'Active vs. Passive Footprints',
+          body: `Your footprint has two layers:<br><br>
+          <strong>Active footprint</strong> — things you deliberately share: posts, profile info, photos, comments, reviews.<br>
+          <strong>Passive footprint</strong> — data collected without you actively sharing: your location, browsing history, what you click on, how long you linger on a page, device info.<br><br>
+          The passive footprint is often the bigger one. Every platform is tracking far more than you post. A good rule of thumb: before posting, ask yourself <em>"Would I be okay if a future employer, professor, or family member saw this?"</em> If the answer is no — it doesn't belong online.`
+        }
+      ]
+    },
+
+    // ── SCENARIO 1: The Tagged Photo ──
+    {
+      type: 'scenario',
+      badge: 'Scenario 1 of 3',
+      title: 'The Tagged Photo',
+      persona: 'first',
+      text: `It's the night before you have a big internship interview. A friend tags you in a photo from a party last weekend — you're in the background, clearly visible, in a situation that looks bad out of context. You didn't post it. You didn't choose to share it.<br><br>
+      You find out because a mutual friend texted you: <em>"Hey, did you see what Marcus posted? Might want to take care of that before tomorrow."</em><br><br>
+      Your account is set to public. The post has 47 likes. You don't know if the recruiter has already seen it.`,
+      // ── IMAGE SLOT ──────────────────────────────────────────────────────────
+      // To add a mock Instagram/social media screenshot here:
+      //   image: { src: 'images/tagged-photo-scenario.png', alt: 'Screenshot of a tagged post notification', caption: 'The notification that came through' }
+      // ────────────────────────────────────────────────────────────────────────
+      highlight: `"Might want to take care of that before tomorrow."`
+    },
+    {
+      type: 'question',
+      format: 'branching',
+      question: `What's the most effective thing you can do right now?`,
+      options: [
+        { text: 'Untag yourself and ask Marcus to delete the post — then review your privacy settings so you approve tags before they appear on your profile.', correct: true },
+        { text: 'Do nothing — the recruiter has probably already seen it and reacting now will only draw more attention.', correct: false },
+        { text: 'Delete your entire Instagram account before the interview.', correct: false },
+        { text: 'Post something professional right now to push the tagged photo down in your feed.', correct: false }
+      ],
+      hint: `The goal is to limit who can see it and prevent it from happening again. What combination of immediate action + prevention covers both?`,
+      explanation: `Untagging yourself removes it from your profile immediately. Asking Marcus to delete removes it entirely. But the real fix going forward is adjusting your privacy settings to require your approval before tagged photos appear on your profile — that way you're always in control of what's associated with your name. Deleting your account is disproportionate and posting something "good" doesn't remove the tagged photo.`
+    },
+    {
+      type: 'lesson',
+      icon: '⚙️',
+      title: 'Taking Control of Your Privacy Settings',
+      body: `Most platforms default to <em>public</em> — meaning anyone can see your posts, profile, and tagged content. You don't have to accept those defaults. Here's what to lock down on the platforms you actually use:`,
+      cards: [
+        {
+          icon: '📸',
+          title: 'Key Settings Across Major Platforms',
+          body: `<strong>Instagram:</strong> Settings → Privacy → Account Privacy → switch to Private. Also: Privacy → Posts → Tags — set to "Manually Approve Tags" so nothing appears on your profile without your consent.<br><br>
+          <strong>TikTok:</strong> Settings → Privacy → Private Account (on). Also turn off "Suggest your account to others" and disable "Allow your videos to be downloaded."<br><br>
+          <strong>Snapchat:</strong> Settings → Privacy Controls → Contact Me: "My Friends" only. Enable Ghost Mode to hide your location. Turn off Quick Add.<br><br>
+          <strong>All platforms:</strong> Enable two-factor authentication. Audit which third-party apps have access to your account — remove any you don't recognize or no longer use. Check your settings every few months; platforms update their privacy options without warning.`
+        }
+      ]
+    },
+
+    // ── SCENARIO 2: The Rabbit Hole ──
+    {
+      type: 'scenario',
+      badge: 'Scenario 2 of 3',
+      title: 'The Algorithm Knows You Better Than You Think',
+      persona: 'third',
+      text: `Alex has been feeling stressed about the economy lately. They watched one YouTube video about "why the economy is rigged," mostly out of curiosity. The autoplay kicked in.<br><br>
+      Two hours later, Alex has watched seventeen videos. The content has gradually shifted — each one a little more extreme than the last, a little more certain that the system is broken and most people are too blind to see it. Alex didn't choose any of them. The algorithm did.<br><br>
+      Alex didn't notice when the framing shifted from "here's an interesting perspective" to "here's the only truth." They just kept watching.`,
+      highlight: `"The algorithm's goal isn't to inform you. It's to keep you watching."`
+    },
+    {
+      type: 'question',
+      format: 'multiple',
+      question: `Why does the recommendation algorithm keep pushing Alex toward more extreme content?`,
+      options: [
+        { text: 'The algorithm is politically biased against Alex specifically.', correct: false },
+        { text: 'Emotionally charged and sensational content generates more watch time and engagement, which is exactly what the algorithm is optimizing for.', correct: true },
+        { text: 'Alex\'s internet provider is filtering their content.', correct: false },
+        { text: 'The algorithm detected Alex was stressed and is trying to help by showing relevant content.', correct: false }
+      ],
+      hint: `Think about what the platform actually wants from you — it's not your education or well-being. What metric drives every recommendation decision?`,
+      explanation: `Recommendation algorithms optimize for <strong>engagement and watch time</strong>, not accuracy or balance. Emotionally charged, outrage-inducing, or alarming content keeps people watching longer than calm, nuanced content does. The algorithm has no idea whether the content is true — it just knows that extreme content gets more clicks, comments, and shares. This is why rabbit holes form: each video is chosen not for being accurate, but for being more engaging than the last one.`
+    },
+    {
+      type: 'question',
+      format: 'multiselect',
+      question: `Which of these are good strategies for protecting yourself from algorithmic manipulation? Select all that apply.`,
+      options: [
+        { text: 'Consciously follow accounts with a variety of perspectives, not just ones you already agree with.', correct: true },
+        { text: 'Use your platform\'s built-in tools to reset or refresh your recommendations when they feel one-sided.', correct: true },
+        { text: 'Set screen time limits or scheduled breaks to avoid hours of passive autoplay.', correct: true },
+        { text: 'Stop using social media entirely — it\'s the only safe option.', correct: false },
+        { text: 'When content makes you feel strong outrage or fear, pause and ask if it\'s designed to provoke that reaction.', correct: true }
+      ],
+      hint: `Think about what gives you agency over the algorithm — awareness, diversification, and deliberate use. One option here is an overreaction.`,
+      explanation: `You can protect yourself without quitting social media entirely. The four effective strategies are: diversifying who you follow (breaks echo chambers), using reset tools platforms provide (TikTok's "Refresh For You" page, for example), setting intentional limits on passive scrolling, and developing the habit of questioning emotionally charged content. The algorithm counts on you staying passive — conscious engagement disrupts it.`
+    },
+    {
+      type: 'lesson',
+      icon: '🧠',
+      title: 'How Algorithms Shape What You Believe',
+      body: `Algorithms are not neutral. Every platform uses one to decide what you see — and they all share the same goal: keep you engaged as long as possible.`,
+      cards: [
+        {
+          icon: '🔄',
+          title: 'Echo Chambers & Rabbit Holes',
+          body: `An <strong>echo chamber</strong> forms when you only see viewpoints that reinforce your existing beliefs — making fringe ideas feel like mainstream consensus because that's all your feed shows you.<br><br>
+          A <strong>rabbit hole</strong> is the gradual escalation: you start somewhere reasonable and end somewhere extreme because each recommendation was slightly more sensational than the last.<br><br>
+          Neither happens because you're gullible. They happen because the system is specifically engineered to exploit how human attention works. Knowing this is your first defense. The second is deliberate, active engagement rather than passive scrolling.`
+        }
+      ]
+    },
+
+    // ── SCENARIO 3: The New Friend ──
+    {
+      type: 'scenario',
+      badge: 'Scenario 3 of 3',
+      title: 'The New Friend',
+      persona: 'third',
+      text: `Priya is 19 and goes to college in a new city. She's been a little lonely and has been spending more time on Instagram. A few weeks ago, someone named "Jake" followed her — they had 3 mutual followers and his profile looked normal: gym photos, college campus posts, a dog.<br><br>
+      Jake started commenting on her posts, then DMing her. He's funny, attentive, and seems to really get her. He compliments her constantly and says things like "I've never connected with someone this fast." He's mentioned he goes to a college two hours away, which is why they haven't met yet.<br><br>
+      This week, Jake asked if they could move their conversations to WhatsApp because "Instagram is so glitchy." He also mentioned that his family situation is rough right now and said he feels like Priya is the only person he can really talk to.`,
+      // ── IMAGE SLOT ──────────────────────────────────────────────────────────
+      // To add a mock DM conversation screenshot here:
+      //   image: { src: 'images/grooming-dm-scenario.png', alt: 'Screenshot of Instagram DM conversation', caption: 'Jake\'s messages over the past three weeks' }
+      // ────────────────────────────────────────────────────────────────────────
+      highlight: `"I've never connected with someone this fast. You're the only person I can really talk to."`
+    },
+    {
+      type: 'question',
+      format: 'multiselect',
+      question: `Which behaviors in this scenario are warning signs of online grooming? Select all that apply.`,
+      options: [
+        { text: 'Moving the conversation off the main platform to a more private channel (WhatsApp).', correct: true },
+        { text: 'Excessive flattery and claiming an unusually deep connection very quickly.', correct: true },
+        { text: 'Having mutual followers on Instagram.', correct: false },
+        { text: 'Positioning himself as emotionally dependent on Priya — "you\'re the only one I can talk to."', correct: true },
+        { text: 'Posting photos of a dog and a campus on his profile.', correct: false },
+        { text: 'Never meeting in person despite being relatively close geographically.', correct: true }
+      ],
+      hint: `Think about the grooming stages: gaining trust, isolating, creating emotional dependency, moving off public platforms. Which of Jake's behaviors match those patterns?`,
+      explanation: `Four behaviors are red flags: pushing to move to a private platform (cuts off any platform moderation and oversight), rapid intense emotional connection (manufactured to build dependency quickly), positioning himself as someone Priya is responsible for emotionally (creates obligation and isolation from others), and consistently avoiding in-person contact despite a plausible reason to meet. Mutual followers and a normal-looking profile are not red flags on their own — groomers deliberately construct convincing profiles.`
+    },
+    {
+      type: 'question',
+      format: 'branching',
+      question: `Priya is uncomfortable but feels guilty, like she'd be overreacting if she said something. What's the right move?`,
+      options: [
+        { text: 'Keep talking to Jake — she\'s probably overthinking it and doesn\'t want to hurt his feelings.', correct: false },
+        { text: 'Trust her instincts. Stop responding, block Jake on all platforms, and talk to someone she trusts about what\'s been happening.', correct: true },
+        { text: 'Tell Jake she needs space but stay connected in case she\'s wrong about him.', correct: false },
+        { text: 'Move to WhatsApp first to see if he seems more trustworthy in a different context.', correct: false }
+      ],
+      hint: `Feeling guilty about protecting yourself is part of how grooming works — it's designed to make you feel responsible for the other person. What matters is Priya's safety, not Jake's feelings.`,
+      explanation: `Grooming works partly by making the target feel responsible for the groomer's emotional state — "you're the only one I can talk to" is a pressure tactic. Priya's discomfort is a legitimate signal worth listening to. The right move is to stop contact, block across all platforms, and bring a trusted person in. Moving to a less monitored platform (WhatsApp) would give a potential predator more control and less accountability. "Staying connected to be safe" is not safer — it's more exposure.`
+    },
+    {
+      type: 'lesson',
+      icon: '🚨',
+      title: 'Harassment, Grooming & What To Do',
+      body: `Online grooming is a process, not a single event. By the time most people recognize it, several stages have already happened. Knowing the pattern helps you spot it earlier.`,
+      cards: [
+        {
+          icon: '📋',
+          title: 'The Grooming Pattern & How to Respond',
+          body: `The stages typically look like: <strong>Targeting</strong> (finding someone who seems lonely or vulnerable) → <strong>Gaining trust</strong> (flattery, gifts, constant attention) → <strong>Filling a role</strong> (becoming their confidant, creating emotional dependency) → <strong>Isolation</strong> (moving off public platforms, encouraging secrecy) → <strong>Sexualization</strong> (gradually introducing sexual content or requests) → <strong>Coercion</strong> (using leverage to maintain control).<br><br>
+          <strong>Red flags to watch for:</strong> someone who moves too fast emotionally, pushes to leave public platforms, makes you feel responsible for their wellbeing, encourages secrecy, or always has a reason not to meet in person.<br><br>
+          <strong>If this is happening to you:</strong> Stop engaging. Block on all platforms. Screenshot evidence before blocking. Tell someone you trust — a friend, family member, campus CARE office, or counselor. You are not overreacting. You are not responsible for the other person's feelings.`
+        }
+      ]
+    },
+
+    // ── MINI TEST ──
+    {
+      type: 'minitest',
+      title: `Let's see what stuck`,
+      subtitle: `Module 2 · 8 questions · Need 80% to pass`,
+      questions: [
+        {
+          format: 'truefalse',
+          question: `Deleting a post guarantees it's permanently removed from the internet.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False', correct: true }
+          ],
+          explanation: `Once something is posted, it can be screenshotted, cached by search engines, saved by other users, or archived before you delete it. Deletion removes it from the platform but cannot guarantee it no longer exists anywhere. This is why "think before you post" matters more than the ability to delete.`
+        },
+        {
+          format: 'multiple',
+          question: `What does a recommendation algorithm actually optimize for?`,
+          options: [
+            { text: 'Accuracy and balance of information shown to users.', correct: false },
+            { text: 'User safety and mental well-being.', correct: false },
+            { text: 'Engagement and watch time — keeping you on the platform as long as possible.', correct: true },
+            { text: 'Matching content to your stated preferences and interests.', correct: false }
+          ],
+          explanation: `Algorithms optimize for engagement metrics — clicks, watch time, shares, comments — because that's what generates ad revenue. Accuracy, balance, and well-being are not in the optimization function. Content that provokes strong emotions (outrage, fear, excitement) tends to score highest on engagement, which is why extreme content gets amplified.`
+        },
+        {
+          format: 'multiple',
+          question: `Which of the following best describes an "active" digital footprint?`,
+          options: [
+            { text: 'Data collected passively by platforms, like your browsing history and location.', correct: false },
+            { text: 'Content you deliberately publish — posts, comments, photos, reviews.', correct: true },
+            { text: 'Data your internet provider logs about your activity.', correct: false },
+            { text: 'Information other people post about you without your knowledge.', correct: false }
+          ],
+          explanation: `Your active footprint is what you consciously put out — posts, profile info, comments, tagged content you approve. Your passive footprint is everything platforms collect in the background without you actively sharing it. Both matter, but the active footprint is the one most directly under your control.`
+        },
+        {
+          format: 'multiselect',
+          question: `Which of these are established warning signs of online grooming? Select all that apply.`,
+          options: [
+            { text: 'Pushing to move the conversation off a public platform to a private app.', correct: true },
+            { text: 'Declaring an unusually intense emotional connection very quickly.', correct: true },
+            { text: 'Having a well-maintained profile with photos and posts.', correct: false },
+            { text: 'Making you feel emotionally responsible for their wellbeing.', correct: true },
+            { text: 'Encouraging secrecy — "don\'t tell your friends/parents about us."', correct: true },
+            { text: 'Messaging you frequently throughout the day.', correct: false }
+          ],
+          hint: `A well-maintained profile and frequent messages aren't red flags on their own — groomers deliberately appear normal. Think about the behaviors that involve control, secrecy, and isolation.`,
+          explanation: `The four red flags are: moving to a private platform (reduces oversight), rapid intense emotional bonding (manufactured to create dependency quickly), making the target feel emotionally responsible (isolation tactic), and encouraging secrecy (cuts off the target from people who might notice warning signs). Frequent messages and a normal-looking profile are not inherently suspicious — groomers deliberately cultivate normal-seeming personas.`
+        },
+        {
+          format: 'truefalse',
+          question: `Most social media platforms default to private account settings when you first sign up.`,
+          options: [
+            { text: 'True', correct: false },
+            { text: 'False', correct: true }
+          ],
+          explanation: `Most platforms default to public — meaning your profile, posts, and content are visible to anyone. Platforms are incentivized to maximize your reach and engagement, which means they default to the most open settings. You have to actively change your privacy settings; they won't be set conservatively for you.`
+        },
+        {
+          format: 'multiple',
+          question: `You've been feeling overwhelmed and start watching videos about anxiety online. Two hours later your feed has shifted to content claiming medication is a conspiracy and doctors can't be trusted. What happened?`,
+          options: [
+            { text: 'The platform detected your mental health data and flagged your account.', correct: false },
+            { text: 'You fell into a recommendation rabbit hole — each video was chosen for engagement, gradually escalating in extremity.', correct: true },
+            { text: 'Your search history was sold to a third-party trying to influence your beliefs.', correct: false },
+            { text: 'This is normal and reflects a balanced range of perspectives the algorithm is showing you.', correct: false }
+          ],
+          explanation: `This is a classic algorithmic rabbit hole. You started with a legitimate topic; the algorithm kept serving increasingly extreme content because outrage and fear-based content generates more engagement than balanced content. It wasn't targeted at you specifically — it's a structural feature of how recommendation systems work.`
+        },
+        {
+          format: 'multiple',
+          question: `Someone is sending you repeated unwanted messages that feel threatening. What's the right first step?`,
+          options: [
+            { text: 'Reply once to firmly tell them to stop, then block if they continue.', correct: false },
+            { text: 'Do not engage. Block and report them through the platform\'s reporting tools, and screenshot evidence before doing so.', correct: true },
+            { text: 'Wait to see if they stop on their own before taking action.', correct: false },
+            { text: 'Delete your account so they can\'t contact you anymore.', correct: false }
+          ],
+          explanation: `The golden rule with harassment: do not engage. Responding — even once, even to say "stop" — signals that you're reachable and can escalate the behavior. Block and report through the platform's tools so there's an official record. Crucially, screenshot evidence before blocking, because once you block, access to the messages may be limited. Deleting your account removes your ability to preserve evidence and report it.`
+        },
+        {
+          format: 'multiple',
+          question: `What does "doxxing" mean?`,
+          options: [
+            { text: 'Hacking into someone\'s account and changing their password.', correct: false },
+            { text: 'Reporting someone\'s account to a platform for harassment.', correct: false },
+            { text: 'Publicly revealing someone\'s private personal information — like their address, phone number, or workplace — to expose or harm them.', correct: true },
+            { text: 'Blocking someone and deleting all conversation history.', correct: false }
+          ],
+          explanation: `Doxxing is the act of publicly exposing someone's private information — home address, phone number, employer, real name if they're anonymous — typically to invite harassment or intimidation from others. It's a serious privacy violation and in many jurisdictions a criminal act. If you're doxxed, document everything, report to the platform, and contact campus security or law enforcement depending on the severity of the threat.`
+        }
+      ]
+    }
   ],
 
   // ── MODULE 3 placeholder ──────────────────────────────
