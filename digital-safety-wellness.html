@@ -52,7 +52,6 @@
   }
 
   /* ─── HEADER ─── */
-  
   header {
     position: relative;
     z-index: 10;
@@ -109,6 +108,7 @@
     text-transform: uppercase;
   }
 
+  /* ─── MAIN ─── */
   main {
     position: relative;
     z-index: 1;
@@ -117,6 +117,7 @@
     padding: 64px 32px 80px;
   }
 
+  /* ─── HERO ─── */
   .hero {
     text-align: center;
     margin-bottom: 64px;
@@ -168,6 +169,7 @@
     margin: 0 auto 32px;
   }
 
+  /* ─── NAME ENTRY GATE ─── */
   #name-gate {
     background: white;
     border: 1px solid rgba(15,34,64,0.08);
@@ -248,6 +250,7 @@
     display: none;
   }
 
+  /* ─── MODULE GRID ─── */
   #module-hub {
     display: none;
     animation: fadeUp 0.5s ease both;
@@ -298,6 +301,7 @@
     gap: 20px;
   }
 
+  /* ─── MODULE CARD ─── */
   .module-card {
     background: white;
     border-radius: var(--radius-lg);
@@ -334,6 +338,7 @@
     opacity: 0.72;
   }
 
+  /* Card color bar */
   .card-bar {
     height: 5px;
     width: 100%;
@@ -372,6 +377,7 @@
     max-width: 180px;
   }
 
+  /* Progress ring */
   .progress-ring-wrap {
     flex-shrink: 0;
     width: 48px;
@@ -472,7 +478,7 @@
     cursor: not-allowed;
   }
 
-  /* Lock overlay  !! tbd:*/
+  /* Lock overlay */
   .lock-overlay {
     position: absolute;
     inset: 0;
@@ -1232,14 +1238,99 @@
       <!-- Cards injected by JS -->
     </div>
 
-    <div class="completion-banner" id="completion-banner">
+    <div class="completion-banner" id="completion-banner" style="display:none">
       <div class="banner-text">
         <h3>🎉 All modules complete!</h3>
-        <p>You've finished the Digital Safety & Wellness Training. Your certificate is ready.</p>
+        <p>The Final Exam is now unlocked below. Pass it to earn your certificate.</p>
       </div>
-      <button class="btn-certificate" onclick="showCertificate()">View My Certificate →</button>
     </div>
-  </div>
+
+    <!-- FINAL EXAM CARD — sits below the module grid like a 5th card -->
+    <div id="final-exam-card" style="margin-top:20px">
+      <div id="final-exam-card-inner" class="module-card locked" style="max-width:100%;cursor:default">
+        <div class="card-bar" style="background:linear-gradient(90deg,#1a7f78,#c8922a,#0f2240)"></div>
+        <div class="card-inner" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:20px;flex:1;min-width:0">
+            <div style="width:48px;height:48px;flex-shrink:0">
+              <svg viewBox="0 0 48 48" width="48" height="48">
+                <circle class="ring-bg" cx="24" cy="24" r="18"/>
+                <circle id="exam-ring-fill" class="ring-fill" cx="24" cy="24" r="18" style="stroke-dashoffset:113"/>
+              </svg>
+            </div>
+            <div>
+              <div class="module-number" style="margin-bottom:4px">Final Assessment</div>
+              <h3 style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--navy);max-width:none">Digital Safety &amp; Wellness — Final Exam</h3>
+              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                <div class="meta-pill">⏱ ~20 min</div>
+                <div class="meta-pill">📋 22 questions</div>
+                <div class="meta-pill">🎯 All 4 modules</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <div id="exam-card-status" style="font-size:13px;color:var(--slate-light)">Complete all 4 modules to unlock</div>
+            <button id="exam-card-btn" class="card-action locked" disabled onclick="startFinalExam()">🔒 Locked</button>
+          </div>
+        </div>
+        <div class="lock-overlay" id="exam-lock-overlay">
+          <div class="lock-message">🔒 Complete all 4 modules first</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE BANNER — shown after exam is passed -->
+    <div id="cert-ready-banner" style="
+      display:none;margin-top:20px;
+      background:linear-gradient(135deg,var(--navy),var(--navy-mid));
+      border-radius:var(--radius-lg);padding:28px 36px;
+      display:none;align-items:center;justify-content:space-between;
+      gap:20px;flex-wrap:wrap;box-shadow:var(--shadow-hover)
+    ">
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:white;margin-bottom:6px">🎓 You've earned your certificate!</div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.6)">You've passed the Final Exam. Your certificate is ready.</div>
+      </div>
+      <button class="btn-certificate" onclick="showCertificate()">View Certificate 🛡️</button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         DEV TESTING TOGGLE — REMOVE BEFORE LAUNCH
+         To remove: delete everything between the two DEV TOGGLE comment markers
+         (this entire div block), then also delete the toggleDevMode() function
+         in the JS section below (marked the same way).
+         ══════════════════════════════════════════════════════ -->
+    <div id="dev-toggle-panel" style="
+      margin-top: 24px;
+      background: #fff8e6;
+      border: 2px dashed #e5b04a;
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    ">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b07d10;margin-bottom:4px">🛠 Dev Mode — Remove Before Launch</div>
+        <div style="font-size:13px;color:#7a5a10">Unlock all modules and the Final Exam for testing without completing them in order.</div>
+      </div>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none">
+        <div style="font-size:13px;font-weight:600;color:#7a5a10" id="dev-toggle-label">Order Lock: ON</div>
+        <div id="dev-toggle-track" onclick="toggleDevMode()" style="
+          width:44px;height:24px;border-radius:12px;background:#c4c9d4;
+          position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0
+        ">
+          <div id="dev-toggle-thumb" style="
+            width:18px;height:18px;border-radius:50%;background:white;
+            position:absolute;top:3px;left:3px;transition:left 0.2s;
+            box-shadow:0 1px 4px rgba(0,0,0,0.2)
+          "></div>
+        </div>
+      </label>
+    </div>
+    <!-- END DEV TOGGLE -->
+  </div><!-- end #module-hub -->
 
   <!-- ③ MODULE VIEW (shown when a module is opened) -->
   <div id="module-view">
@@ -1253,7 +1344,19 @@
     <div id="step-container"></div>
   </div>
 
-  <!-- ④ CERTIFICATE VIEW -->
+  <!-- ④ FINAL EXAM VIEW -->
+  <div id="final-exam-view" style="display:none">
+    <div class="module-view-header">
+      <button class="back-btn" onclick="showHub()">← Back to Modules</button>
+      <div class="module-view-title">Final Exam</div>
+    </div>
+    <div class="module-progress-bar">
+      <div class="module-progress-fill" id="exam-progress-fill"></div>
+    </div>
+    <div id="exam-container"></div>
+  </div>
+
+  <!-- ⑤ CERTIFICATE VIEW -->
   <div id="cert-view">
     <div class="module-view-header">
       <button class="back-btn" onclick="showHub()">← Back to Modules</button>
@@ -1290,6 +1393,7 @@
 // ═══════════════════════════════════════════════════════════
 let studentName = '';
 let moduleProgress = [false, false, false, false]; // completed?
+let finalExamPassed = false;
 let currentModule = null;
 let currentStep = 0;
 let wrongAttempts = 0;    // for hint logic
@@ -1297,9 +1401,249 @@ let testAnswers = [];     // for mini-test scoring
 let testQuestions = [];   // current shuffled test
 let testIndex = 0;
 
+// ── DEV TOGGLE STATE ────────────────────────────────────────
+// DEV TOGGLE — REMOVE BEFORE LAUNCH
+// To remove: delete this variable, the toggleDevMode() function,
+// the dev-toggle-panel HTML block in the hub, and the two
+// devModeUnlocked checks in renderHub() and openModule().
+let devModeUnlocked = false;
+// END DEV TOGGLE
+// ────────────────────────────────────────────────────────────
+
 // ═══════════════════════════════════════════════════════════
-// MODULE METADATA
+// FINAL EXAM DATA — 22 questions across all 4 modules
 // ═══════════════════════════════════════════════════════════
+const FINAL_EXAM_QUESTIONS = [
+  // ── MODULE 1: Scams & Social Engineering ──
+  {
+    module: 1, format: 'multiple',
+    question: `An email arrives claiming to be from your bank's fraud team. It looks official and uses your real name. The sender address is "security@yourbank-alerts-verify.com." What should you do?`,
+    options: [
+      { text: 'Reply to confirm whether it\'s real — if it\'s fraud, the bank needs to know immediately.', correct: false },
+      { text: 'Click the link in the email to check your account directly.', correct: false },
+      { text: 'Do not click anything. Call your bank using the number on the back of your card to verify independently.', correct: true },
+      { text: 'Ignore the email address — display names are what matter, not the domain.', correct: false }
+    ],
+    explanation: `The domain "yourbank-alerts-verify.com" is not your bank's real domain — it's a lookalike. Replying or clicking anything in the email hands the attacker access. Out-of-band verification (calling the number you already have) is correct every time.`
+  },
+  {
+    module: 1, format: 'truefalse',
+    question: `Spear phishing attacks are more dangerous than regular phishing because the attacker customizes the message using information researched specifically about you.`,
+    options: [
+      { text: 'True', correct: true },
+      { text: 'False', correct: false }
+    ],
+    explanation: `True. Regular phishing is a mass blast — millions of identical emails. Spear phishing researches the target and crafts a message that feels personal and credible, bypassing the "this seems generic" instinct that catches regular phishing.`
+  },
+  {
+    module: 1, format: 'multiple',
+    question: `Your "employer" sends you a $2,500 check before you've done any work, asks you to keep $400 as pay, and wire the rest to a vendor for equipment. What is this?`,
+    options: [
+      { text: 'A legitimate onboarding process — many remote companies pay this way.', correct: false },
+      { text: 'A fake job / overpayment scam — the check will bounce after you wire the money, and you\'ll lose what you sent.', correct: true },
+      { text: 'A money laundering test to vet your trustworthiness.', correct: false },
+      { text: 'A payroll error that happens frequently with new hires.', correct: false }
+    ],
+    explanation: `The check is counterfeit — it appears to clear but is reversed days later. Any money you wired is gone permanently. A legitimate employer never sends you money before work and asks you to forward it to a third party.`
+  },
+  {
+    module: 1, format: 'multiselect',
+    question: `Which of these are red flags that a payment app interaction might be a scam? Select all that apply.`,
+    options: [
+      { text: 'A stranger sends you money "by mistake" and urgently asks for it back.', correct: true },
+      { text: 'Someone claims a time-limited emergency requiring an immediate transfer.', correct: true },
+      { text: 'A "bank representative" walks you through sending money to a "secure account."', correct: true },
+      { text: 'A contact you know sends you a routine payment for split expenses.', correct: false },
+      { text: 'A seller accepts Venmo for a Marketplace transaction.', correct: false }
+    ],
+    hint: `Look for strangers, urgency, and instructions to move money in unusual ways.`,
+    explanation: `The three scam patterns are: "accidental" stranger payments (the reversal scam), urgency-driven emergency transfers, and anyone posing as a bank and asking you to move funds — banks never do this. A known contact splitting expenses or a normal Venmo sale are not scam signals.`
+  },
+  {
+    module: 1, format: 'multiple',
+    question: `What is the correct order of the Social Engineering Attack Cycle?`,
+    options: [
+      { text: 'Hook → Research → Play → Exit', correct: false },
+      { text: 'Play → Hook → Research → Exit', correct: false },
+      { text: 'Research → Hook → Play → Exit', correct: true },
+      { text: 'Research → Play → Exit → Hook', correct: false }
+    ],
+    explanation: `Research (gathering intel on the target) always comes first, then Hook (making contact and building trust), Play (executing the scam), and Exit (disappearing). The research phase is what makes social engineering feel personal.`
+  },
+  // ── MODULE 2: Social Media & Digital Well-being ──
+  {
+    module: 2, format: 'truefalse',
+    question: `Most major social media platforms default to private account settings when you first sign up.`,
+    options: [
+      { text: 'True', correct: false },
+      { text: 'False', correct: true }
+    ],
+    explanation: `False. Most platforms default to public — maximizing reach and engagement drives ad revenue. Protecting your privacy requires actively changing your settings.`
+  },
+  {
+    module: 2, format: 'multiple',
+    question: `An online acquaintance tells you that you have "a special connection unlike anything they've felt before," wants to move to WhatsApp, and says you're the only one they can talk to. Which grooming stage is this?`,
+    options: [
+      { text: 'Targeting — identifying whether you are suitable.', correct: false },
+      { text: 'Filling a role and beginning isolation — creating emotional dependency and moving off a monitored platform.', correct: true },
+      { text: 'Sexualization — introducing inappropriate content.', correct: false },
+      { text: 'Coercion — using leverage to maintain control.', correct: false }
+    ],
+    explanation: `Claiming intense unique bonds, creating emotional dependency ("you're the only one"), and pushing to leave the main platform are hallmarks of filling a role and early isolation. This is the point to stop contact, block, and tell someone you trust.`
+  },
+  {
+    module: 2, format: 'multiselect',
+    question: `Which strategies help protect you from algorithmic rabbit holes? Select all that apply.`,
+    options: [
+      { text: 'Following accounts with diverse and opposing perspectives.', correct: true },
+      { text: 'Using platform tools to reset your recommendations when they feel one-sided.', correct: true },
+      { text: 'Setting screen time limits to avoid hours of passive autoplay.', correct: true },
+      { text: 'Trusting the algorithm — it knows your interests better than you do.', correct: false },
+      { text: 'Pausing when content provokes strong outrage or fear to ask if it\'s designed to provoke that reaction.', correct: true }
+    ],
+    hint: `Think about what gives you active control. One option surrenders that control entirely.`,
+    explanation: `Diversifying your feed, using reset tools, limiting passive scrolling, and questioning emotionally charged content all give you agency over a system designed to keep you passive. Trusting the algorithm is the opposite — it optimizes for engagement, not your well-being.`
+  },
+  {
+    module: 2, format: 'multiple',
+    question: `You're being harassed via repeated threatening messages. Before blocking the sender, what must you do first?`,
+    options: [
+      { text: 'Reply once firmly telling them to stop — this creates a legal record.', correct: false },
+      { text: 'Report to the platform and wait for them to act before blocking.', correct: false },
+      { text: 'Delete the conversation to protect your own privacy, then block.', correct: false },
+      { text: 'Screenshot all evidence — dates, times, usernames, full message content — then block.', correct: true }
+    ],
+    explanation: `Evidence first, always. Once you block, access to the full history may be limited. Screenshots need to capture the full thread, timestamps, and the sender's handle to show pattern and escalation. Never delete evidence before reporting.`
+  },
+  // ── MODULE 3: Account Security ──
+  {
+    module: 3, format: 'truefalse',
+    question: `A strong, complex password is safe to reuse across multiple accounts as long as it passes a strength meter.`,
+    options: [
+      { text: 'True', correct: false },
+      { text: 'False', correct: true }
+    ],
+    explanation: `False. Password strength only matters in isolation. If reused and one site is breached, attackers run the credentials against every other service automatically (credential stuffing). Uniqueness matters as much as complexity.`
+  },
+  {
+    module: 3, format: 'multiple',
+    question: `Why is a hardware security key (like a YubiKey) more secure than SMS-based MFA?`,
+    options: [
+      { text: 'Hardware keys generate longer codes that are harder to guess.', correct: false },
+      { text: 'Hardware keys are free, while SMS MFA incurs carrier charges.', correct: false },
+      { text: 'Hardware keys work without internet, making them faster.', correct: false },
+      { text: 'Hardware keys require physical possession and cannot be intercepted remotely — SMS codes can be hijacked via SIM swapping.', correct: true }
+    ],
+    explanation: `SIM swapping lets criminals receive your SMS codes by convincing your carrier to transfer your number. Hardware keys use cryptographic authentication requiring physical presence — impossible to intercept remotely.`
+  },
+  {
+    module: 3, format: 'multiselect',
+    question: `Which of these are good account security practices? Select all that apply.`,
+    options: [
+      { text: 'Using a unique password for every account.', correct: true },
+      { text: 'Using a password manager to generate and store credentials.', correct: true },
+      { text: 'Incrementing your password each year — Password2024 → Password2025.', correct: false },
+      { text: 'Answering security questions with random unguessable answers stored in your password manager.', correct: true },
+      { text: 'Creating a dedicated secondary email used only for account recovery.', correct: true }
+    ],
+    hint: `Which practices actually break attacker patterns — and which ones only feel like they do?`,
+    explanation: `Unique passwords prevent credential stuffing, password managers make that practical, random security answers resist social engineering, and a secret recovery email is hard to target. Incrementing a year is one of the first variations attackers' scripts try — it provides almost no real security.`
+  },
+  {
+    module: 3, format: 'multiple',
+    question: `You lose the phone with your authenticator app. What should you have prepared in advance to recover your accounts?`,
+    options: [
+      { text: 'Your security question answers — the fallback for exactly this.', correct: false },
+      { text: 'A backup SMS number on your carrier account.', correct: false },
+      { text: 'One-time backup recovery codes generated by each service, stored securely offline or in your password manager.', correct: true },
+      { text: 'Nothing — you contact each service individually and prove identity from scratch.', correct: false }
+    ],
+    explanation: `Most platforms let you generate one-time backup recovery codes when setting up MFA — specifically for lost-device scenarios. Store them in a locked password manager note or printed securely. Security questions are weak; SMS backup is vulnerable to SIM swapping.`
+  },
+  // ── MODULE 4: Reporting & Rights ──
+  {
+    module: 4, format: 'multiple',
+    question: `When multiple accounts are compromised at once, which do you secure first and why?`,
+    options: [
+      { text: 'Your bank account — financial loss is the most immediate threat.', correct: false },
+      { text: 'Your university portal — academic records are most sensitive.', correct: false },
+      { text: 'Whichever account the attacker is actively posting from.', correct: false },
+      { text: 'Your email — it\'s the master key controlling password resets for everything else.', correct: true }
+    ],
+    explanation: `Email controls everything. Nearly every service sends password reset links there — whoever controls your email can lock you out of every linked account within minutes. Secure email first; everything else follows.`
+  },
+  {
+    module: 4, format: 'truefalse',
+    question: `Under California's Security Breach Act, a company must notify you in plain language if your personal data is exposed in a breach.`,
+    options: [
+      { text: 'True', correct: true },
+      { text: 'False', correct: false }
+    ],
+    explanation: `True. California's Security Breach Act requires organizations to notify affected individuals in plain language explaining what was exposed, when, and what the company is doing about it. If sensitive data like SSNs was involved, they must also provide at least 12 months of free credit monitoring.`
+  },
+  {
+    module: 4, format: 'multiple',
+    question: `Forwarding a harassing email to yourself is the best way to preserve it as legal evidence.`,
+    options: [
+      { text: 'True — forwarding creates a timestamped copy proving when you received it.', correct: false },
+      { text: 'True — as long as you forward it to a different email address you control.', correct: false },
+      { text: 'False — forwarding strips original headers containing sender IP, routing data, and authentication info investigators need.', correct: true },
+      { text: 'False — emails cannot be used as evidence regardless of how they are saved.', correct: false }
+    ],
+    explanation: `Forwarding strips the original headers — sender IP, routing path, authentication records — that are often the most forensically valuable data. Screenshot the email in place showing the full sender address, or export the raw email file. Keep originals untouched.`
+  },
+  {
+    module: 4, format: 'multiselect',
+    question: `After receiving a data breach notification, which steps should you take? Select all that apply.`,
+    options: [
+      { text: 'Change your password on that site and any account using the same password.', correct: true },
+      { text: 'Place a free credit freeze at the major credit bureaus.', correct: true },
+      { text: 'Monitor existing accounts for unfamiliar charges over the coming months.', correct: true },
+      { text: 'Be alert for targeted phishing using your breached personal details.', correct: true },
+      { text: 'Accept the credit monitoring offer and consider the matter fully resolved.', correct: false }
+    ],
+    hint: `The monitoring offer is one tool. Think about what the breach exposed and what each piece enables.`,
+    explanation: `All four active steps matter: unique passwords prevent credential stuffing, a credit freeze blocks new accounts in your name, monitoring catches fraudulent use, and awareness of targeted phishing is critical — breached data is sold to make scams more convincing. The monitoring offer addresses only one slice of the risk.`
+  },
+  // ── CROSS-MODULE: Applied Judgment ──
+  {
+    module: 0, format: 'multiple',
+    question: `A call comes in from what sounds exactly like your roommate's voice saying they're abroad and in trouble — please wire $800 immediately, and don't tell anyone yet. What do you do?`,
+    options: [
+      { text: 'Wire the money — it sounds like them and it\'s an emergency.', correct: false },
+      { text: 'Ask a personal question only your roommate would know.', correct: false },
+      { text: 'Hang up and call your roommate\'s number directly from your own contacts to verify.', correct: true },
+      { text: 'Call their parents first to check.', correct: false }
+    ],
+    explanation: `This is a deepfake voice / vishing scam. AI can clone a voice from seconds of online audio. Hang up and call back on the number you already have — out-of-band verification. "Don't tell anyone" is a deliberate isolation tactic. Real emergencies don't require wire transfers or gift cards.`
+  },
+  {
+    module: 0, format: 'multiselect',
+    question: `Which of these are reportable digital incidents? Select all that apply.`,
+    options: [
+      { text: 'A login alert from an unrecognized device in another country.', correct: true },
+      { text: 'Repeated threatening messages that reference your home address.', correct: true },
+      { text: 'A data breach notification exposing your email and home address.', correct: true },
+      { text: 'A private photo of you shared without your consent.', correct: true },
+      { text: 'A one-time marketing email you didn\'t sign up for.', correct: false }
+    ],
+    hint: `Think across all four modules: account compromise, harassment, data breaches, nonconsensual content. One option is annoying but not a digital incident.`,
+    explanation: `All four affirmative options are genuine incidents requiring action. An unwanted marketing email is a nuisance and possibly a privacy issue, but doesn't rise to the level of a reportable digital incident.`
+  },
+  {
+    module: 0, format: 'multiple',
+    question: `Of the following habits, which provides the broadest protection across all the threats covered in this training?`,
+    options: [
+      { text: 'Using a VPN on all public Wi-Fi networks.', correct: false },
+      { text: 'Keeping all your social media accounts set to private.', correct: false },
+      { text: 'Pausing before acting whenever something creates urgency, asks for money, or requests personal information — and verifying through a channel you control.', correct: true },
+      { text: 'Using a different browser for all sensitive activities.', correct: false }
+    ],
+    explanation: `Nearly every threat across all four modules relies on your immediate reaction before critical thinking kicks in. The habit of pausing + verifying independently disrupts social engineering, prevents credential hand-offs, and gives you time to recognize manipulation. It's the one meta-skill that applies everywhere — the other options address specific attack vectors but don't transfer broadly.`
+  }
+];
+
+
 const MODULE_META = [
   {
     title: 'Scams, Social Engineering & Digital Exploitation',
@@ -2380,14 +2724,14 @@ const MODULE_CONTENT = [
         },
         {
           format: 'multiple',
-          question: `Which campus resource is the right first contact for a technical issue like a hacked account or suspected malware on your device?`,
+          question: `You've documented harassment and want to report it through multiple channels at once. Which combination gives you the broadest coverage?`,
           options: [
-            { text: 'Title IX Office', correct: false },
-            { text: 'Campus IT Help Desk', correct: true },
-            { text: 'Student Conduct Office', correct: false },
-            { text: 'The Registrar', correct: false }
+            { text: 'Platform report only — third-party services can\'t act on digital harassment.', correct: false },
+            { text: 'Platform report (removes content), campus reporting if the person is affiliated, and law enforcement if there\'s a credible threat — these channels are independent and can all be used simultaneously.', correct: true },
+            { text: 'Law enforcement only — platform reports are ineffective.', correct: false },
+            { text: 'Wait for the harassment to stop before reporting — premature reports may not be taken seriously.', correct: false }
           ],
-          explanation: `The IT Help Desk handles technical digital incidents: account compromise, malware, unauthorized access to university systems. Title IX and Student Conduct handle interpersonal incidents involving students — harassment, stalking, nonconsensual image sharing. The CARE office and counseling handle the emotional and support dimension. Knowing which door to knock on first saves critical time when an incident is happening.`
+          explanation: `Reporting channels are independent and non-exclusive — using more than one doesn't hurt your case, it strengthens it. Platform reporting removes the content and creates an official record. Campus reporting applies if the harasser is a student or staff member. Law enforcement is appropriate whenever there's a credible threat, stalking, or extortion. You never have to choose just one.`
         },
         {
           format: 'multiple',
@@ -2422,6 +2766,27 @@ function startTraining() {
   show('module-hub');
 }
 
+// ── DEV TOGGLE FUNCTION — REMOVE BEFORE LAUNCH ──────────────
+// To remove: delete this entire toggleDevMode() function block.
+function toggleDevMode() {
+  devModeUnlocked = !devModeUnlocked;
+  const track = document.getElementById('dev-toggle-track');
+  const thumb = document.getElementById('dev-toggle-thumb');
+  const label = document.getElementById('dev-toggle-label');
+  if (devModeUnlocked) {
+    track.style.background = '#e5b04a';
+    thumb.style.left = '23px';
+    label.textContent = 'Order Lock: OFF';
+  } else {
+    track.style.background = '#c4c9d4';
+    thumb.style.left = '3px';
+    label.textContent = 'Order Lock: ON';
+  }
+  renderHub();
+}
+// END DEV TOGGLE FUNCTION
+// ────────────────────────────────────────────────────────────
+
 function renderHub() {
   document.getElementById('display-name').textContent = studentName.split(' ')[0];
   const completed = moduleProgress.filter(Boolean).length;
@@ -2432,13 +2797,13 @@ function renderHub() {
 
   MODULE_META.forEach((m, i) => {
     const isCompleted = moduleProgress[i];
-    const isUnlocked  = i === 0 || moduleProgress[i - 1];
+    // DEV TOGGLE — REMOVE BEFORE LAUNCH (the || devModeUnlocked part of this condition)
+    const isUnlocked  = i === 0 || moduleProgress[i - 1] || devModeUnlocked;
+    // END DEV TOGGLE
     const isLocked    = !isUnlocked;
 
-    const progress = isCompleted ? 113 : 0;
     const statusClass = isCompleted ? 'completed' : isUnlocked ? 'unlocked' : 'locked';
     const actionText  = isCompleted ? 'Review ↩' : isUnlocked ? 'Start →' : '🔒 Locked';
-    const ringIcon    = isCompleted ? '✓' : isLocked ? '🔒' : `${i+1}`;
 
     const topicsHTML = m.topics.map(t =>
       `<div class="topic-item"><div class="topic-dot"></div>${t}</div>`
@@ -2476,12 +2841,73 @@ function renderHub() {
     grid.appendChild(card);
   });
 
+  // ── Update final exam card state ──
   const allDone = moduleProgress.every(Boolean);
-  document.getElementById('completion-banner').style.display = allDone ? 'flex' : 'none';
+  // DEV TOGGLE — REMOVE BEFORE LAUNCH (the || devModeUnlocked part)
+  const examUnlocked = allDone || devModeUnlocked;
+  // END DEV TOGGLE
+
+  const examCard    = document.getElementById('final-exam-card-inner');
+  const examBtn     = document.getElementById('exam-card-btn');
+  const examStatus  = document.getElementById('exam-card-status');
+  const examOverlay = document.getElementById('exam-lock-overlay');
+  const examRing    = document.getElementById('exam-ring-fill');
+
+  if (finalExamPassed) {
+    // Passed — show as completed
+    examCard.className    = 'module-card completed';
+    examCard.style.cursor = 'default';
+    examBtn.className     = 'card-action';
+    examBtn.style.background = 'rgba(26,127,120,0.12)';
+    examBtn.style.color   = 'var(--teal)';
+    examBtn.disabled      = false;
+    examBtn.textContent   = 'Review ↩';
+    examStatus.textContent = 'Passed ✓';
+    examStatus.style.color = 'var(--teal)';
+    examOverlay.style.display = 'none';
+    examRing.style.strokeDashoffset = '0';
+    // Show cert banner, hide completion banner
+    document.getElementById('completion-banner').style.display = 'none';
+    document.getElementById('cert-ready-banner').style.display = 'flex';
+  } else if (examUnlocked) {
+    // Unlocked but not yet passed
+    examCard.className    = 'module-card unlocked';
+    examCard.style.cursor = 'pointer';
+    examBtn.className     = 'card-action';
+    examBtn.style.background = 'var(--navy)';
+    examBtn.style.color   = 'white';
+    examBtn.style.cursor  = 'pointer';
+    examBtn.disabled      = false;
+    examBtn.textContent   = 'Start →';
+    examStatus.textContent = allDone ? 'Ready to take' : '🛠 Dev unlocked';
+    examStatus.style.color = 'var(--slate-light)';
+    examOverlay.style.display = 'none';
+    examRing.style.strokeDashoffset = '113';
+    // Show completion banner only when all modules are actually done
+    document.getElementById('completion-banner').style.display = allDone ? 'flex' : 'none';
+    document.getElementById('cert-ready-banner').style.display = 'none';
+  } else {
+    // Locked
+    examCard.className    = 'module-card locked';
+    examCard.style.cursor = 'default';
+    examBtn.className     = 'card-action locked';
+    examBtn.style.background = '';
+    examBtn.style.color   = '';
+    examBtn.style.cursor  = '';
+    examBtn.disabled      = true;
+    examBtn.textContent   = '🔒 Locked';
+    examStatus.textContent = 'Complete all 4 modules to unlock';
+    examStatus.style.color = 'var(--slate-light)';
+    examOverlay.style.display = 'flex';
+    examRing.style.strokeDashoffset = '113';
+    document.getElementById('completion-banner').style.display = 'none';
+    document.getElementById('cert-ready-banner').style.display = 'none';
+  }
 }
 
 function goToHub() {
   hide('module-view');
+  hide('final-exam-view');
   renderHub();
   show('module-hub');
 }
@@ -2489,12 +2915,14 @@ function goToHub() {
 function showHub() {
   hide('cert-view');
   hide('module-view');
+  hide('final-exam-view');
   renderHub();
   show('module-hub');
 }
 
 function showCertificate() {
   hide('module-hub');
+  hide('final-exam-view');
   renderCertificate();
   show('cert-view');
 }
@@ -2503,7 +2931,11 @@ function showCertificate() {
 // MODULE PLAYER
 // ═══════════════════════════════════════════════════════════
 function openModule(idx) {
-  if (idx > 0 && !moduleProgress[idx - 1]) return;
+  // DEV TOGGLE — REMOVE BEFORE LAUNCH (the || devModeUnlocked part)
+  if (idx > 0 && !moduleProgress[idx - 1] && !devModeUnlocked) return;
+  // END DEV TOGGLE
+  // Production version (uncomment when removing dev toggle):
+  // if (idx > 0 && !moduleProgress[idx - 1]) return;
   currentModule = idx;
   currentStep = 0;
   wrongAttempts = 0;
@@ -3030,9 +3462,8 @@ function completeModule() {
   hide('module-view');
   renderHub();
   show('module-hub');
-  // Animate the newly completed card's ring
   setTimeout(() => {
-    const rings = document.querySelectorAll('.ring-fill');
+    const rings = document.querySelectorAll('#modules-grid .ring-fill');
     if (rings[currentModule]) rings[currentModule].style.strokeDashoffset = '0';
   }, 200);
 }
@@ -3044,7 +3475,249 @@ function retakeTest() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─── CERTIFICATE ───
+// ═══════════════════════════════════════════════════════════
+// FINAL EXAM
+// ═══════════════════════════════════════════════════════════
+let examQuestions = [];
+let examIndex = 0;
+let examAnswers = [];
+
+function startFinalExam() {
+  // Shuffle all 22 questions
+  examQuestions = [...FINAL_EXAM_QUESTIONS].sort(() => Math.random() - 0.5);
+  examIndex = 0;
+  examAnswers = [];
+
+  hide('module-hub');
+  show('final-exam-view');
+  renderExamQuestion();
+}
+
+function renderExamQuestion() {
+  const q = examQuestions[examIndex];
+  const total = examQuestions.length;
+  const pct = Math.round((examIndex / total) * 100);
+  document.getElementById('exam-progress-fill').style.width = pct + '%';
+
+  const letters = ['A','B','C','D','E','F'];
+  const isMulti = q.format === 'multiselect';
+  const moduleLabel = q.module === 0 ? 'Applied Judgment' : `Module ${q.module}`;
+
+  const optHTML = q.options.map((o, i) => `
+    <button class="option-btn" id="eopt-${i}" onclick="handleExamOption(${i}, ${isMulti})">
+      <div class="option-letter">${letters[i]}</div>
+      <div>${o.text}</div>
+    </button>
+  `).join('');
+
+  const headerLabel = q.format === 'truefalse' ? 'True or False'
+    : q.format === 'multiselect' ? 'Select all that apply'
+    : 'Choose one';
+
+  document.getElementById('exam-container').innerHTML = `
+    <div style="text-align:center;margin-bottom:24px">
+      <div class="test-counter" style="margin-right:8px">Question ${examIndex+1} of ${total}</div>
+      <div class="test-counter" style="background:rgba(15,34,64,0.07);color:var(--slate)">${moduleLabel}</div>
+    </div>
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge test">Final Exam</span>
+        <div class="content-card-title">${headerLabel}</div>
+      </div>
+      <div class="content-card-body">
+        <div class="question-text">${q.question}</div>
+        <div class="options-list">${optHTML}</div>
+        <div class="feedback-box" id="exam-feedback"></div>
+        <div class="card-nav">
+          ${isMulti ? `<button class="btn-nav secondary" id="esubmit" onclick="submitExamMulti()">Submit</button>` : ''}
+          <button class="btn-nav primary" id="enext" onclick="advanceExam()" style="display:none">
+            ${examIndex < examQuestions.length - 1 ? 'Next Question →' : 'See Final Results →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  window._examSelected = new Set();
+  window._examAnswered = false;
+  window._examWrong = 0;
+  window._currentExamQ = q;
+}
+
+function handleExamOption(idx, isMulti) {
+  if (window._examAnswered) return;
+  const q = window._currentExamQ;
+
+  if (isMulti) {
+    const sel = window._examSelected;
+    const btn = document.getElementById(`eopt-${idx}`);
+    if (sel.has(idx)) { sel.delete(idx); btn.classList.remove('selected'); }
+    else              { sel.add(idx); btn.classList.add('selected'); }
+    return;
+  }
+
+  const correct = q.options[idx].correct;
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+  if (correct) {
+    document.getElementById(`eopt-${idx}`).classList.add('correct');
+    showExamFeedback('correct', q.explanation);
+    examAnswers.push(true);
+    window._examAnswered = true;
+  } else {
+    document.getElementById(`eopt-${idx}`).classList.add('incorrect');
+    window._examWrong++;
+    if (window._examWrong === 1) {
+      showExamFeedback('hint', `💡 Not quite — take another look.`);
+      allBtns.forEach(b => b.style.pointerEvents = '');
+      document.getElementById(`eopt-${idx}`).style.pointerEvents = 'none';
+      document.getElementById(`eopt-${idx}`).classList.remove('incorrect');
+      return;
+    } else {
+      q.options.forEach((o,i) => {
+        if (o.correct) document.getElementById(`eopt-${i}`).classList.add('correct');
+        else if (i !== idx) document.getElementById(`eopt-${i}`).classList.add('dimmed');
+      });
+      showExamFeedback('wrong', q.explanation);
+      examAnswers.push(false);
+      window._examAnswered = true;
+    }
+  }
+  const nextBtn = document.getElementById('enext');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = examIndex < examQuestions.length - 1 ? 'Next Question →' : 'See Final Results →';
+}
+
+function submitExamMulti() {
+  const q   = window._currentExamQ;
+  const sel = window._examSelected;
+  const correctIndices = new Set(q.options.map((o,i) => o.correct ? i : -1).filter(i => i >= 0));
+  const allCorrect = [...correctIndices].every(i => sel.has(i)) && [...sel].every(i => correctIndices.has(i));
+
+  if (allCorrect) {
+    document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+    q.options.forEach((o, i) => {
+      document.getElementById(`eopt-${i}`).classList.remove('selected');
+      if (o.correct) document.getElementById(`eopt-${i}`).classList.add('correct');
+      else           document.getElementById(`eopt-${i}`).classList.add('dimmed');
+    });
+    document.getElementById('esubmit') && (document.getElementById('esubmit').style.display = 'none');
+    examAnswers.push(true);
+    showExamFeedback('correct', q.explanation);
+    const nb = document.getElementById('enext');
+    nb.style.display = 'inline-block';
+    nb.textContent = examIndex < examQuestions.length - 1 ? 'Next Question →' : 'See Final Results →';
+    window._examAnswered = true;
+    return;
+  }
+
+  window._examWrong++;
+  if (window._examWrong === 1) {
+    const wronglySelected   = [...sel].filter(i => !correctIndices.has(i));
+    const correctlySelected = [...sel].filter(i =>  correctIndices.has(i));
+    const missing           = [...correctIndices].filter(i => !sel.has(i));
+    sel.forEach(i => {
+      const btn = document.getElementById(`eopt-${i}`);
+      btn.classList.remove('selected');
+      btn.style.pointerEvents = 'none';
+      if (correctIndices.has(i)) btn.classList.add('correct');
+      else                       btn.classList.add('incorrect');
+    });
+    q.options.forEach((o, i) => {
+      if (!sel.has(i)) document.getElementById(`eopt-${i}`).style.pointerEvents = '';
+    });
+    window._examSelected = new Set(correctlySelected);
+    const wc = wronglySelected.length, mc = missing.length;
+    let msg = `💡 Not quite. `;
+    if (wc > 0 && mc > 0)  msg += `<strong>${wc} incorrect</strong> (red) and <strong>${mc} still missing</strong>.`;
+    else if (wc > 0)       msg += `<strong>${wc} incorrect</strong> selection${wc>1?'s':''} shown in red.`;
+    else                   msg += `<strong>${mc} more answer${mc>1?'s':''} needed</strong>.`;
+    showExamFeedback('hint', msg);
+    return;
+  }
+
+  document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+  q.options.forEach((o, i) => {
+    const btn = document.getElementById(`eopt-${i}`);
+    btn.classList.remove('selected','correct','incorrect');
+    if (o.correct) btn.classList.add('correct');
+    else if (sel.has(i) || window._examSelected.has(i)) btn.classList.add('incorrect');
+    else btn.classList.add('dimmed');
+  });
+  document.getElementById('esubmit') && (document.getElementById('esubmit').style.display = 'none');
+  examAnswers.push(false);
+  showExamFeedback('wrong', q.explanation);
+  const nb = document.getElementById('enext');
+  nb.style.display = 'inline-block';
+  nb.textContent = examIndex < examQuestions.length - 1 ? 'Next Question →' : 'See Final Results →';
+  window._examAnswered = true;
+}
+
+function showExamFeedback(type, text) {
+  const box = document.getElementById('exam-feedback');
+  box.style.display = 'block';
+  if (type === 'hint')         { box.className = 'feedback-box hint'; box.innerHTML = text; }
+  else if (type === 'correct') { box.className = 'feedback-box correct-feedback'; box.innerHTML = `<span class="feedback-label">✓ Correct</span>${text}`; }
+  else                         { box.className = 'feedback-box wrong-feedback'; box.innerHTML = `<span class="feedback-label">Here's why</span>${text}`; }
+}
+
+function advanceExam() {
+  examIndex++;
+  if (examIndex < examQuestions.length) {
+    renderExamQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showExamResults();
+  }
+}
+
+function showExamResults() {
+  const total   = examQuestions.length;
+  const correct = examAnswers.filter(Boolean).length;
+  const pct     = Math.round((correct / total) * 100);
+  const passing = pct >= 80;
+  const offset  = 283 - (283 * pct / 100);
+  document.getElementById('exam-progress-fill').style.width = '100%';
+
+  if (passing) finalExamPassed = true;
+
+  document.getElementById('exam-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-body">
+        <div class="score-screen">
+          <div class="score-circle">
+            <svg viewBox="0 0 100 100">
+              <circle class="score-circle-bg" cx="50" cy="50" r="45"/>
+              <circle class="score-circle-fill ${passing ? 'passing' : 'failing'}" cx="50" cy="50" r="45"
+                style="stroke-dashoffset:${offset}"/>
+            </svg>
+            <div class="score-number">${pct}%</div>
+          </div>
+          <h2>${passing ? '🎓 Congratulations!' : '📚 Not quite yet'}</h2>
+          <p>${correct} out of ${total} correct — ${passing
+            ? 'You\'ve passed the Final Exam! Your certificate is ready.'
+            : 'You need 80% to pass. Review the modules and try again — you\'re close.'}</p>
+          <div class="card-nav" style="justify-content:center;margin-top:0">
+            ${passing
+              ? `<button class="btn-nav primary" onclick="showCertificate()">View My Certificate 🛡️</button>`
+              : `<button class="btn-nav secondary" onclick="retakeFinalExam()">Retake Final Exam</button>`}
+            <button class="btn-nav secondary" onclick="showHub()">← Back to Modules</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function retakeFinalExam() {
+  examQuestions = [...FINAL_EXAM_QUESTIONS].sort(() => Math.random() - 0.5);
+  examIndex = 0;
+  examAnswers = [];
+  renderExamQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
 function renderCertificate() {
   document.getElementById('cert-name').textContent = studentName;
   const modulesList = MODULE_META.map((m, i) => `
