@@ -1748,6 +1748,12 @@ const MODULE_CONTENT = [
       ]
     },
 
+    // DOMAIN QUIZ
+    {
+      type: 'interactive',
+      subtype: 'domain-quiz'
+    },
+
     // SCENARIO 2: Payment App Scam
     {
       type: 'scenario',
@@ -2971,6 +2977,7 @@ function renderStep() {
     renderQuestion(step);
   } else if (step.type === 'interactive') {
     if (step.subtype === 'password-lab') renderPasswordLab();
+    if (step.subtype === 'domain-quiz')  renderDomainQuiz();
   }
 }
 
@@ -2983,7 +2990,317 @@ function nextStep() {
   }
 }
 
-// ─── PASSWORD STRENGTH LAB ───
+// ─── DOMAIN QUIZ ───
+function renderDomainQuiz() {
+  // ── The 8 email addresses ──────────────────────────────────────────────────
+  // Each entry: { address, verdict: 'real'|'fake', blurb, flags: [strings] }
+  // flags = the specific red flags to highlight after reveal (fake only)
+  // ─────────────────────────────────────────────────────────────────────────
+  const DOMAINS = [
+    {
+      address:  'no-reply@amazon.com',
+      verdict:  'real',
+      blurb:    'This is Amazon\'s legitimate notification address. The domain is exactly amazon.com — no extra words, no hyphens, no lookalike characters. "no-reply" as a prefix is standard for automated emails from large companies.',
+      flags:    []
+    },
+    {
+      address:  'security-alert@paypal-secure-login.com',
+      verdict:  'fake',
+      blurb:    'PayPal\'s real domain is paypal.com. This address adds "secure-login" after it to look trustworthy — but "paypal-secure-login.com" is a completely separate domain that anyone can register. The word "secure" in a domain name is a common scammer trick.',
+      flags:    ['paypal-secure-login.com is not paypal.com', '"secure" added to sound trustworthy']
+    },
+    {
+      address:  'support@apple.com',
+      verdict:  'real',
+      blurb:    'Apple does send support emails from apple.com. The domain is clean and exact. Always check that it\'s apple.com and not something like apple-support.com, apples.com, or app1e.com — all of which have been used in real phishing campaigns.',
+      flags:    []
+    },
+    {
+      address:  'noreply@university-student-portal.net',
+      verdict:  'fake',
+      blurb:    'Real university emails almost always use the school\'s official .edu domain (e.g. usc.edu, ucla.edu). A generic .net domain with "university-student-portal" is a red flag — it\'s designed to look institutional without being tied to any real school. The .net TLD for a university is also unusual.',
+      flags:    ['Generic .net instead of a real .edu domain', 'No actual university name — could target any student']
+    },
+    {
+      address:  'billing@netflix-help-center.com',
+      verdict:  'fake',
+      blurb:    'Netflix sends billing emails from netflix.com — not netflix-help-center.com. "Help center" appended to a brand name is a classic lookalike domain pattern. If you ever receive a billing email, go directly to netflix.com in your browser rather than clicking anything in the email.',
+      flags:    ['netflix-help-center.com ≠ netflix.com', 'Brand name + "help center" is a known lookalike pattern']
+    },
+    {
+      address:  'careers@linkedin.com',
+      verdict:  'real',
+      blurb:    'LinkedIn legitimately sends job alert and recruiter emails from linkedin.com. The domain is exact. Be aware that scammers do spoof LinkedIn heavily — always check the full domain, not just the display name which might say "LinkedIn Jobs."',
+      flags:    []
+    },
+    {
+      address:  'alert@wellsfarg0.com',
+      verdict:  'fake',
+      blurb:    'Look closely — that\'s a zero (0), not the letter O. "wellsfarg0.com" is a homograph attack: replacing a letter with a visually identical character to register a lookalike domain. This is one of the hardest fakes to catch at a glance, which is exactly why attackers use it. The real domain is wellsfargo.com.',
+      flags:    ['Zero (0) replacing the letter O in "fargo"', 'Homograph attack — visually identical to the real domain']
+    },
+    {
+      address:  'no-reply@accounts.google.com',
+      verdict:  'real',
+      blurb:    'This one looks suspicious because of the subdomain — but accounts.google.com is a legitimate Google subdomain used for account security emails. The key rule: the domain is always the last two parts before the first slash. Here that\'s google.com. A fake version might look like google.com.accounts-verify.net — where the actual domain is accounts-verify.net, not google.com.',
+      flags:    []
+    }
+  ];
+
+  // Shuffle for variety on revisit
+  const shuffled = [...DOMAINS].sort(() => Math.random() - 0.5);
+
+  // Store state on window for access from event handlers
+  window._dq = {
+    items:     shuffled,
+    current:   0,
+    correct:   0,
+    answered:  false
+  };
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge scenario">Interactive</span>
+        <div class="content-card-title">Real or Fake? — Domain Edition</div>
+      </div>
+      <div class="content-card-body">
+        <div class="scenario-text" style="margin-bottom:4px">
+          You've just learned how to spot a suspicious email domain. Now put it to the test — 8 email addresses, one at a time. Is each one from a legitimate source or a fake?
+        </div>
+        <div style="font-size:12px;color:var(--slate-light);margin-bottom:28px">Read the full address carefully before deciding.</div>
+
+        <!-- Progress -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+          <div style="flex:1;height:4px;background:rgba(15,34,64,0.08);border-radius:4px;overflow:hidden">
+            <div id="dq-progress-bar" style="height:100%;width:0%;background:var(--teal);border-radius:4px;transition:width 0.4s"></div>
+          </div>
+          <div id="dq-counter" style="font-size:12px;font-weight:600;color:var(--slate-light);white-space:nowrap">1 of 8</div>
+        </div>
+
+        <!-- Address card -->
+        <div id="dq-card" style="
+          background:var(--navy);border-radius:var(--radius-md);
+          padding:32px 28px;text-align:center;margin-bottom:24px;
+          min-height:100px;display:flex;align-items:center;justify-content:center;
+        ">
+          <div id="dq-address" style="
+            font-family:monospace;font-size:clamp(13px,2.5vw,18px);
+            color:white;letter-spacing:0.02em;word-break:break-all;line-height:1.5
+          "></div>
+        </div>
+
+        <!-- Verdict buttons -->
+        <div id="dq-buttons" style="display:flex;gap:12px;margin-bottom:20px">
+          <button onclick="dqAnswer('real')" style="
+            flex:1;padding:16px;border-radius:var(--radius-sm);border:2px solid rgba(26,127,120,0.3);
+            background:rgba(26,127,120,0.06);cursor:pointer;font-family:'DM Sans',sans-serif;
+            font-size:15px;font-weight:600;color:var(--teal);transition:all 0.18s
+          " onmouseover="this.style.background='rgba(26,127,120,0.12)'" onmouseout="this.style.background='rgba(26,127,120,0.06)'">
+            ✓ Legitimate
+          </button>
+          <button onclick="dqAnswer('fake')" style="
+            flex:1;padding:16px;border-radius:var(--radius-sm);border:2px solid rgba(192,57,43,0.3);
+            background:rgba(192,57,43,0.06);cursor:pointer;font-family:'DM Sans',sans-serif;
+            font-size:15px;font-weight:600;color:var(--error);transition:all 0.18s
+          " onmouseover="this.style.background='rgba(192,57,43,0.12)'" onmouseout="this.style.background='rgba(192,57,43,0.06)'">
+            ✗ Fake / Suspicious
+          </button>
+        </div>
+
+        <!-- Feedback area -->
+        <div id="dq-feedback" style="display:none"></div>
+
+        <!-- Next / Finish -->
+        <div id="dq-next-wrap" style="display:none">
+          <button id="dq-next-btn" onclick="dqNext()" class="btn-nav primary" style="width:100%">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results card — hidden until all 8 answered -->
+    <div id="dq-results" style="display:none;margin-top:20px">
+      <div class="content-card">
+        <div class="content-card-header">
+          <span class="content-type-badge lesson">Lesson</span>
+          <div class="content-card-title">What to Remember</div>
+        </div>
+        <div class="content-card-body">
+          <div id="dq-score-area" style="text-align:center;padding:24px 0 28px"></div>
+          <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;border:1px solid rgba(15,34,64,0.08)">
+            <div style="font-size:20px;margin-bottom:10px">🔍</div>
+            <div class="lesson-title" style="font-size:17px;margin-bottom:12px">The Rules for Reading Email Domains</div>
+            <ul class="lesson-list">
+              <li><strong>The real domain is always the last part before the first slash</strong> — in <em>accounts.google.com/login</em>, the domain is google.com. In <em>google.com.verify-login.net</em>, the domain is verify-login.net.</li>
+              <li><strong>Subdomains are fine — lookalike domains aren't</strong> — accounts.google.com is Google. google-accounts.com is not.</li>
+              <li><strong>Watch for character swaps</strong> — 0 for O, 1 for l, rn for m. Always read the full string character by character if something feels off.</li>
+              <li><strong>"Secure", "help", "alert", "support" in a domain name means nothing</strong> — anyone can register those words. The brand name has to be the actual domain.</li>
+              <li><strong>When in doubt — don't click.</strong> Go directly to the company's website in a new tab and log in from there.</li>
+            </ul>
+          </div>
+          <div class="card-nav" style="margin-top:28px">
+            <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  dqRender();
+}
+
+function dqRender() {
+  const state = window._dq;
+  const item  = state.items[state.current];
+  state.answered = false;
+
+  // Update address display
+  document.getElementById('dq-address').textContent = item.address;
+
+  // Highlight the domain part in a different color
+  const addr    = item.address;
+  const atIdx   = addr.indexOf('@');
+  if (atIdx >= 0) {
+    const user   = addr.slice(0, atIdx + 1);
+    const domain = addr.slice(atIdx + 1);
+    document.getElementById('dq-address').innerHTML =
+      `<span style="color:rgba(255,255,255,0.45)">${user}</span><span style="color:white;font-weight:700">${domain}</span>`;
+  }
+
+  // Progress
+  const pct = Math.round((state.current / state.items.length) * 100);
+  document.getElementById('dq-progress-bar').style.width = pct + '%';
+  document.getElementById('dq-counter').textContent = `${state.current + 1} of ${state.items.length}`;
+
+  // Reset UI
+  document.getElementById('dq-feedback').style.display  = 'none';
+  document.getElementById('dq-feedback').innerHTML      = '';
+  document.getElementById('dq-next-wrap').style.display = 'none';
+  document.getElementById('dq-buttons').style.display   = 'flex';
+
+  // Re-enable buttons
+  document.querySelectorAll('#dq-buttons button').forEach(b => {
+    b.disabled = false;
+    b.style.opacity = '1';
+  });
+}
+
+function dqAnswer(choice) {
+  const state = window._dq;
+  if (state.answered) return;
+  state.answered = true;
+
+  const item     = state.items[state.current];
+  const correct  = choice === item.verdict;
+  if (correct) state.correct++;
+
+  // Disable buttons
+  document.querySelectorAll('#dq-buttons button').forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '0.5';
+  });
+
+  // Build feedback
+  const isLast = state.current === state.items.length - 1;
+  const flagsHTML = item.flags.length
+    ? `<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
+        ${item.flags.map(f => `
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:#7a3020">
+            <span style="flex-shrink:0">🚩</span>${f}
+          </div>`).join('')}
+       </div>`
+    : '';
+
+  const correctLabel  = item.verdict === 'real'
+    ? '<span style="color:var(--teal);font-weight:700">✓ Legitimate</span>'
+    : '<span style="color:var(--error);font-weight:700">✗ Fake / Suspicious</span>';
+
+  const verdictBg = item.verdict === 'real'
+    ? 'rgba(26,127,120,0.09)' : 'rgba(192,57,43,0.07)';
+  const verdictBorder = item.verdict === 'real'
+    ? 'rgba(26,127,120,0.25)' : 'rgba(192,57,43,0.2)';
+
+  const resultIcon = correct ? '✓' : '✗';
+  const resultColor = correct ? 'var(--teal)' : 'var(--error)';
+  const resultText  = correct ? 'Correct' : 'Not quite';
+
+  document.getElementById('dq-feedback').style.display = 'block';
+  document.getElementById('dq-feedback').innerHTML = `
+    <div style="
+      background:${verdictBg};border:1px solid ${verdictBorder};
+      border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px
+    ">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:16px;color:${resultColor};font-weight:700">${resultIcon} ${resultText}</span>
+        <span style="font-size:13px;color:var(--slate-light)">— this address is ${correctLabel}</span>
+      </div>
+      <div style="font-size:13.5px;color:var(--slate);line-height:1.65">${item.blurb}</div>
+      ${flagsHTML}
+    </div>
+  `;
+
+  // Show next/finish button
+  document.getElementById('dq-next-wrap').style.display = 'block';
+  document.getElementById('dq-next-btn').textContent = isLast ? 'See Results →' : 'Next →';
+}
+
+function dqNext() {
+  const state = window._dq;
+  state.current++;
+
+  if (state.current >= state.items.length) {
+    dqShowResults();
+  } else {
+    dqRender();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function dqShowResults() {
+  const state  = window._dq;
+  const total  = state.items.length;
+  const score  = state.correct;
+  const pct    = Math.round((score / total) * 100);
+
+  // Fill progress bar to 100%
+  document.getElementById('dq-progress-bar').style.width = '100%';
+  document.getElementById('dq-counter').textContent = `${total} of ${total}`;
+
+  // Hide the main card's action area
+  document.getElementById('dq-buttons').style.display   = 'none';
+  document.getElementById('dq-feedback').style.display  = 'none';
+  document.getElementById('dq-next-wrap').style.display = 'none';
+
+  // Swap address card to summary
+  document.getElementById('dq-card').style.background = 'var(--cream)';
+  document.getElementById('dq-card').style.border = '1px solid rgba(15,34,64,0.08)';
+  document.getElementById('dq-address').innerHTML = `
+    <div style="text-align:center">
+      <div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:4px">${score}/${total}</div>
+      <div style="font-size:14px;color:var(--slate-light)">${pct}% correct</div>
+    </div>
+  `;
+
+  // Score message
+  let msg;
+  if (score === total)      msg = "Perfect — you caught every one. This is exactly the level of attention domain checking requires.";
+  else if (score >= total - 1) msg = "Strong result. The tricky ones are designed to be — attackers invest real effort in making lookalike domains convincing.";
+  else if (score >= total - 3) msg = "Decent — but a few slipped through. Review the ones you missed and look for the pattern: what made them look legitimate?";
+  else                      msg = "Several slipped through — that's normal for a first pass. The explanation for each address shows exactly what to look for next time.";
+
+  document.getElementById('dq-score-area').innerHTML = `
+    <div style="font-size:18px;margin-bottom:10px">${score === total ? '🎯' : score >= total - 2 ? '👍' : '📚'}</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px">${score === total ? 'Perfect score!' : score + ' out of ' + total}</div>
+    <div style="font-size:14px;color:var(--slate-light);line-height:1.6;max-width:420px;margin:0 auto">${msg}</div>
+  `;
+
+  // Show results card
+  const results = document.getElementById('dq-results');
+  results.style.display = 'block';
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
 function renderPasswordLab() {
   document.getElementById('step-container').innerHTML = `
     <div class="content-card">
