@@ -1979,6 +1979,12 @@ const MODULE_CONTENT = [
       ]
     },
 
+    // ── FOOTPRINT SELF-AUDIT ──
+    {
+      type: 'interactive',
+      subtype: 'footprint-audit'
+    },
+
     // ── SCENARIO 1: The Tagged Photo ──
     {
       type: 'scenario',
@@ -2976,8 +2982,9 @@ function renderStep() {
   } else if (step.type === 'question') {
     renderQuestion(step);
   } else if (step.type === 'interactive') {
-    if (step.subtype === 'password-lab') renderPasswordLab();
-    if (step.subtype === 'domain-quiz')  renderDomainQuiz();
+    if (step.subtype === 'password-lab')    renderPasswordLab();
+    if (step.subtype === 'domain-quiz')     renderDomainQuiz();
+    if (step.subtype === 'footprint-audit') renderFootprintAudit();
   }
 }
 
@@ -2990,7 +2997,319 @@ function nextStep() {
   }
 }
 
-// ─── DOMAIN QUIZ ───
+// ─── FOOTPRINT SELF-AUDIT ───
+function renderFootprintAudit() {
+
+  // ── Items ──────────────────────────────────────────────────────────────────
+  // Each item: { id, label, category: 'active'|'passive', weight: 1|2|3,
+  //             tooltip: short explanation of why this contributes }
+  // weight: 1 = minor, 2 = moderate, 3 = significant
+  // ──────────────────────────────────────────────────────────────────────────
+  const ITEMS = [
+    // ── Active (things you deliberately put out) ──
+    { id:'a1',  category:'active',  weight:2, label:'Posted publicly on Instagram, TikTok, or Twitter/X in the past month',          tooltip:'Public posts are permanently indexable by search engines and visible to anyone — including future employers.' },
+    { id:'a2',  category:'active',  weight:1, label:'Left a public review on Google, Yelp, or Amazon',                               tooltip:'Reviews are tied to your Google/Amazon account and show up in search results for your name.' },
+    { id:'a3',  category:'active',  weight:2, label:'Commented under your real name on a public post, article, or forum',            tooltip:'Comments under your real name are searchable and often cached even after deletion.' },
+    { id:'a4',  category:'active',  weight:3, label:'Posted photos that show your location, home area, or daily routine',            tooltip:'Location data in posts helps people — including bad actors — piece together where you live, work, or go regularly.' },
+    { id:'a5',  category:'active',  weight:2, label:'Shared personal opinions on politics, religion, or controversial topics publicly', tooltip:'These posts are discoverable and can affect hiring decisions, relationships, or make you a target for harassment.' },
+    { id:'a6',  category:'active',  weight:1, label:'Have a public LinkedIn profile with your education and work history',           tooltip:'LinkedIn is intentionally public, but it tells anyone your timeline, employer history, and connections.' },
+    { id:'a7',  category:'active',  weight:2, label:'Tagged or been tagged in photos where your face is clearly visible',            tooltip:'Facial data in public photos can be used in reverse image searches and is increasingly used for facial recognition.' },
+    { id:'a8',  category:'active',  weight:1, label:'Signed up for newsletters, contests, or free trials using your real email',     tooltip:'Your email is now in commercial databases that are regularly bought, sold, and leaked.' },
+
+    // ── Passive (collected without you actively sharing) ──
+    { id:'p1',  category:'passive', weight:2, label:'Used Google Search while logged into a Google account',                          tooltip:'Google logs every search query tied to your account — building a detailed profile of your interests, health concerns, and intentions.' },
+    { id:'p2',  category:'passive', weight:2, label:'Used a loyalty or rewards card at a store (grocery, pharmacy, coffee shop)',     tooltip:'Purchase histories are detailed personal data — they reveal diet, health conditions, finances, and daily patterns.' },
+    { id:'p3',  category:'passive', weight:1, label:'Allowed a mobile app to access your location, contacts, or camera',             tooltip:'Apps with these permissions continuously harvest data that goes well beyond what you agreed to read in the terms.' },
+    { id:'p4',  category:'passive', weight:2, label:'Browsed websites while logged into Chrome, Safari, or Firefox with sync on',    tooltip:'Browsing history synced to an account is stored on company servers and used for ad targeting.' },
+    { id:'p5',  category:'passive', weight:1, label:'Used a smart speaker (Alexa, Google Home, Siri) in the past week',              tooltip:'Always-on microphones record clips that are logged and sometimes reviewed by human contractors at these companies.' },
+    { id:'p6',  category:'passive', weight:3, label:'Had your data exposed in a breach you may not know about (have you checked?)',   tooltip:'Most people\'s email addresses, passwords, and personal info have been in at least one breach. Check haveibeenpwned.com.' },
+    { id:'p7',  category:'passive', weight:2, label:'Used public Wi-Fi without a VPN',                                                tooltip:'Unencrypted public Wi-Fi allows network operators and other users to observe your traffic and metadata.' },
+    { id:'p8',  category:'passive', weight:1, label:'Clicked "Accept All" on cookie banners without reading them',                   tooltip:'This grants third-party advertisers permission to track you across every website that uses their ad network.' },
+  ];
+
+  // Store state
+  window._fp = { checked: new Set(), items: ITEMS, submitted: false };
+
+  const activeItems  = ITEMS.filter(i => i.category === 'active');
+  const passiveItems = ITEMS.filter(i => i.category === 'passive');
+
+  function buildGroup(items) {
+    return items.map(item => `
+      <label id="fp-row-${item.id}" style="
+        display:flex;align-items:flex-start;gap:14px;padding:14px 16px;
+        border-radius:var(--radius-sm);border:1.5px solid rgba(15,34,64,0.08);
+        background:var(--warm-white);cursor:pointer;transition:all 0.18s;margin-bottom:8px;
+        user-select:none
+      " onmouseover="this.style.borderColor='rgba(15,34,64,0.18)'"
+         onmouseout="fpRowHover('${item.id}')">
+        <div style="position:relative;flex-shrink:0;margin-top:2px">
+          <input type="checkbox" id="fp-cb-${item.id}"
+            onchange="fpToggle('${item.id}')"
+            style="width:18px;height:18px;accent-color:var(--teal);cursor:pointer;margin:0">
+        </div>
+        <div style="flex:1">
+          <div style="font-size:14px;color:var(--navy);line-height:1.5">${item.label}</div>
+          <div style="font-size:12px;color:var(--slate-light);margin-top:4px;line-height:1.5;display:none" id="fp-tip-${item.id}">${item.tooltip}</div>
+        </div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+          padding:3px 8px;border-radius:100px;flex-shrink:0;margin-top:3px;
+          background:${item.weight === 3 ? 'rgba(192,57,43,0.10)' : item.weight === 2 ? 'rgba(200,146,42,0.12)' : 'rgba(15,34,64,0.06)'};
+          color:${item.weight === 3 ? '#c0392b' : item.weight === 2 ? '#8a6010' : 'var(--slate-light)'}">
+          ${item.weight === 3 ? 'High' : item.weight === 2 ? 'Med' : 'Low'}
+        </div>
+      </label>
+    `).join('');
+  }
+
+  document.getElementById('step-container').innerHTML = `
+    <div class="content-card">
+      <div class="content-card-header">
+        <span class="content-type-badge scenario">Interactive</span>
+        <div class="content-card-title">What Does Your Footprint Look Like?</div>
+      </div>
+      <div class="content-card-body">
+        <div class="scenario-text">
+          Check everything that applies to you — honestly. This isn't a test with right or wrong answers. It's a mirror. No one sees your responses; this runs entirely in your browser.
+        </div>
+        <div style="font-size:13px;color:var(--slate-light);margin:-8px 0 28px;font-style:italic">Click any item after checking it to see why it matters.</div>
+
+        <!-- Live footprint size meter -->
+        <div style="background:var(--cream);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:28px;border:1px solid rgba(15,34,64,0.08)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light)">Your Footprint Size</span>
+            <span id="fp-size-label" style="font-size:13px;font-weight:700;color:var(--slate-light)">None yet</span>
+          </div>
+          <div style="height:10px;background:rgba(15,34,64,0.08);border-radius:10px;overflow:hidden;margin-bottom:10px">
+            <div id="fp-meter" style="height:100%;width:0%;border-radius:10px;transition:width 0.5s,background 0.5s;background:var(--teal)"></div>
+          </div>
+          <div id="fp-breakdown" style="display:flex;gap:16px;font-size:12px;color:var(--slate-light)">
+            <span>👣 Active: <strong id="fp-active-count">0</strong></span>
+            <span>🕵️ Passive: <strong id="fp-passive-count">0</strong></span>
+            <span id="fp-breach-flag" style="display:none;color:var(--error)">⚠️ Possible breach exposure</span>
+          </div>
+        </div>
+
+        <!-- Active section -->
+        <div style="margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0"></div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate)">Active Footprint — things you deliberately put out</div>
+          </div>
+          ${buildGroup(activeItems)}
+        </div>
+
+        <!-- Passive section -->
+        <div style="margin-top:24px;margin-bottom:28px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--navy-mid);flex-shrink:0"></div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate)">Passive Footprint — collected without you actively sharing</div>
+          </div>
+          ${buildGroup(passiveItems)}
+        </div>
+
+        <div class="card-nav">
+          <button class="btn-nav primary" onclick="fpSubmit()">See My Footprint Analysis →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results card -->
+    <div id="fp-results" style="display:none;margin-top:20px">
+      <div class="content-card">
+        <div class="content-card-header">
+          <span class="content-type-badge lesson">Your Results</span>
+          <div class="content-card-title" id="fp-results-title">Footprint Analysis</div>
+        </div>
+        <div class="content-card-body">
+          <div id="fp-results-body"></div>
+          <div class="card-nav" style="margin-top:28px">
+            <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function fpRowHover(id) {
+  const cb = document.getElementById('fp-cb-' + id);
+  const row = document.getElementById('fp-row-' + id);
+  if (row) row.style.borderColor = cb && cb.checked ? 'var(--teal)' : 'rgba(15,34,64,0.08)';
+}
+
+function fpToggle(id) {
+  const state = window._fp;
+  const item  = state.items.find(i => i.id === id);
+  const cb    = document.getElementById('fp-cb-' + id);
+  const row   = document.getElementById('fp-row-' + id);
+  const tip   = document.getElementById('fp-tip-' + id);
+
+  if (cb.checked) {
+    state.checked.add(id);
+    if (row) { row.style.borderColor = 'var(--teal)'; row.style.background = 'rgba(26,127,120,0.04)'; }
+    if (tip) tip.style.display = 'block';
+  } else {
+    state.checked.delete(id);
+    if (row) { row.style.borderColor = 'rgba(15,34,64,0.08)'; row.style.background = 'var(--warm-white)'; }
+    if (tip) tip.style.display = 'none';
+  }
+
+  fpUpdateMeter();
+}
+
+function fpUpdateMeter() {
+  const state      = window._fp;
+  const checkedItems = state.items.filter(i => state.checked.has(i.id));
+  const totalWeight  = state.items.reduce((s, i) => s + i.weight, 0);
+  const userWeight   = checkedItems.reduce((s, i) => s + i.weight, 0);
+  const pct          = Math.round((userWeight / totalWeight) * 100);
+
+  const activeCount  = checkedItems.filter(i => i.category === 'active').length;
+  const passiveCount = checkedItems.filter(i => i.category === 'passive').length;
+  const hasBreach    = state.checked.has('p6');
+
+  // Meter color
+  const color = pct >= 65 ? '#c0392b' : pct >= 35 ? '#c8922a' : 'var(--teal)';
+  const label = pct >= 65 ? 'Large' : pct >= 35 ? 'Moderate' : pct > 0 ? 'Small' : 'None yet';
+
+  document.getElementById('fp-meter').style.width      = Math.max(pct, pct > 0 ? 4 : 0) + '%';
+  document.getElementById('fp-meter').style.background = color;
+  document.getElementById('fp-size-label').textContent  = label;
+  document.getElementById('fp-size-label').style.color  = color;
+  document.getElementById('fp-active-count').textContent  = activeCount;
+  document.getElementById('fp-passive-count').textContent = passiveCount;
+  document.getElementById('fp-breach-flag').style.display = hasBreach ? 'inline' : 'none';
+}
+
+function fpSubmit() {
+  const state       = window._fp;
+  const checkedItems = state.items.filter(i => state.checked.has(i.id));
+  const totalWeight  = state.items.reduce((s, i) => s + i.weight, 0);
+  const userWeight   = checkedItems.reduce((s, i) => s + i.weight, 0);
+  const pct          = Math.round((userWeight / totalWeight) * 100);
+  const count        = checkedItems.length;
+
+  const activeChecked  = checkedItems.filter(i => i.category === 'active');
+  const passiveChecked = checkedItems.filter(i => i.category === 'passive');
+  const highRisk       = checkedItems.filter(i => i.weight === 3);
+  const hasBreach      = state.checked.has('p6');
+
+  // ── Headline + tone ──
+  let headline, emoji, tone, meterColor;
+  if (pct >= 65) {
+    headline = 'Your footprint is large'; emoji = '🔴';
+    tone = `You've checked ${count} of 16 items — and several are high-impact. That's not a judgment; it's the reality for most people who've been online for years. The goal isn't zero footprint — it's <strong>understanding what's out there and making deliberate choices going forward</strong>.`;
+    meterColor = '#c0392b';
+  } else if (pct >= 35) {
+    headline = 'Your footprint is moderate'; emoji = '🟡';
+    tone = `You've checked ${count} of 16 items. You're not starting from scratch, but you're also not overexposed. A few targeted changes — especially on the high and medium items — can meaningfully reduce your risk without overhauling how you use the internet.`;
+    meterColor = '#c8922a';
+  } else if (pct > 0) {
+    headline = 'Your footprint is relatively small'; emoji = '🟢';
+    tone = `You've checked ${count} of 16 items — you're more careful than most. That said, even a small footprint has real-world implications. And the passive items in particular can accumulate without you noticing.`;
+    meterColor = 'var(--teal)';
+  } else {
+    headline = 'Nothing checked — yet'; emoji = '⬜';
+    tone = `Either you've had a very offline week, or this is a moment to sit with it honestly. Most college students would check at least 6–8 items on this list without thinking hard. That's not a problem — it's just useful information.`;
+    meterColor = 'var(--slate-light)';
+  }
+
+  // ── High risk callouts ──
+  const highRiskHTML = highRisk.length ? `
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--error);margin-bottom:10px">⚠️ High-impact items you checked</div>
+      ${highRisk.map(item => `
+        <div style="padding:12px 16px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);
+          border-radius:var(--radius-sm);margin-bottom:8px;font-size:13.5px;color:var(--navy);line-height:1.5">
+          <strong>${item.label}</strong>
+          <div style="font-size:12.5px;color:var(--slate);margin-top:4px">${item.tooltip}</div>
+        </div>
+      `).join('')}
+    </div>` : '';
+
+  // ── Breach callout ──
+  const breachHTML = hasBreach ? `
+    <div style="padding:14px 18px;background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2);
+      border-radius:var(--radius-sm);margin-bottom:20px;font-size:13.5px;line-height:1.6;color:var(--navy)">
+      <strong style="color:var(--error)">⚠️ You may have breach exposure</strong><br>
+      Most people's email and password data has appeared in at least one breach without them knowing.
+      Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener"
+        style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> — it's free, safe, and shows you
+      exactly which breaches included your email address.
+    </div>` : '';
+
+  // ── Actionable takeaways ──
+  const takeaways = [];
+  if (activeChecked.some(i => i.id === 'a4'))
+    takeaways.push('Turn off location tagging on photos before you post, or crop out recognizable landmarks.');
+  if (activeChecked.some(i => i.id === 'a7'))
+    takeaways.push('Set Instagram and Facebook to require your approval before tagged photos appear on your profile.');
+  if (activeChecked.some(i => ['a1','a3','a5'].includes(i.id)))
+    takeaways.push('Do a quick Google search of your own name — see what a recruiter, landlord, or stranger would find.');
+  if (passiveChecked.some(i => i.id === 'p1'))
+    takeaways.push('Consider using a search engine that doesn\'t log queries, like DuckDuckGo, for sensitive searches.');
+  if (passiveChecked.some(i => i.id === 'p3'))
+    takeaways.push('Audit your app permissions this week: Settings → Privacy — revoke location and camera access for apps that don\'t genuinely need them.');
+  if (passiveChecked.some(i => i.id === 'p8'))
+    takeaways.push('Install a browser extension like uBlock Origin — it blocks most tracking scripts before they load.');
+  if (passiveChecked.some(i => i.id === 'p7'))
+    takeaways.push('On public Wi-Fi, stick to HTTPS sites only — look for the padlock icon in the address bar.');
+  // Always include one universal tip
+  takeaways.push('The question isn\'t "how do I disappear?" — it\'s "am I making deliberate choices?" You can\'t undo the past, but you can change what you do next.');
+
+  const takeawaysHTML = takeaways.length ? `
+    <div style="background:var(--cream);border-radius:var(--radius-sm);padding:18px 20px;border:1px solid rgba(15,34,64,0.08)">
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:12px">Concrete next steps for you</div>
+      <ul class="lesson-list">
+        ${takeaways.map(t => `<li>${t}</li>`).join('')}
+      </ul>
+    </div>` : '';
+
+  // ── Passive vs active observation ──
+  let balanceNote = '';
+  if (passiveChecked.length > activeChecked.length + 2) {
+    balanceNote = `<div style="font-size:13.5px;color:var(--slate);line-height:1.65;margin-bottom:16px">
+      Notably, most of your footprint is <strong>passive</strong> — data collected about you rather than content you chose to share. This is harder to control, but being aware of it changes how you think about the tools you use every day.
+    </div>`;
+  } else if (activeChecked.length > passiveChecked.length + 2) {
+    balanceNote = `<div style="font-size:13.5px;color:var(--slate);line-height:1.65;margin-bottom:16px">
+      Most of your footprint is <strong>active</strong> — things you've deliberately put out there. These are the most directly controllable: you can audit your profiles, tighten your privacy settings, and think more carefully about what you share going forward.
+    </div>`;
+  }
+
+  // ── Render results ──
+  document.getElementById('fp-results-title').textContent = headline;
+  document.getElementById('fp-results-body').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:20px 24px;
+      background:var(--cream);border-radius:var(--radius-sm);border:1px solid rgba(15,34,64,0.08)">
+      <div style="font-size:40px;flex-shrink:0">${emoji}</div>
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:6px">${headline}</div>
+        <div style="height:6px;width:160px;background:rgba(15,34,64,0.08);border-radius:6px;overflow:hidden;margin-bottom:8px">
+          <div style="height:100%;width:${pct}%;background:${meterColor};border-radius:6px"></div>
+        </div>
+        <div style="font-size:13px;color:var(--slate-light)">${count} of 16 items · ${activeChecked.length} active, ${passiveChecked.length} passive</div>
+      </div>
+    </div>
+
+    <div style="font-size:15px;color:var(--slate);line-height:1.75;margin-bottom:20px">${tone}</div>
+
+    ${balanceNote}
+    ${breachHTML}
+    ${highRiskHTML}
+    ${takeawaysHTML}
+
+    <div style="margin-top:20px;padding:14px 18px;background:rgba(26,127,120,0.07);border-radius:var(--radius-sm);font-size:13px;color:var(--slate);line-height:1.6;border:1px solid rgba(26,127,120,0.15)">
+      🔒 <strong>Reminder:</strong> your answers weren't recorded. This ran entirely in your browser and nothing was sent anywhere. The exercise only works if you're honest with yourself.
+    </div>
+  `;
+
+  // Show results and scroll
+  document.getElementById('fp-results').style.display = 'block';
+  document.getElementById('fp-results').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+
 function renderDomainQuiz() {
   // ── The 8 email addresses ──────────────────────────────────────────────────
   // Each entry: { address, verdict: 'real'|'fake', blurb, flags: [strings] }
