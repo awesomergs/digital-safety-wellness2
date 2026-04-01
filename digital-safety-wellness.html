@@ -2407,15 +2407,15 @@ const MODULE_CONTENT = [
     {
       type: 'question',
       format: 'multiple',
-      question: `Which type of MFA is most secure?`,
+      question: `Hardware security keys are the most secure MFA option — but they're not practical for most people's everyday accounts. For the majority of students, what's the best realistic MFA to set up today?`,
       options: [
-        { text: 'SMS text message with a one-time code sent to your phone number.', correct: false },
-        { text: 'Security questions like "What was the name of your first pet?"', correct: false },
-        { text: 'A hardware security key (like a YubiKey) that physically must be present to authenticate.', correct: true },
-        { text: 'An email with a one-time login link.', correct: false }
+        { text: 'SMS text message codes — they\'re built into your phone and require no extra setup.', correct: false },
+        { text: 'Security questions — they work even without a phone.', correct: false },
+        { text: 'An authenticator app (like Google Authenticator or Authy) — nearly as secure as a hardware key, free, and works on any smartphone.', correct: true },
+        { text: 'Email magic links — if your email is secure, everything linked to it is too.', correct: false }
       ],
-      hint: `Think about which option an attacker could intercept or guess remotely — and which one requires physically having a specific object in hand.`,
-      explanation: `<strong>Hardware security keys</strong> are the gold standard — they use cryptographic authentication and cannot be intercepted remotely. An attacker would literally need to steal the physical device. SMS codes are the weakest MFA option: phone numbers can be hijacked through SIM swapping, and codes can be intercepted. Authenticator apps (like Google Authenticator) are much better than SMS — codes generate locally on your device and don't travel over the phone network. Security questions aren't really MFA at all — they're just a second password, often with guessable answers.`
+      hint: `Think about what's both genuinely secure AND something most students would actually use. The best security tool is the one you'll actually set up.`,
+      explanation: `<strong>Authenticator apps</strong> are the practical gold standard for most people. They generate time-based codes locally on your device — codes never travel over the phone network, so they can't be intercepted via SIM swapping the way SMS codes can. Hardware keys (like YubiKey) are technically more secure and worth using if you have one, but they cost money and require a physical key on hand — which is a barrier for daily use. SMS is better than nothing but is the weakest real MFA option. Security questions are not MFA — they're just a second password with predictable answers.`
     },
     {
       type: 'lesson',
@@ -3070,7 +3070,7 @@ function renderFootprintAudit() {
     { id:'p3',  category:'passive', weight:1, label:'Allowed a mobile app to access your location, contacts, or camera',             tooltip:'Apps with these permissions continuously harvest data that goes well beyond what you agreed to read in the terms.' },
     { id:'p4',  category:'passive', weight:2, label:'Browsed websites while logged into Chrome, Safari, or Firefox with sync on',    tooltip:'Browsing history synced to an account is stored on company servers and used for ad targeting.' },
     { id:'p5',  category:'passive', weight:1, label:'Used a smart speaker (Alexa, Google Home, Siri) in the past week',              tooltip:'Always-on microphones record clips that are logged and sometimes reviewed by human contractors at these companies.' },
-    { id:'p6',  category:'passive', weight:3, label:'Had your data exposed in a breach you may not know about (have you checked?)',   tooltip:'Most people\'s email addresses, passwords, and personal info have been in at least one breach. Check haveibeenpwned.com.' },
+    { id:'p6',  category:'passive', weight:3, label:'Had your data exposed in a breach — click if unsure (most people have without knowing)',   tooltip:'Most people\'s email addresses, passwords, and personal info have been in at least one breach. Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> — free, safe, and shows you exactly which breaches included your email address.' },
     { id:'p7',  category:'passive', weight:2, label:'Used public Wi-Fi without a VPN',                                                tooltip:'Unencrypted public Wi-Fi allows network operators and other users to observe your traffic and metadata.' },
     { id:'p8',  category:'passive', weight:1, label:'Clicked "Accept All" on cookie banners without reading them',                   tooltip:'This grants third-party advertisers permission to track you across every website that uses their ad network.' },
   ];
@@ -3761,10 +3761,10 @@ function renderPasswordLab() {
             <div style="font-size:20px;margin-bottom:10px">🔀</div>
             <div class="lesson-title" style="font-size:18px">Techniques That Actually Work</div>
             <ul class="lesson-list" style="margin-top:12px">
-              <li><strong>Swap letters for lookalike symbols</strong> — turn an <em>a</em> into <em>@</em>, an <em>e</em> into <em>3</em>, an <em>i</em> into <em>!</em>, an <em>o</em> into <em>0</em>. A word like "sunrise" becomes "5unr!s3" — visually similar but orders of magnitude harder to crack.</li>
-              <li><strong>Lead with a special character</strong> — most people add symbols at the end (Password1!). Starting with one — !MyDogRan2024 — breaks the pattern attackers expect and adds entropy at the front where it matters most.</li>
-              <li><strong>Use a passphrase with deliberate chaos</strong> — string three or four unrelated words together, then corrupt them: "correct-horse-battery-staple" becomes "C0rrect!Hors3#Battery" — long, nonsensical, hard to brute-force.</li>
-              <li><strong>Avoid the obvious substitutions</strong> — attackers' tools already know that @ = a, 3 = e, 0 = o. Use them in combination with other techniques, not as your only trick.</li>
+              <li><strong>Use a passphrase — then make it yours</strong> — string three or four genuinely unrelated words together and add a number or symbol between them: <em>correct-horse-battery-staple</em> becomes <em>Correct!Horse#Battery99</em> — long, hard to brute-force, and easier to remember than a random string. The length alone does most of the work.</li>
+              <li><strong>Lead with a special character or number</strong> — most people add symbols at the end (Password1!). Putting one at the front or middle — <em>!MyDogRan2019</em> — breaks the predictable patterns cracking tools expect. Not a substitute for length, but a meaningful addition.</li>
+              <li><strong>Avoid obvious substitutions as your only strategy</strong> — swapping a for @ or e for 3 is a known technique that cracking tools account for explicitly. "P@ssw0rd" is in breach databases. These substitutions can help as one element of a longer password, but they're not strong on their own.</li>
+              <li><strong>Length beats complexity</strong> — a 16-character passphrase with just lowercase letters has more entropy than an 8-character password with symbols. Prioritize length first, then add variety.</li>
             </ul>
           </div>
 
@@ -3772,24 +3772,24 @@ function renderPasswordLab() {
             <div style="font-size:20px;margin-bottom:10px">🗝️</div>
             <div class="lesson-title" style="font-size:18px">The Real Answer: Just Use a Password Manager</div>
             <div class="lesson-body" style="margin-top:8px">
-              No technique beats a randomly generated 20-character password you never have to remember. Password managers do this automatically for every account. Here are the most trusted free options:
+              No manual technique beats a randomly generated 20-character password you never have to remember or type. Password managers generate, store, and auto-fill credentials for every account — and they protect them properly. Your passwords are stored in an <strong>encrypted vault</strong>: even if the password manager company's servers were breached, the data is mathematically scrambled without your master password. Here are the most trusted free options:
             </div>
             <ul class="lesson-list" style="margin-top:12px">
               <li>
-                <strong><a href="https://bitwarden.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">Bitwarden</a></strong> — fully open-source, free forever, works on every device and browser. The most trusted free option for most people. Can be self-hosted if you want full control.
+                <strong><a href="https://bitwarden.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">Bitwarden</a></strong> — fully open-source (independently audited), free forever, works on every device and browser. The most trusted free option for most people. Uses AES-256 encryption. Can be self-hosted if you want full control over your vault.
               </li>
               <li>
-                <strong><a href="https://keepassxc.org" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">KeePassXC</a></strong> — stores your passwords entirely locally (no cloud sync), completely free and open-source. Best if you're privacy-focused and don't need cross-device sync.
+                <strong><a href="https://keepassxc.org" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">KeePassXC</a></strong> — stores your encrypted vault entirely locally — no cloud, no company servers, no subscription. Completely free and open-source. Best if you're privacy-focused and primarily use one device.
               </li>
               <li>
-                <strong>Apple Passwords / iCloud Keychain</strong> — built into every iPhone, iPad and Mac, free, excellent if you're in the Apple ecosystem. Generates strong passwords and fills them automatically in Safari and apps.
+                <strong>Apple Passwords / iCloud Keychain</strong> — built into every iPhone, iPad, and Mac. Free, end-to-end encrypted, and deeply integrated — generates and fills passwords automatically in Safari and most apps. Strong choice if you're in the Apple ecosystem.
               </li>
               <li>
-                <strong>Google Password Manager</strong> — built into Chrome and Android, free. Strong option if you're already in the Google ecosystem — generates and saves passwords automatically.
+                <strong>Google Password Manager</strong> — built into Chrome and Android, free, and encrypted. Generates and saves strong passwords automatically. Good option if you're already in the Google ecosystem and use Chrome across devices.
               </li>
             </ul>
             <div style="margin-top:12px;padding:12px 16px;background:rgba(26,127,120,0.07);border-radius:6px;font-size:13px;color:var(--slate)">
-              💬 <strong>The bottom line:</strong> pick any one of these and start using it today. Even using a password manager for just your most important accounts (email, banking, university) is a massive improvement.
+              💬 <strong>The bottom line:</strong> pick any one of these and start using it today. Even using a password manager for just your most important accounts — email, banking, university login — is a massive improvement over reusing passwords.
             </div>
           </div>
 
@@ -3819,12 +3819,25 @@ function showPasswordTips() {
 }
 
 // ── Password analysis engine ──
+
+// Top 50 most-breached passwords — instantly "Weak" regardless of composition
+const BREACHED_PASSWORDS = new Set([
+  'password','password1','password123','123456','123456789','12345678','1234567',
+  '12345','1234567890','qwerty','abc123','monkey','1234','dragon','master',
+  'letmein','login','welcome','admin','iloveyou','sunshine','princess','shadow',
+  'superman','batman','trustno1','000000','111111','666666','112233','121212',
+  'pass','test','1q2w3e','qwerty123','q1w2e3r4','1qaz2wsx','zxcvbnm',
+  'password!','password1!','passw0rd','pa$$word','p@ssword','p@$$w0rd',
+  'summer2024','winter2024','spring2024','fall2024','welcome1','admin123'
+]);
+
 const COMMON_NAMES = new Set([
   'james','john','robert','michael','william','david','richard','joseph','thomas','charles',
   'mary','patricia','jennifer','linda','barbara','elizabeth','susan','jessica','sarah','karen',
   'emma','olivia','noah','liam','sophia','ava','isabella','mia','ethan','mason','lucas','logan',
   'alex','chris','taylor','jordan','morgan','casey','riley','jamie','sam','ryan','tyler'
 ]);
+
 const COMMON_WORDS = new Set([
   'password','welcome','login','admin','letmein','qwerty','abc','test','user','pass',
   'monkey','dragon','master','sunshine','princess','shadow','superman','batman','iloveyou',
@@ -3832,6 +3845,7 @@ const COMMON_WORDS = new Set([
   'summer','winter','spring','autumn','january','february','march','april','may','june',
   'july','august','september','october','november','december'
 ]);
+
 const GEO_WORDS = new Set([
   'america','american','united','states','california','texas','florida','newyork','chicago',
   'london','paris','berlin','tokyo','sydney','canada','mexico','brazil','china','india',
@@ -3844,9 +3858,7 @@ function analyzePassword() {
   const raw   = document.getElementById('pw-input').value;
   const lower = raw.toLowerCase();
 
-  if (!raw) {
-    resetPasswordUI(); return;
-  }
+  if (!raw) { resetPasswordUI(); return; }
 
   // ── Composition ──
   const len        = raw.length;
@@ -3859,64 +3871,100 @@ function analyzePassword() {
   // ── Weakness flags ──
   const warnings = [];
 
+  // Breached password list check (rainbow table simulation)
+  if (BREACHED_PASSWORDS.has(lower)) {
+    warnings.push({ icon:'💀', text:'This exact password (or a close variant) appears in breach databases — attackers try these first, before any other attack. It would be cracked instantly.' });
+  }
+
   // Year pattern 1900–2026
   if (/(?:19|20)\d{2}/.test(raw)) {
-    warnings.push({ icon:'📅', text:'Contains a year — attackers specifically try year patterns (1990–2026).' });
+    warnings.push({ icon:'📅', text:'Contains a year — attackers\' tools specifically try year patterns (1900–2026) as they\'re extremely common in passwords.' });
   }
-  // Common name
-  const nameMatch = COMMON_NAMES.has(lower) || [...COMMON_NAMES].some(n => lower.includes(n) && n.length >= 4);
+
+  // Common name check
+  const nameMatch = [...COMMON_NAMES].some(n => lower.includes(n) && n.length >= 4);
   if (nameMatch) {
-    warnings.push({ icon:'👤', text:'Contains a common first name — these are in every dictionary attack wordlist.' });
+    warnings.push({ icon:'👤', text:'Contains a common first name — these appear in every dictionary attack wordlist and are tried automatically.' });
   }
-  // Common word
+
+  // Common word check
   const wordMatch = [...COMMON_WORDS].some(w => lower.includes(w));
   if (wordMatch) {
-    warnings.push({ icon:'📖', text:'Contains a common word or phrase — attackers try these first.' });
+    warnings.push({ icon:'📖', text:'Contains a common word or phrase — dictionary attacks target these specifically before trying random combinations.' });
   }
+
   // Geo/university
   const geoMatch = [...GEO_WORDS].some(w => lower.includes(w));
   if (geoMatch) {
-    warnings.push({ icon:'🌍', text:'Contains a city, country, or university name — these appear in targeted wordlists.' });
+    warnings.push({ icon:'🌍', text:'Contains a city, country, or university name — targeted wordlists include these for attacks aimed at students and professionals.' });
   }
-  // Keyboard walk
-  if (/qwerty|asdf|zxcv|1234|2345|3456|4567|5678|6789|7890|abcd/.test(lower)) {
-    warnings.push({ icon:'⌨️', text:'Contains a keyboard sequence or number run — trivially guessable.' });
+
+  // Keyboard walk / sequential run
+  if (/qwerty|asdf|zxcv|1234|2345|3456|4567|5678|6789|7890|abcd|qazwsx|1qaz|zaq1/.test(lower)) {
+    warnings.push({ icon:'⌨️', text:'Contains a keyboard sequence or number run — attackers\' tools try all common keyboard walks automatically.' });
   }
-  // Repeated chars
+
+  // Repeated characters
   if (/(.)\1{2,}/.test(raw)) {
-    warnings.push({ icon:'🔁', text:'Contains 3+ repeated characters — reduces effective entropy significantly.' });
+    warnings.push({ icon:'🔁', text:'Contains 3+ repeated characters — this drastically reduces effective entropy and is caught by modern cracking rules.' });
   }
-  // All same case / only one type
+
+  // Only one character type
   if (charTypes === 1) {
-    warnings.push({ icon:'🔡', text:'Only one character type used — mixing cases, numbers, and symbols multiplies crack difficulty.' });
+    warnings.push({ icon:'🔡', text:'Uses only one character type — mixing cases, numbers, and symbols multiplies the number of possible combinations exponentially.' });
   }
-  // Short
+
+  // Length warnings
   if (len < 8) {
-    warnings.push({ icon:'📏', text:'Under 8 characters — can be brute-forced in seconds with modern hardware.' });
+    warnings.push({ icon:'📏', text:'Under 8 characters — brute-forceable in seconds with a consumer GPU, let alone a dedicated cracking rig.' });
   } else if (len < 12) {
-    warnings.push({ icon:'📏', text:'Under 12 characters — consider going longer; each extra character exponentially increases difficulty.' });
+    warnings.push({ icon:'📏', text:'Under 12 characters — modern GPU clusters can brute-force 8–11 character passwords. Every additional character makes this exponentially harder.' });
   }
 
   // ── Score (0–100) ──
+  // Length: primary driver. 12+ chars with variety is genuinely strong.
   let score = 0;
-  score += Math.min(len * 4, 40);           // up to 40pts for length
-  score += charTypes * 10;                  // up to 40pts for variety
-  score -= warnings.length * 10;            // deduct for each weakness
-  score -= (hasLower && !hasUpper && !hasNumber && !hasSpecial) ? 10 : 0;
+  if (len >= 20)      score += 45;
+  else if (len >= 16) score += 38;
+  else if (len >= 12) score += 30;
+  else if (len >= 8)  score += 16;
+  else                score += 5;
+
+  // Character variety bonus
+  if (charTypes >= 4) score += 30;
+  else if (charTypes === 3) score += 20;
+  else if (charTypes === 2) score += 10;
+
+  // Unpredictability bonus — reward lengths beyond 12 even with fewer types
+  if (len >= 16 && charTypes >= 2) score += 10;
+  if (len >= 20 && charTypes >= 2) score += 5;
+
+  // Deduct for each distinct weakness (not cumulative overkill)
+  score -= Math.min(warnings.length * 12, 60);
+
+  // Breached password is always Weak regardless
+  const isBreached = BREACHED_PASSWORDS.has(lower);
+  if (isBreached) score = 0;
+
   score = Math.max(0, Math.min(100, score));
 
   // ── Rating ──
+  // Strong: 12+ chars, 2+ types, no warnings, not breached
+  // A 16-char passphrase with uppercase+lowercase is genuinely strong.
+  // A 12-char with upper+lower+number+symbol and no flags is strong.
   let rating, ratingColor, barColor, barWidth;
-  if (score >= 75 && warnings.length === 0 && len >= 12 && charTypes >= 3) {
+  const noRealWarnings = warnings.filter(w => !w.text.includes('Under 12')).length === 0;
+
+  if (!isBreached && score >= 50 && len >= 12 && charTypes >= 2 && warnings.length === 0) {
     rating = 'Strong'; ratingColor = '#1a7f78'; barColor = '#1a7f78'; barWidth = '100%';
-  } else if (score >= 45 || (score >= 35 && warnings.length <= 1)) {
-    rating = 'Okay';   ratingColor = '#c8922a'; barColor = '#c8922a'; barWidth = `${Math.max(50, score)}%`;
+  } else if (!isBreached && score >= 30 && len >= 8 && warnings.length <= 1 && !BREACHED_PASSWORDS.has(lower)) {
+    rating = 'Okay';   ratingColor = '#c8922a'; barColor = '#c8922a'; barWidth = `${Math.max(45, score)}%`;
   } else {
-    rating = 'Weak';   ratingColor = '#c0392b'; barColor = '#c0392b'; barWidth = `${Math.max(15, score)}%`;
+    rating = 'Weak';   ratingColor = '#c0392b'; barColor = '#c0392b'; barWidth = `${Math.max(10, Math.min(score, 40))}%`;
   }
 
   // ── Time to crack estimate ──
-  // Entropy-based: combos = charspace^length, assume 1 trillion guesses/sec
+  // Entropy-based at 1 trillion guesses/sec (high-end GPU cluster / Hashcat benchmark)
   let charSpace = 0;
   if (hasLower)   charSpace += 26;
   if (hasUpper)   charSpace += 26;
@@ -3925,24 +3973,28 @@ function analyzePassword() {
   charSpace = Math.max(charSpace, 10);
 
   let combos = Math.pow(charSpace, len);
-  // Penalise for dictionary patterns
-  if (warnings.length > 0) combos = combos / Math.pow(1000, Math.min(warnings.length, 3));
+
+  // Dictionary/pattern penalty: known patterns reduce effective search space dramatically
+  if (isBreached)          combos = 1;
+  else if (warnings.length >= 3) combos = combos / 1e9;
+  else if (warnings.length === 2) combos = combos / 1e6;
+  else if (warnings.length === 1) combos = combos / 1e3;
   combos = Math.max(combos, 1);
 
-  const guessesPerSec = 1e12; // 1 trillion/sec (modern GPU cluster)
+  const guessesPerSec = 1e12; // 1 trillion/sec
   const seconds = combos / guessesPerSec;
 
   let crackTime, crackMethod;
-  if (seconds < 0.001)      { crackTime = 'Instantly';          crackMethod = 'Trivial — no attack needed'; }
-  else if (seconds < 1)     { crackTime = 'Under a second';     crackMethod = 'Brute force, basic hardware'; }
-  else if (seconds < 60)    { crackTime = `${Math.round(seconds)} seconds`;    crackMethod = 'Brute force attack'; }
-  else if (seconds < 3600)  { crackTime = `${Math.round(seconds/60)} minutes`; crackMethod = 'Brute force or dictionary attack'; }
-  else if (seconds < 86400) { crackTime = `${Math.round(seconds/3600)} hours`;  crackMethod = 'GPU-accelerated brute force'; }
-  else if (seconds < 2.628e6) { crackTime = `${Math.round(seconds/86400)} days`;  crackMethod = 'High-end GPU cluster'; }
+  if (seconds < 0.001)        { crackTime = 'Instantly';                    crackMethod = 'Already in breach databases — no attack needed'; }
+  else if (seconds < 1)       { crackTime = 'Under a second';               crackMethod = 'Brute force, basic hardware'; }
+  else if (seconds < 60)      { crackTime = `${Math.round(seconds)}s`;      crackMethod = 'Brute force attack'; }
+  else if (seconds < 3600)    { crackTime = `${Math.round(seconds/60)} min`; crackMethod = 'Brute force or dictionary attack'; }
+  else if (seconds < 86400)   { crackTime = `${Math.round(seconds/3600)} hours`;   crackMethod = 'GPU-accelerated brute force'; }
+  else if (seconds < 2.628e6) { crackTime = `${Math.round(seconds/86400)} days`;   crackMethod = 'High-end GPU cluster'; }
   else if (seconds < 3.156e7) { crackTime = `${Math.round(seconds/2.628e6)} months`; crackMethod = 'Distributed cracking'; }
   else if (seconds < 3.156e9) { crackTime = `${Math.round(seconds/3.156e7)} years`;  crackMethod = 'Large-scale distributed attack'; }
-  else if (seconds < 3.156e12){ crackTime = `${Math.round(seconds/3.156e9).toLocaleString()} thousand years`; crackMethod = 'Effectively uncrackable with current tech'; }
-  else                       { crackTime = 'Millions+ years';  crackMethod = 'Beyond any foreseeable attack'; }
+  else if (seconds < 3.156e12){ crackTime = `${(seconds/3.156e9).toFixed(0)}k years`; crackMethod = 'Effectively uncrackable with current tech'; }
+  else                        { crackTime = 'Millions+ years';               crackMethod = 'Beyond any foreseeable attack'; }
 
   // ── Render UI ──
   // Meter bar
