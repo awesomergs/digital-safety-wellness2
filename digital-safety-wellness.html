@@ -1566,7 +1566,7 @@ const FINAL_EXAM_QUESTIONS = [
     question: `When multiple accounts are compromised at once, which do you secure first and why?`,
     options: [
       { text: 'Your bank account - financial loss is the most immediate threat.', correct: false },
-      { text: 'Your university portal - academic records are most sensitive.', correct: false },
+      { text: 'Your University portal - academic records are most sensitive.', correct: false },
       { text: 'Whichever account the attacker is actively posting from.', correct: false },
       { text: 'Your email - it\'s the master key controlling password resets for everything else.', correct: true }
     ],
@@ -1711,8 +1711,8 @@ const MODULE_CONTENT = [
       badge: 'Scenario 1 of 4',
       title: 'The Dream Job Email',
       persona: 'third',
-      text: `Maya is a sophomore looking for a summer internship. One afternoon, she gets an email that looks like it's from her university's Career Center with the subject line: <em>"Paid Remote Internship - $25/hr, Flexible Hours, Apply Now."</em>
-      <br><br>The email mentions her by name, uses the university's logo, and says she's been pre-selected based on her GPA. All she has to do is reply with her interest and they'll send her the onboarding paperwork.
+      text: `Maya is a sophomore looking for a summer internship. One afternoon, she gets an email that looks like it's from her University's Career Center with the subject line: <em>"Paid Remote Internship - $25/hr, Flexible Hours, Apply Now."</em>
+      <br><br>The email mentions her by name, uses the University's logo, and says she's been pre-selected based on her GPA. All she has to do is reply with her interest and they'll send her the onboarding paperwork.
       <br><br>Maya notices the sender's email is <strong>careers@university-jobs-support.com</strong> instead of her school's usual .edu address - but the rest of the email looks totally legit.`,
       highlight: `"Hi Maya - Congratulations! You've been pre-selected for a paid remote position. Reply now - only 3 spots remain."`
     },
@@ -1722,12 +1722,12 @@ const MODULE_CONTENT = [
       question: `Maya is excited but that email address is nagging at her. What should she do?`,
       options: [
         { text: 'Reply to the email - it looks legit enough and the opportunity is too good to pass up.', correct: false },
-        { text: 'Go to her university\'s official website and look up the Career Center\'s real contact info to verify.', correct: true },
+        { text: 'Go to her University\'s official website and look up the Career Center\'s real contact info to verify.', correct: true },
         { text: 'Forward the email to a friend to see what they think.', correct: false },
         { text: 'Google the company name mentioned in the email.', correct: false }
       ],
       hint: `When an email urges you to act fast and something feels slightly off, that's a signal to slow down - not speed up. Where should Maya go to find the Career Center's real address?`,
-      explanation: `The right move is always <strong>out-of-band verification</strong> - confirming using a channel the sender can't control. Going to the university's official website to find the real Career Center contact means she's not relying on information provided in a potentially fake email. Googling the company or asking a friend doesn't confirm whether this specific email is real.`
+      explanation: `The right move is always <strong>out-of-band verification</strong> - confirming using a channel the sender can't control. Going to the University's official website to find the real Career Center contact means she's not relying on information provided in a potentially fake email. Googling the company or asking a friend doesn't confirm whether this specific email is real.`
     },
     {
       type: 'lesson',
@@ -1741,7 +1741,7 @@ const MODULE_CONTENT = [
           body: `<ul class="lesson-list">
             <li><strong>Check the actual email domain</strong> - not just the display name. <em>careers@university-jobs-support.com</em> ≠ <em>careers@university.edu</em></li>
             <li><strong>Urgency + scarcity</strong> - "Only 3 spots remain!" is a pressure tactic to stop you from thinking clearly</li>
-            <li><strong>Unsolicited personalization</strong> - using your name or GPA doesn't mean it's real; scammers harvest that data</li>
+            <li><strong>Unsolicited personalization</strong> - using your name or GPA doesn't mean it's real; that data's often publically available (e.g. on LinkedIn) for scammers to harvest</li>
             <li><strong>Out-of-band verification</strong> - always confirm via an official channel you found yourself, not one in the email</li>
           </ul>`
         }
@@ -1914,12 +1914,12 @@ const MODULE_CONTENT = [
         },
         {
           format: 'truefalse',
-          question: `If a suspicious email uses your real name and your university's logo, it must be from a legitimate source.`,
+          question: `If a suspicious email uses your real name and your University's logo, it must be from a legitimate source.`,
           options: [
             { text: 'True', correct: false },
             { text: 'False', correct: true }
           ],
-          explanation: `Scammers harvest personal details from social media, data breaches, and public records to make messages feel personal. Anyone can download a university logo. Personalization is a tactic, not proof of legitimacy.`
+          explanation: `Scammers harvest personal details from social media, data breaches, and public records to make messages feel personal. Anyone can download a University logo. Personalization is a tactic, not proof of legitimacy.`
         },
         {
           format: 'multiple',
@@ -2256,7 +2256,7 @@ const MODULE_CONTENT = [
           body: `Four things determine how resistant a password is to being cracked:<br><br>
           <strong>Length</strong> - at least 12–16 characters. Every extra character exponentially increases the number of combinations an attacker has to try. Short passwords (under 8 characters) can be cracked in seconds with modern tools.<br><br>
           <strong>Complexity</strong> - mix uppercase, lowercase, numbers, and symbols. A diverse character set eliminates simple patterns.<br><br>
-          <strong>Unpredictability</strong> - avoid anything personal: birthdays, pet names, sports teams, your university's name. If it's easy for you to remember because it's meaningful to you, it may be guessable from your social media.<br><br>
+          <strong>Unpredictability</strong> - avoid anything personal: birthdays, pet names, sports teams, your University's name. If it's easy for you to remember because it's meaningful to you, it may be guessable from your social media.<br><br>
           <strong>Uniqueness</strong> - never reuse a password across accounts. If one site is breached, attackers try those credentials everywhere else (called a <em>credential stuffing attack</em>). One reused password can cascade into losing control of every account that shares it.`
         }
       ]
@@ -2280,12 +2280,12 @@ const MODULE_CONTENT = [
     {
       type: 'question',
       format: 'multiple',
-      question: `Why were Spotify and the university email at risk when it was the gaming forum that got breached?`,
+      question: `Why were Spotify and the University email at risk when it was the gaming forum that got breached?`,
       options: [
-        { text: 'The gaming forum shared user data with Spotify and the university directly.', correct: false },
+        { text: 'The gaming forum shared user data with Spotify and the university portal directly.', correct: false },
         { text: 'Attackers used the leaked gaming forum credentials in a credential stuffing attack - automatically trying the same username and password across hundreds of other sites.', correct: true },
         { text: 'The breach gave attackers access to the device, which had saved passwords in the browser.', correct: false },
-        { text: 'Spotify and the university were also breached at the same time - it was a coincidence.', correct: false }
+        { text: 'Spotify and the university portal were also breached at the same time - it was a coincidence.', correct: false }
       ],
       hint: `The common thread between all the affected accounts is the reused password. What do attackers do when they get a list of username/password pairs from a breach?`,
       explanation: `This is a <strong>credential stuffing attack</strong> - one of the most common and effective ways accounts get taken over. When a site is breached, attackers immediately run automated scripts that try those exact credentials on hundreds of other services: Gmail, banks, streaming platforms, university portals. If you reused the password, they're in. The gaming forum didn't share your data - they just provided the key that unlocked everywhere else you used the same one.`
@@ -2338,7 +2338,7 @@ const MODULE_CONTENT = [
       badge: 'Scenario 2 of 2',
       title: 'One Extra Step',
       persona: 'third',
-      text: `Sam has a genuinely strong password on her university email - 18 characters, random, stored in a password manager. She's proud of it. What she hasn't set up is multi-factor authentication, mostly because she's been meaning to and it feels like one extra step.<br><br>
+      text: `Sam has a genuinely strong password on her University email - 18 characters, random, stored in a password manager. She's proud of it. What she hasn't set up is multi-factor authentication, mostly because she's been meaning to and it feels like one extra step.<br><br>
       A phishing email fools her into entering her credentials on a convincing fake login page. The attacker now has her password - the strong one she carefully generated. Within minutes they're in her email, and from there they trigger password resets on her linked accounts: her student financial aid portal, her university housing application, her course registration system.<br><br>
       Sam's strong password didn't fail her. The absence of a second factor did.`,
       highlight: `"It feels like one extra step." - It is. It also would have stopped this entirely.`
@@ -4728,3 +4728,5 @@ document.getElementById('student-name-input').addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+
+
