@@ -1294,15 +1294,15 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         DEV TESTING TOGGLE — REMOVE BEFORE LAUNCH
+         DEV TESTING TOGGLE - REMOVE BEFORE LAUNCH
          To remove: delete everything between the two DEV TOGGLE comment markers
          (this entire div block), then also delete the toggleDevMode() function
          in the JS section below (marked the same way).
          ══════════════════════════════════════════════════════ -->
     <div id="dev-toggle-panel" style="
       margin-top: 24px;
-      background: #fff8e6;
-      border: 2px dashed #e5b04a;
+      background: #ffe6e6;
+      border: 2px dashed #e54a4a;
       border-radius: 12px;
       padding: 16px 24px;
       display: flex;
@@ -1312,11 +1312,11 @@
       flex-wrap: wrap;
     ">
       <div>
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b07d10;margin-bottom:4px">🛠 Dev Mode — Remove Before Launch</div>
-        <div style="font-size:13px;color:#7a5a10">Unlock all modules and the Final Exam for testing without completing them in order.</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b01010;margin-bottom:4px">🛠 Dev Mode (REMOVE THIS BEFORE LAUNCH 🙏)</div>
+        <div style="font-size:13px;color:#7a1010">Unlock all modules and the Final Exam for testing without completing them in order.</div>
       </div>
       <label style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none">
-        <div style="font-size:13px;font-weight:600;color:#7a5a10" id="dev-toggle-label">Order Lock: ON</div>
+        <div style="font-size:13px;font-weight:600;color:#7a1010" id="dev-toggle-label">Order Lock: ON</div>
         <div id="dev-toggle-track" onclick="toggleDevMode()" style="
           width:44px;height:24px;border-radius:12px;background:#c4c9d4;
           position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0
@@ -3945,8 +3945,16 @@ function analyzePassword() {
     warnings.push({ icon:'📅', text:'Contains a year — attackers\' tools specifically try year patterns (1900–2026) as they\'re extremely common in passwords.' });
   }
 
-  // Common name check
-  const nameMatch = [...COMMON_NAMES].some(n => lower.includes(n) && n.length >= 4);
+  // Student's own name check — split on spaces so "Rohan George" checks both "rohan" and "george"
+  const nameParts = studentName.toLowerCase().split(/\s+/).filter(p => p.length >= 3);
+  const nameFromUser = nameParts.some(part => lower.includes(part));
+  if (nameFromUser) {
+    const matchedPart = nameParts.find(part => lower.includes(part));
+    warnings.push({ icon:'🪪', text:`Contains part of your own name ("${matchedPart}") — personal details are among the first things attackers try, especially if they found your name from a public profile.` });
+  }
+
+  // Common name check (generic list, separate from personal name above)
+  const nameMatch = !nameFromUser && [...COMMON_NAMES].some(n => lower.includes(n) && n.length >= 4);
   if (nameMatch) {
     warnings.push({ icon:'👤', text:'Contains a common first name — these appear in every dictionary attack wordlist and are tried automatically.' });
   }
