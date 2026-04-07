@@ -1738,13 +1738,29 @@ const MODULE_CONTENT = [
         {
           icon: '🔍',
           title: 'How to Spot a Phishing Attempt',
-          body: `<ul class="lesson-list">
-            <li><strong>Check the actual email domain</strong> — not just the display name. <em>careers@university-jobs-support.com</em> ≠ <em>careers@university.edu</em></li>
-            <li><strong>Urgency + scarcity</strong> — "Only 3 spots remain!" is a pressure tactic to stop you from thinking clearly</li>
-            <li><strong>Unsolicited personalization</strong> — using your name or GPA doesn't mean it's real; that data is often publicly available (e.g. on LinkedIn) for scammers to harvest</li>
-            <li><strong>Know what's public about you</strong> — before assuming an email is legitimate because it mentions personal details, ask yourself: could a stranger have found this on my social media or LinkedIn profile?</li>
-            <li><strong>Out-of-band verification</strong> — always confirm via an official channel you found yourself, not one in the email</li>
-          </ul>`
+          body: `
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Check the actual email domain</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Not just the display name. <em>careers@university-jobs-support.com</em> is not the same as <em>careers@university.edu</em> — anyone can register a lookalike domain.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Urgency + scarcity</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">"Only 3 spots remain!" is a pressure tactic. It's designed to stop you from thinking clearly or consulting anyone else before acting.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Unsolicited personalization</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Using your name or GPA doesn't mean the email is real — that data is often publicly available (e.g. on LinkedIn) for scammers to harvest.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Know what's public about you</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Before assuming an email is legitimate because it mentions personal details, ask yourself: could a stranger have found this on my social media or LinkedIn profile?</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Out-of-band verification</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Always confirm via an official channel you found yourself — not a link, number, or address provided in the suspicious email.</div>
+            </div>
+          </div>`
         },
         {
           icon: '🧠',
@@ -1899,12 +1915,25 @@ const MODULE_CONTENT = [
         {
           icon: '🧠',
           title: 'Your Defense Against Deepfakes',
-          body: `<ul class="lesson-list">
-            <li><strong>Hang up, call back yourself</strong> — use the number in your contacts, never a number the caller provides</li>
-            <li><strong>Set a family code word</strong> — a word only your family knows to use in real emergencies</li>
-            <li><strong>Real emergencies don't require gift cards or Zelle</strong> — any payment request in an "emergency" is a scam signal</li>
-            <li><strong>Urgency is a weapon</strong> — scammers rush you so you don't think. Slowing down costs you 60 seconds; falling for it can cost thousands</li>
-          </ul>`
+          body: `
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Hang up, call back yourself</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Use the number in your contacts — never a number the caller provides. This one step defeats the entire attack.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Set a family code word</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">A word only your family knows to use in real emergencies. If the "emergency" caller doesn't know it, that tells you everything.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Real emergencies don't require gift cards or Zelle</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Any payment request in an "emergency" — especially via untraceable methods — is a scam signal, full stop.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Urgency is a weapon</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Scammers rush you so you don't think. Slowing down costs you 60 seconds. Falling for it can cost thousands.</div>
+            </div>
+          </div>`
         }
       ]
     },
@@ -2362,14 +2391,25 @@ const MODULE_CONTENT = [
           icon: '🛡️',
           title: 'How Password Managers Work',
           body: `A password manager generates, stores, and auto-fills strong passwords for every account you have. You only need to remember <strong>one master password</strong> — the manager handles everything else.<br><br>
-          <strong>What you get:</strong><br>
-          <ul class="lesson-list">
-            <li><strong>Unique 16+ character passwords for every site</strong> — generated randomly, impossible to guess</li>
-            <li><strong>Encrypted storage</strong> — your passwords are stored in an encrypted vault; even if the manager is breached, the data is unreadable without your master key</li>
-            <li><strong>Auto-fill across devices</strong> — works on your phone, laptop, and browser so there's no temptation to use something simple</li>
-            <li><strong>Breach alerts</strong> — many managers notify you when a site you use has been compromised</li>
-          </ul>
-          <br><strong>Trusted options:</strong> 1Password, Bitwarden (free and open-source), Dashlane, or Apple's built-in iCloud Keychain if you're in the Apple ecosystem. Any of these is dramatically better than reusing passwords.`
+          <strong>What you get:</strong>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:12px">
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Unique 16+ character passwords for every site</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Generated randomly — impossible to guess, and never reused across accounts.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Encrypted storage</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Your passwords sit in an encrypted vault. Even if the manager's servers were breached, the data is unreadable without your master password.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Auto-fill across devices</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Works on your phone, laptop, and browser — so there's no temptation to fall back on something simple.</div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Breach alerts</div>
+              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Many managers notify you when a site you use has been compromised, so you can update that password before attackers try it elsewhere.</div>
+            </div>
+          </div>`
         }
       ]
     },
@@ -2560,7 +2600,7 @@ const MODULE_CONTENT = [
       title: 'Locked Out',
       persona: 'first',
       text: `You wake up Saturday morning to a string of notifications. Three people have texted asking if you're okay. Your Instagram is sending DMs to people you barely know. Your email has a "your password was changed" notification — but you didn't change it.<br><br>
-      Someone has taken over your Instagram and used access to your linked email to lock you out of both. Your phone number is still connected to the Instagram account, but when you try to use it to recover access, the code goes to an email address you don't recognize — one the attacker added before locking you out.<br><br>
+      Someone got into your email first — and from there, used it to take over your linked Instagram and lock you out of both. Your phone number is still connected to the Instagram account, but when you try to use it to recover access, the code goes to an email address you don't recognize — one the attacker added before locking you out.<br><br>
       It's 7am on a Saturday. You feel panicked and don't know where to start.`,
       // ── IMAGE SLOT ──────────────────────────────────────────────────────────
       // To add a mock screenshot of suspicious login notifications or the compromised account here:
@@ -3796,11 +3836,11 @@ function renderPasswordLab() {
             <div style="font-size:20px;margin-bottom:10px">🗝️</div>
             <div class="lesson-title" style="font-size:18px">The Real Answer: Just Use a Password Manager</div>
             <div class="lesson-body" style="margin-top:8px">
-              No manual technique beats a randomly generated 20-character password you never have to remember or type. Password managers generate, store, and auto-fill credentials for every account — and they protect them properly. Your passwords are stored in an <strong>encrypted vault</strong>: even if the password manager company's servers were breached, the data is mathematically scrambled without your master password. Here are the most trusted free options:
+              No manual technique beats a randomly generated 20-character password you never have to remember or type. Password managers generate, store, and auto-fill credentials for every account — and they protect them properly. Your passwords are stored in an <strong>encrypted vault</strong>: even if the password manager company's servers were breached, the data is mathematically scrambled without your master password. Here are the most reputable free options:
             </div>
             <ul class="lesson-list" style="margin-top:12px">
               <li>
-                <strong><a href="https://bitwarden.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">Bitwarden</a></strong> — fully open-source (independently audited), free forever, works on every device and browser. The most trusted free option for most people. Uses AES-256 encryption. Can be self-hosted if you want full control over your vault.
+                <strong><a href="https://bitwarden.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">Bitwarden</a></strong> — fully open-source (independently audited), free forever, works on every device and browser. The most reputable free option for most people. Uses AES-256 encryption. Can be self-hosted if you want full control over your vault.
               </li>
               <li>
                 <strong><a href="https://keepassxc.org" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">KeePassXC</a></strong> — stores your encrypted vault entirely locally — no cloud, no company servers, no subscription. Completely free and open-source. Best if you're privacy-focused and primarily use one device.
