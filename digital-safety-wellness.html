@@ -1388,7 +1388,9 @@
 </main>
 
 <script>
-
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
 let studentName = '';
 let moduleProgress = [false, false, false, false]; // completed?
 let finalExamPassed = false;
@@ -1408,9 +1410,11 @@ let devModeUnlocked = false;
 // END DEV TOGGLE
 // ────────────────────────────────────────────────────────────
 
-// Final exam Qs 
+// ═══════════════════════════════════════════════════════════
+// FINAL EXAM DATA - 22 questions across all 4 modules
+// ═══════════════════════════════════════════════════════════
 const FINAL_EXAM_QUESTIONS = [
-  // Module 1
+  // ── MODULE 1: Scams & Social Engineering ──
   {
     module: 1, format: 'multiple',
     question: `An email arrives claiming to be from your bank's fraud team. It looks official and uses your real name. The sender address is "security@yourbank-alerts-verify.com." What should you do?`,
@@ -1466,7 +1470,7 @@ const FINAL_EXAM_QUESTIONS = [
     ],
     explanation: `Research (gathering intel on the target) always comes first, then Hook (making contact and building trust), Play (executing the scam), and Exit (disappearing). The research phase is what makes social engineering feel personal.`
   },
-  // Module 2
+  // ── MODULE 2: Social Media & Digital Well-being ──
   {
     module: 2, format: 'truefalse',
     question: `Most major social media platforms default to private account settings when you first sign up.`,
@@ -1511,7 +1515,7 @@ const FINAL_EXAM_QUESTIONS = [
     ],
     explanation: `Evidence first, always. Once you block, access to the full history may be limited. Screenshots need to capture the full thread, timestamps, and the sender's handle to show pattern and escalation. Never delete evidence before reporting.`
   },
-  // Module 3
+  // ── MODULE 3: Account Security ──
   {
     module: 3, format: 'truefalse',
     question: `A strong, complex password is safe to reuse across multiple accounts as long as it passes a strength meter.`,
@@ -1556,7 +1560,7 @@ const FINAL_EXAM_QUESTIONS = [
     ],
     explanation: `Most platforms let you generate one-time backup recovery codes when setting up MFA - specifically for lost-device scenarios. Store them in a locked password manager note or printed securely. Security questions are weak; SMS backup is vulnerable to SIM swapping.`
   },
-  // Module 4
+  // ── MODULE 4: Reporting & Rights ──
   {
     module: 4, format: 'multiple',
     question: `When multiple accounts are compromised at once, which do you secure first and why?`,
@@ -1601,7 +1605,7 @@ const FINAL_EXAM_QUESTIONS = [
     hint: `The monitoring offer is one tool. Think about what the breach exposed and what each piece enables.`,
     explanation: `All four active steps matter: unique passwords prevent credential stuffing, a credit freeze blocks new accounts in your name, monitoring catches fraudulent use, and awareness of targeted phishing is critical - breached data is sold to make scams more convincing. The monitoring offer addresses only one slice of the risk.`
   },
-  // Extra
+  // ── CROSS-MODULE: Applied Judgment ──
   {
     module: 0, format: 'multiple',
     question: `A call comes in from what sounds exactly like your roommate's voice saying they're abroad and in trouble - please wire $800 immediately, and don't tell anyone yet. What do you do?`,
@@ -1675,10 +1679,13 @@ const MODULE_META = [
   }
 ];
 
-// Module 1 content
+// ═══════════════════════════════════════════════════════════
+// MODULE CONTENT - Module 1
+// ═══════════════════════════════════════════════════════════
 const MODULE_CONTENT = [
+  // ── MODULE 1 ──────────────────────────────────────────
   [
-
+    // INTRO LESSON
     {
       type: 'lesson',
       title: 'What is Cybersecurity?',
@@ -1698,6 +1705,7 @@ const MODULE_CONTENT = [
       ]
     },
 
+    // SCENARIO 1: Fake Job Scam
     {
       type: 'scenario',
       badge: 'Scenario 1 of 4',
@@ -1719,7 +1727,7 @@ const MODULE_CONTENT = [
         { text: 'Google the company name mentioned in the email.', correct: false }
       ],
       hint: `When an email urges you to act fast and something feels slightly off, that's a signal to slow down - not speed up. Where should Maya go to find the Career Center's real address?`,
-      explanation: `The right move is always <strong>out-of-band verification</strong> - confirming using a channel the sender can't control. Going to the university's official website to find the real Career Center contact means she's not relying on information provided in a potentially fake email. Googling the company or asking a friend doesn't confirm whether this specific email is real.`
+      explanation: `<strong>Out-of-band verification</strong> means confirming through a channel the sender can't control. Going to the university's official website to find the real Career Center contact cuts the scammer out entirely. Googling the company or asking a friend won't tell her whether <em>this specific email</em> is real.`
     },
     {
       type: 'lesson',
@@ -1806,7 +1814,7 @@ const MODULE_CONTENT = [
         { text: 'A phishing attempt to steal your Venmo login.', correct: false }
       ],
       hint: `Think about what happens to your balance if the original $250 payment gets reversed by the bank - and what would happen to any money you sent back in the meantime.`,
-      explanation: `This is the classic <strong>accidental payment scam</strong>. The $250 was likely sent from a stolen credit card or hacked account. Once the real owner disputes it, the platform reverses the charge - but any money <em>you</em> already sent back is gone forever. The scammer gets real money; you take the loss. Never send money back to strangers through P2P apps - contact the app's support instead.`
+      explanation: `This is the <strong>accidental payment scam</strong>. The $250 was likely sent from a stolen card or hacked account. Once disputed, the platform reverses it — but any money <em>you</em> already sent back is gone. Never send money back to strangers via P2P apps. Contact the app's support instead.`
     },
     {
       type: 'question',
@@ -1820,7 +1828,7 @@ const MODULE_CONTENT = [
         { text: 'The request came with a sad emoji.', correct: false }
       ],
       hint: `Think about the psychological levers we mentioned: urgency, unexpected gifts, strangers. Which of these apply?`,
-      explanation: `Strangers sending unsolicited money, manufactured urgency, and a small "bonus" to sweeten the deal are all classic manipulation tactics. The balance showing up immediately is actually normal for Venmo - it doesn't confirm the payment is legitimate. The emoji is just part of the emotional pressure, not a red flag by itself.`
+      explanation: `Strangers sending unsolicited money, manufactured urgency, and a small "bonus" are all classic manipulation tactics. The balance showing immediately is normal for Venmo — it doesn't confirm the payment is legitimate. The emoji is emotional pressure, not a red flag on its own.`
     },
 
     // ROMANCE SCAM DEFINITION LESSON
@@ -1872,7 +1880,7 @@ const MODULE_CONTENT = [
         { text: 'The financial crisis conveniently has a hard deadline.', correct: true }
       ],
       hint: `Think about what you just read in the romance scam lesson - quick emotional investment, avoiding verification, a professional cover story that explains absence, and the money ask. Which of these fit those patterns? Note: "messages frequently" is not a red flag on its own.`,
-      explanation: `All five marked options are textbook romance scam signals. Avoiding video calls, rushing emotional intimacy, requesting untraceable payment methods, using an overseas-professional cover story (surgeon/military/charity worker abroad is the most common pattern - it explains no in-person meetings), and a deadline-driven crisis are the classic playbook. Frequent messaging alone isn't suspicious - the manipulation lies in the combination of these other factors.`
+      explanation: `All five marked options are textbook romance scam signals: avoiding video calls, rushing emotional intimacy, using untraceable payment methods, an overseas-professional cover story (surgeon/military/charity worker abroad is the most common pattern), and a deadline-driven crisis. Frequent messaging alone isn't suspicious — the manipulation lies in the combination of the other factors.`
     },
 
     // SCENARIO 4: Deepfake Voice Scam
@@ -1896,7 +1904,7 @@ const MODULE_CONTENT = [
         { text: 'Call your dad to ask what to do first.', correct: false }
       ],
       hint: `The fastest way to verify this is to hang up and call the person back yourself - using a number you already have, not one the caller gives you. What's your mom's number in your contacts?`,
-      explanation: `This is a <strong>deepfake voice + vishing scam</strong>. AI can clone a voice from just a few seconds of audio found online. Hanging up and calling back directly from your contacts is the only way to verify - no genuine emergency will be made worse by a 30-second call to confirm. Engaging the caller further (asking for the station, etc.) wastes time and gives them more opportunity to manipulate you. Gift cards and Zelle payments are irreversible - authorities never request them.`
+      explanation: `This is a <strong>deepfake voice + vishing scam</strong>. AI can clone a voice from just a few seconds of audio. Hanging up and calling back from your contacts is the only way to verify — no real emergency gets worse from a 30-second check. Gift cards and Zelle are irreversible; authorities never request them.`
     },
     {
       type: 'lesson',
@@ -1945,7 +1953,7 @@ const MODULE_CONTENT = [
             { text: 'Confirming a request using a different channel from the one the request came in.', correct: true },
             { text: 'Checking a website\'s SSL certificate padlock icon.', correct: false }
           ],
-          explanation: `Out-of-band verification means using a completely separate channel - one the attacker can't control. If you got a suspicious email, you verify by calling the sender's known phone number or visiting their official website directly, not by replying to the email.`
+          explanation: `Out-of-band verification means using a completely separate channel — one the attacker can't control. Got a suspicious email? Verify by calling the sender's known number or visiting their official website directly, not by replying.`
         },
         {
           format: 'truefalse',
@@ -1954,18 +1962,18 @@ const MODULE_CONTENT = [
             { text: 'True', correct: false },
             { text: 'False', correct: true }
           ],
-          explanation: `AI voice cloning technology can replicate anyone's voice convincingly from just a few seconds of audio - a voicemail, a video, or a social media clip. Always hang up and call back on a number you already have stored.`
+          explanation: `AI voice cloning can replicate anyone's voice from just a few seconds of audio — a voicemail, a video, a social media clip. Always hang up and call back on a number you already have stored.`
         },
         {
           format: 'multiple',
-          question: `You check a WHOIS lookup on a domain - WHOIS is a public database that shows when a website's domain was first registered. The domain claims to belong to a major bank, but WHOIS shows it was registered 3 weeks ago. What does this most likely tell you?`,
+          question: `You get an email saying your bank account has been locked. The display name says "Chase Bank" but the sender address is support@chase-secure-alerts.net. What's the right move?`,
           options: [
-            { text: 'Nothing concerning - all companies register new domains occasionally.', correct: false },
-            { text: 'The domain is almost certainly fraudulent. Real banks and institutions have domains registered years or decades ago - a 3-week-old domain is a strong scam signal.', correct: true },
-            { text: 'The bank recently upgraded their security, which requires a new domain.', correct: false },
-            { text: 'WHOIS data is often wrong and shouldn\'t be used as evidence.', correct: false }
+            { text: 'Click the link in the email to log in and fix it quickly before your account is suspended.', correct: false },
+            { text: 'Ignore it entirely - banks never send emails.', correct: false },
+            { text: 'Open a new browser tab, go to chase.com directly, and log in from there to check if there\'s actually a problem.', correct: true },
+            { text: 'Reply to the email asking if it\'s legitimate.', correct: false }
           ],
-          explanation: `Scam websites are typically spun up days or weeks before a campaign and abandoned soon after. A real bank's domain will have existed for many years - Wells Fargo's domain, for example, has been registered since the 1990s. Finding a brand-new domain claiming to represent an established institution is one of the clearest red flags available. You can run a WHOIS lookup yourself at whois.domaintools.com or simply Google "whois [domain name]".`
+          explanation: `The sender address is the tell — chase.com and chase-secure-alerts.net are completely different domains. Anyone can register a lookalike. The safe move is always to navigate to the real site yourself rather than using any link, number, or address in the email.`
         },
         {
           format: 'multiselect',
@@ -2003,14 +2011,14 @@ const MODULE_CONTENT = [
         },
         {
           format: 'multiple',
-          question: `What distinguishes spear phishing from regular phishing?`,
+          question: `You get a text from an unknown number: "Hi! This is Dr. Patel from the Financial Aid office. We need to verify your SSN to release your spring disbursement - can you reply with it here?" What do you do?`,
           options: [
-            { text: 'Spear phishing only happens via text messages, not email.', correct: false },
-            { text: 'Spear phishing always installs malware automatically.', correct: false },
-            { text: 'Spear phishing only targets large corporations, not individuals.', correct: false },
-            { text: 'Spear phishing is targeted - the attacker researches a specific victim and customizes the message to them.', correct: true }
+            { text: 'Reply with your SSN - it\'s from a university official and your aid is at stake.', correct: false },
+            { text: 'Ask them to email you instead before responding.', correct: false },
+            { text: 'Don\'t reply. Look up the Financial Aid office number on your university\'s website and call them directly to ask if this is real.', correct: true },
+            { text: 'Reply asking for proof that they work there before sharing anything.', correct: false }
           ],
-          explanation: `Regular phishing is a mass blast - millions of identical emails hoping someone bites. Spear phishing is precise: the attacker researches you (your name, school, professor, recent posts) and crafts a message that feels personal and credible. This makes it significantly more dangerous.`
+          explanation: `This is out-of-band verification in practice: verify through a channel you found yourself, not one the sender gave you. Legitimate offices won't ask for your SSN over text. Engaging with the sender at all — even to push back — keeps you in their loop. Find the real number yourself and call.`
         },
         {
           format: 'multiple',
@@ -2080,7 +2088,7 @@ const MODULE_CONTENT = [
         { text: 'Post something professional right now to push the tagged photo down in your feed.', correct: false }
       ],
       hint: `The goal is to limit who can see it and prevent it from happening again. What combination of immediate action + prevention covers both?`,
-      explanation: `Untagging yourself removes it from your profile immediately. Asking Marcus to delete removes it entirely. But the real fix going forward is adjusting your privacy settings to require your approval before tagged photos appear on your profile - that way you're always in control of what's associated with your name. Deleting your account is disproportionate and posting something "good" doesn't remove the tagged photo.`
+      explanation: `Untagging removes it from your profile. Asking Marcus to delete removes it entirely. The real fix is adjusting your privacy settings to require approval before tagged photos appear on your profile — so you're always in control of what's associated with your name. Deleting your account is disproportionate, and posting something "good" doesn't remove the tagged photo.`
     },
     {
       type: 'lesson',
@@ -2121,7 +2129,7 @@ const MODULE_CONTENT = [
         { text: 'The algorithm detected Alex was stressed and is trying to help by showing relevant content.', correct: false }
       ],
       hint: `Think about what the platform actually wants from you - it's not your education or well-being. What metric drives every recommendation decision?`,
-      explanation: `Recommendation algorithms optimize for <strong>engagement and watch time</strong>, not accuracy or balance. Emotionally charged, outrage-inducing, or alarming content keeps people watching longer than calm, nuanced content does. The algorithm has no idea whether the content is true - it just knows that extreme content gets more clicks, comments, and shares. This is why rabbit holes form: each video is chosen not for being accurate, but for being more engaging than the last one.`
+      explanation: `Recommendation algorithms optimize for <strong>engagement and watch time</strong>, not accuracy or balance. Emotionally charged, outrage-inducing content keeps people watching longer than calm, nuanced content. The algorithm doesn't know if something is true — it just knows extreme content gets more clicks and shares. That's why rabbit holes form.`
     },
     {
       type: 'question',
@@ -2135,7 +2143,7 @@ const MODULE_CONTENT = [
         { text: 'When content makes you feel strong outrage or fear, pause and ask if it\'s designed to provoke that reaction.', correct: true }
       ],
       hint: `Think about what gives you agency over the algorithm - awareness, diversification, and deliberate use. One option here is an overreaction.`,
-      explanation: `You can protect yourself without quitting social media entirely. The four effective strategies are: diversifying who you follow (breaks echo chambers), using reset tools platforms provide (TikTok's "Refresh For You" page, for example), setting intentional limits on passive scrolling, and developing the habit of questioning emotionally charged content. The algorithm counts on you staying passive - conscious engagement disrupts it.`
+      explanation: `You can protect yourself without quitting social media. The four effective moves: diversify who you follow (breaks echo chambers), use platform reset tools (TikTok's "Refresh For You" page, for example), set intentional limits on passive scrolling, and question content that provokes strong outrage or fear. The algorithm counts on you staying passive — conscious engagement disrupts it.`
     },
     {
       type: 'lesson',
@@ -2236,7 +2244,7 @@ const MODULE_CONTENT = [
             { text: 'Engagement and watch time - keeping you on the platform as long as possible.', correct: true },
             { text: 'Matching content to your stated preferences and interests.', correct: false }
           ],
-          explanation: `Algorithms optimize for engagement metrics - clicks, watch time, shares, comments - because that's what generates ad revenue. Accuracy, balance, and well-being are not in the optimization function. Content that provokes strong emotions (outrage, fear, excitement) tends to score highest on engagement, which is why extreme content gets amplified.`
+          explanation: `Algorithms optimize for engagement — clicks, watch time, shares — because that drives ad revenue. Accuracy, balance, and well-being aren't in the equation. Content that provokes strong emotions scores highest, which is why extreme content gets amplified.`
         },
         {
           format: 'multiple',
@@ -2247,7 +2255,7 @@ const MODULE_CONTENT = [
             { text: 'Data your internet provider logs about your activity.', correct: false },
             { text: 'Information other people post about you without your knowledge.', correct: false }
           ],
-          explanation: `Your active footprint is what you consciously put out - posts, profile info, comments, tagged content you approve. Your passive footprint is everything platforms collect in the background without you actively sharing it. Both matter, but the active footprint is the one most directly under your control.`
+          explanation: `Your active footprint is what you consciously put out — posts, comments, tagged content you approve. Your passive footprint is everything platforms collect in the background. Both matter, but the active footprint is most directly under your control.`
         },
         {
           format: 'multiselect',
@@ -2261,7 +2269,7 @@ const MODULE_CONTENT = [
             { text: 'Messaging you frequently throughout the day.', correct: false }
           ],
           hint: `A well-maintained profile and frequent messages aren't red flags on their own - groomers deliberately appear normal. Think about the behaviors that involve control, secrecy, and isolation.`,
-          explanation: `The four red flags are: moving to a private platform (reduces oversight), rapid intense emotional bonding (manufactured to create dependency quickly), making the target feel emotionally responsible (isolation tactic), and encouraging secrecy (cuts off the target from people who might notice warning signs). Frequent messages and a normal-looking profile are not inherently suspicious - groomers deliberately cultivate normal-seeming personas.`
+          explanation: `The four red flags: moving to a private platform (reduces oversight), rapid intense emotional bonding (manufactured dependency), making the target feel responsible for their wellbeing (isolation tactic), and encouraging secrecy (cuts off people who might notice warning signs). Frequent messages and a normal-looking profile aren't suspicious on their own — groomers deliberately cultivate normal-seeming personas.`
         },
         {
           format: 'truefalse',
@@ -2270,7 +2278,7 @@ const MODULE_CONTENT = [
             { text: 'True', correct: false },
             { text: 'False', correct: true }
           ],
-          explanation: `Most platforms default to public - meaning your profile, posts, and content are visible to anyone. Platforms are incentivized to maximize your reach and engagement, which means they default to the most open settings. You have to actively change your privacy settings; they won't be set conservatively for you.`
+          explanation: `Most platforms default to public — your posts and profile visible to anyone. Platforms benefit from maximum reach, so they default to the most open settings. You have to actively change them; they won't be set conservatively for you.`
         },
         {
           format: 'multiple',
@@ -2292,7 +2300,7 @@ const MODULE_CONTENT = [
             { text: 'Wait to see if they stop on their own before taking action.', correct: false },
             { text: 'Delete your account so they can\'t contact you anymore.', correct: false }
           ],
-          explanation: `The golden rule with harassment: do not engage. Responding - even once, even to say "stop" - signals that you're reachable and can escalate the behavior. Block and report through the platform's tools so there's an official record. Crucially, screenshot evidence before blocking, because once you block, access to the messages may be limited. Deleting your account removes your ability to preserve evidence and report it.`
+          explanation: `Do not engage. Responding — even once — signals you're reachable and can escalate things. Block and report through the platform's tools so there's an official record. Screenshot first, because once you block, access to messages may be limited. Deleting your account destroys evidence and reporting options.`
         },
         {
           format: 'multiple',
@@ -2303,7 +2311,7 @@ const MODULE_CONTENT = [
             { text: 'Publicly revealing someone\'s private personal information - like their address, phone number, or workplace - to expose or harm them.', correct: true },
             { text: 'Blocking someone and deleting all conversation history.', correct: false }
           ],
-          explanation: `Doxxing is the act of publicly exposing someone's private information - home address, phone number, employer, real name if they're anonymous - typically to invite harassment or intimidation from others. It's a serious privacy violation and in many jurisdictions a criminal act. If you're doxxed, document everything, report to the platform, and contact campus security or law enforcement depending on the severity of the threat.`
+          explanation: `Doxxing is publicly exposing someone's private info — home address, phone, employer, real name — to invite harassment or intimidation. It's a serious privacy violation and often a criminal act. If it happens to you: document everything, report to the platform, and contact campus security or law enforcement depending on severity.`
         }
       ]
     }
@@ -2357,7 +2365,7 @@ const MODULE_CONTENT = [
         { text: 'Spotify and the university were also breached at the same time - it was a coincidence.', correct: false }
       ],
       hint: `The common thread between all the affected accounts is the reused password. What do attackers do when they get a list of username/password pairs from a breach?`,
-      explanation: `This is a <strong>credential stuffing attack</strong> - one of the most common and effective ways accounts get taken over. When a site is breached, attackers immediately run automated scripts that try those exact credentials on hundreds of other services: Gmail, banks, streaming platforms, university portals. If you reused the password, they're in. The gaming forum didn't share your data - they just provided the key that unlocked everywhere else you used the same one.`
+      explanation: `This is a <strong>credential stuffing attack</strong>. When a site is breached, automated scripts try those exact credentials across hundreds of other services — Gmail, banks, streaming platforms, university portals. If you reused the password, they're in. The gaming forum didn't share your data; it just provided the key that unlocked everywhere else you used the same one.`
     },
     {
       type: 'question',
@@ -2371,7 +2379,7 @@ const MODULE_CONTENT = [
         { text: 'Signing up with a different email address for less important sites.', correct: true }
       ],
       hint: `Think about what actually breaks the chain - the fact that one password worked everywhere. What strategies address that specific problem?`,
-      explanation: `Three things break the credential stuffing chain: unique passwords per site (so one breach can't cascade), a password manager (makes unique passwords actually manageable), and MFA on critical accounts (so even if a password leaks, a second factor blocks access). Using a different email for throwaway accounts also limits exposure - if that email/password combo leaks, it's not connected to your real identity. Tweaking the same password pattern doesn't help - attackers' scripts try common variations automatically.`
+      explanation: `Three things break the credential stuffing chain: unique passwords (so one breach can't cascade), a password manager (makes unique passwords actually manageable), and MFA on critical accounts (so even a leaked password isn't enough). A different email for throwaway accounts limits exposure further. Tweaking the same password pattern doesn't help — attackers' scripts try common variations automatically.`
     },
     {
       type: 'lesson',
@@ -2434,7 +2442,7 @@ const MODULE_CONTENT = [
         { text: 'The attacker guessed her password through a dictionary attack.', correct: false }
       ],
       hint: `The password wasn't cracked - it was given away. Think about what MFA adds to the equation when a password is already compromised.`,
-      explanation: `Phishing bypasses password strength entirely - it tricks you into handing over your credentials voluntarily. No matter how strong a password is, if you type it into a fake login page, the attacker has it. <strong>MFA is the critical second layer</strong>: even with the correct password, the attacker would also need access to Sam's phone or authenticator app to log in. Microsoft and Google report that MFA blocks over 99% of automated account takeover attacks.`
+      explanation: `Phishing bypasses password strength entirely — it tricks you into handing over your credentials voluntarily. No matter how strong a password is, typing it into a fake login page gives the attacker the correct one. <strong>MFA is the critical second layer</strong>: even with the right password, the attacker also needs your phone or authenticator app. Microsoft and Google report MFA blocks over 99% of automated account takeover attacks.`
     },
     {
       type: 'question',
@@ -2447,7 +2455,7 @@ const MODULE_CONTENT = [
         { text: 'Email magic links - if your email is secure, everything linked to it is too.', correct: false }
       ],
       hint: `Think about what's both genuinely secure AND something most students would actually use. The best security tool is the one you'll actually set up.`,
-      explanation: `<strong>Authenticator apps</strong> are the practical gold standard for most people. They generate time-based codes locally on your device - codes never travel over the phone network, so they can't be intercepted via SIM swapping the way SMS codes can. Hardware keys (like YubiKey) are technically more secure and worth using if you have one, but they cost money and require a physical key on hand - which is a barrier for daily use. SMS is better than nothing but is the weakest real MFA option. Security questions are not MFA - they're just a second password with predictable answers.`
+      explanation: `<strong>Authenticator apps</strong> are the practical gold standard. They generate codes locally on your device — codes never travel over the phone network, so they can't be intercepted via SIM swapping the way SMS codes can. Hardware keys (like YubiKey) are technically more secure but cost money and require a physical key on hand. SMS is better than nothing but weakest of the real MFA options. Security questions are not MFA — just a second password with predictable answers.`
     },
     {
       type: 'lesson',
@@ -2482,7 +2490,7 @@ const MODULE_CONTENT = [
             { text: 'Installing keylogging malware to capture passwords as you type them.', correct: false },
             { text: 'Intercepting your login request as it travels over the network.', correct: false }
           ],
-          explanation: `Credential stuffing exploits password reuse. When a site is breached, attackers run the stolen credentials against hundreds of other services automatically. If you used the same password on the breached site as on your bank or email, they're in - no hacking required, just automation.`
+          explanation: `Credential stuffing exploits password reuse. When a site is breached, attackers run the stolen credentials against hundreds of other services automatically. If you reused the password, they're in — no hacking required, just automation.`
         },
         {
           format: 'truefalse',
@@ -2491,18 +2499,18 @@ const MODULE_CONTENT = [
             { text: 'True', correct: false },
             { text: 'False', correct: true }
           ],
-          explanation: `Passing a strength meter means the password is harder to guess or brute-force in isolation. But if it's reused and one site leaks it, the password's complexity becomes irrelevant - attackers already have it in plaintext. Uniqueness matters as much as complexity. A password manager is the solution: it makes unique, strong passwords practical.`
+          explanation: `Passing a strength meter means the password is hard to guess in isolation. But if it's reused and one site leaks it, complexity becomes irrelevant — attackers already have it in plaintext. Uniqueness matters as much as complexity. A password manager is the solution.`
         },
         {
           format: 'multiple',
-          question: `What is the primary advantage of an authenticator app over SMS for multi-factor authentication?`,
+          question: `You're setting up MFA on your university email. The options are: a text message code, an authenticator app, or a hardware key. You don't own a hardware key. Which should you choose?`,
           options: [
-            { text: 'Authenticator apps send codes faster than SMS.', correct: false },
-            { text: 'Authenticator app codes generate locally on your device and don\'t travel over the phone network, making them immune to SIM swapping attacks.', correct: true },
-            { text: 'Authenticator apps are free, while SMS MFA costs money.', correct: false },
-            { text: 'SMS codes expire immediately, while authenticator codes last longer.', correct: false }
+            { text: 'Text message code — it\'s the simplest and your phone is always with you.', correct: false },
+            { text: 'An authenticator app like Google Authenticator or Authy — it\'s more secure than SMS and free to set up.', correct: true },
+            { text: 'Skip MFA for now — your password is already strong.', correct: false },
+            { text: 'Wait until you can get a hardware key before setting anything up.', correct: false }
           ],
-          explanation: `SIM swapping is an attack where a criminal convinces your carrier to transfer your phone number to their SIM card - after which they receive all your SMS messages, including MFA codes. Authenticator apps generate codes locally using a shared secret key, so they're never transmitted over the phone network and can't be intercepted via SIM swapping.`
+          explanation: `An authenticator app is the best realistic option here — it generates codes locally on your device rather than sending them over the phone network, making them much harder to intercept than SMS codes. Setting it up now beats waiting for a hardware key you may never get. A strong password alone isn't enough if it's ever phished.`
         },
         {
           format: 'multiselect',
@@ -2515,18 +2523,18 @@ const MODULE_CONTENT = [
             { text: 'Changing your password slightly each time you update it (e.g., Panthers2019 → Panthers2020).', correct: false }
           ],
           hint: `Think about what actually makes a password resistant: uniqueness, length, unpredictability. Which options address those, and which ones just feel like they do?`,
-          explanation: `Good practices are uniqueness (prevents credential stuffing), length (slows brute force), and using a password manager (makes both practical). Using personal info makes passwords guessable from your social media. Minor incremental changes - Panthers2019 → Panthers2020 - are one of the first variations attackers' scripts try in hybrid attacks; it provides almost no additional security.`
+          explanation: `Good practices: uniqueness (prevents credential stuffing), length (slows brute force), and a password manager (makes both practical). Personal info makes passwords guessable from social media. Incremental changes — Panthers2019 → Panthers2020 — are one of the first variations attackers' scripts try; it provides almost no additional security.`
         },
         {
           format: 'multiple',
-          question: `What is a rainbow table attack?`,
+          question: `You're trying to create a new password for your bank account. Which of these is the strongest choice?`,
           options: [
-            { text: 'An attack where every possible password combination is tried one by one.', correct: false },
-            { text: 'An attack that uses a precomputed database of password hashes to instantly reverse a stolen hash back to the original password.', correct: true },
-            { text: 'An attack that sends phishing emails in many colors and formats to avoid spam filters.', correct: false },
-            { text: 'An attack targeting Wi-Fi networks using signal analysis.', correct: false }
+            { text: 'Panthers2019! — uppercase, lowercase, number, and symbol.', correct: false },
+            { text: 'Your childhood street name plus your birth year.', correct: false },
+            { text: 'A random 18-character string generated by your password manager, like "xQ7#mL2vPk9!nRj4Ws".', correct: true },
+            { text: 'A word you\'ll remember easily, with an exclamation mark at the end.', correct: false }
           ],
-          explanation: `When websites store passwords, they store a hashed version (a one-way encrypted string), not the password itself. A rainbow table is a massive precomputed lookup table mapping common passwords to their hashes - so instead of cracking the hash, an attacker just looks it up. This is why using long, random, unique passwords matters: common or short passwords are likely already in rainbow tables.`
+          explanation: `The password manager's randomly generated string wins on every front: long, no personal information, no predictable patterns, and stored for you so you never have to remember it. The others might pass a strength meter but are either guessable from personal info or follow patterns attackers routinely try.`
         },
         {
           format: 'truefalse',
@@ -2546,7 +2554,7 @@ const MODULE_CONTENT = [
             { text: 'Backup recovery codes generated by each service, stored securely somewhere other than your phone.', correct: true },
             { text: 'A second phone number for SMS backup - always kept active.', correct: false }
           ],
-          explanation: `Most major platforms let you generate one-time backup recovery codes when you set up MFA - specifically for situations like losing your device. These should be downloaded and stored somewhere secure: a locked note in your password manager, or printed and physically stored. They're a lifeline. Security questions are weak and SMS is vulnerable to SIM swapping, so recovery codes stored offline are the gold standard backup.`
+          explanation: `Most major platforms let you generate one-time backup recovery codes when you set up MFA — for exactly this situation. Store them somewhere secure: a locked note in your password manager, or printed and physically stored. Security questions are weak and SMS is vulnerable to SIM swapping, so offline recovery codes are the gold standard backup.`
         },
         {
           format: 'multiple',
@@ -2557,7 +2565,7 @@ const MODULE_CONTENT = [
             { text: 'A different password manager - some are more phishing-resistant.', correct: false },
             { text: 'Reporting the phishing email to her university IT department first.', correct: false }
           ],
-          explanation: `Password length and complexity don't matter once a password is phished - the attacker already has the correct credentials. MFA is the layer that protects you even when a password is compromised: the attacker also needs physical access to your second factor (your phone, your hardware key). Without it, a stolen password is all they need. This is why MFA on your most important accounts - email, banking, university - is non-negotiable.`
+          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials. MFA is the layer that protects you even when a password is compromised: they'd also need physical access to your second factor (phone, hardware key). This is why MFA on email, banking, and your university account is non-negotiable.`
         }
       ]
     }
@@ -2611,7 +2619,7 @@ const MODULE_CONTENT = [
         { text: 'Change your phone\'s passcode so the attacker can\'t access your device.', correct: false }
       ],
       hint: `Think about which account gives an attacker the most leverage over everything else. Password resets for almost every service - Instagram, Spotify, banking - all get sent to one place.`,
-      explanation: `Your email is the master key to your digital life. Nearly every password reset, account verification, and recovery link gets sent there. If an attacker controls your email, they can lock you out of every account that uses it. Securing email first - through the platform's account recovery process, identity verification, or contacting your email provider's support - limits the blast radius before the attacker can pivot to other accounts.`
+      explanation: `Your email is the master key to your digital life — nearly every password reset and recovery link gets sent there. If an attacker controls your email, they can lock you out of every account linked to it. Securing email first limits the blast radius before the attacker can pivot to other accounts.`
     },
     {
       type: 'question',
@@ -2626,7 +2634,7 @@ const MODULE_CONTENT = [
         { text: 'Notify your contacts that messages from your account during the compromise were not from you.', correct: true }
       ],
       hint: `Think about what a thorough recovery looks like: locking the attacker out, documenting what happened, and cleaning up any damage they caused. One of these options is an overreaction.`,
-      explanation: `All five positive steps are part of a proper recovery: new unique passwords prevent re-entry, MFA adds the second factor that was missing, reviewing and screenshotting activity logs preserves evidence, logging out of all sessions kicks the attacker off, and notifying contacts protects them from acting on any fraudulent messages sent during the compromise. Deleting accounts entirely is an overreaction that destroys your own presence and evidence - it's not necessary and it doesn't prevent future attacks on new accounts.`
+      explanation: `All five positive steps are part of a proper recovery: new unique passwords block re-entry, MFA adds the layer that was missing, screenshotting activity logs preserves evidence, logging out of all sessions kicks the attacker off, and notifying contacts protects them from acting on fraudulent messages. Deleting accounts is an overreaction — it destroys your presence and evidence without preventing future attacks.`
     },
     {
       type: 'lesson',
@@ -2673,7 +2681,7 @@ const MODULE_CONTENT = [
         { text: 'Nothing - she needs to wait until something physical happens before any of these options apply.', correct: false }
       ],
       hint: `Think about who has jurisdiction here: the platform, the campus, local law enforcement, and federal resources for online crime. Riley has multiple simultaneous options - she doesn't have to choose just one.`,
-      explanation: `Riley has at least four active reporting pathways - and she can use all of them simultaneously. Platform reporting is immediate and creates an official record. Title IX or Student Conduct applies if he's a student or campus-affiliated. Campus safety or local police are appropriate because "I know where you live" plus a photo of her building constitutes a credible threat - she does not need to wait for physical contact. IC3 handles internet-based crimes and helps law enforcement track patterns. Waiting for physical contact is not a requirement for any of these - the behavior Riley is experiencing is already illegal under California law.`
+      explanation: `Riley has four active reporting pathways — and can use all of them at once. Platform reporting creates an official record and can remove the account. Title IX or Student Conduct applies if he's campus-affiliated. Campus safety or police are appropriate because "I know where you live" plus a photo of her building is a credible threat — no physical contact required. IC3 handles internet-based crimes. Under California law, what Riley is experiencing is already illegal.`
     },
     {
       type: 'question',
@@ -2686,7 +2694,7 @@ const MODULE_CONTENT = [
         { text: 'Block immediately without documenting anything - the priority is cutting off contact.', correct: false }
       ],
       hint: `Two things need to happen: preserve what already exists, and cut off future access. Which option does both, in the right order?`,
-      explanation: `Evidence first, then block - always in that order. Screenshots of existing messages, timestamps, and his username need to be preserved before blocking because access to the conversation may be limited afterward. Blocking does not escalate harassment in the vast majority of cases - it removes his direct line to you and establishes a documented boundary. Sending a final message before blocking is strongly discouraged: any response signals you're reachable and can be used to claim the contact was mutual. Blocking without documenting first means losing evidence you may need later.`
+      explanation: `Evidence first, then block — always in that order. Screenshots of messages, timestamps, and his username need to be preserved before blocking because access may be limited afterward. Blocking doesn't escalate harassment in the vast majority of cases — it removes his direct line to you and establishes a documented boundary. Sending a final message is strongly discouraged: any response signals you're reachable and can be used to claim contact was mutual.`
     },
 
     // ── SCENARIO 3: Breach Notification ──
@@ -2711,7 +2719,7 @@ const MODULE_CONTENT = [
         { text: 'Notify the government but not individual users - it\'s up to the government to inform people.', correct: false }
       ],
       hint: `Think about what California's Security Breach Act actually requires - notification, transparency, and what happens when especially sensitive data is involved.`,
-      explanation: `Under California's Security Breach Act, companies must notify affected individuals when their unencrypted personal data is breached. The notice must be in plain language and explain what was exposed, when it happened, and what's being done. If particularly sensitive data - Social Security numbers, driver's license numbers, financial account info - was involved, they must also provide at least 12 months of free credit monitoring or identity theft protection. This is a legal right, not a courtesy.`
+      explanation: `Under California's Security Breach Act, companies must notify affected individuals when their unencrypted personal data is breached — in plain language, explaining what was exposed, when, and what's being done. If especially sensitive data (SSNs, driver's license, financial account info) was involved, they must also provide at least 12 months of free credit monitoring. This is a legal right, not a courtesy.`
     },
     {
       type: 'question',
@@ -2725,7 +2733,7 @@ const MODULE_CONTENT = [
         { text: 'Do nothing beyond accepting the monitoring - the company has taken care of everything.', correct: false }
       ],
       hint: `A breach notification is the start of your response, not the end. Think about what's now exposed and what that enables attackers to do.`,
-      explanation: `The company has legally fulfilled their obligation - but your work is just starting. Changing passwords addresses credential exposure. A credit freeze (free at Equifax, Experian, and TransUnion) is one of the most powerful protections against identity theft - it blocks anyone from opening new credit in your name. Monitoring existing accounts catches fraudulent use of what's already compromised. Being alert to targeted phishing is crucial: attackers buy breach data specifically to make their phishing emails more convincing - "Hi [your name], we noticed activity on your account at [your address]." The credit monitoring offer is valuable but not sufficient on its own.`
+      explanation: `The company fulfilled their legal obligation — but your response is just starting. Change passwords to address credential exposure. A credit freeze (free at Equifax, Experian, and TransUnion) blocks anyone from opening new credit in your name — one of the most powerful protections against identity theft. Monitor existing accounts for fraudulent charges. Stay alert to targeted phishing: attackers buy breach data specifically to make follow-up emails more convincing. The credit monitoring offer is valuable but not sufficient on its own.`
     },
     {
       type: 'lesson',
@@ -2789,7 +2797,7 @@ const MODULE_CONTENT = [
             { text: 'Email providers have the best customer support and can recover your account fastest.', correct: false },
             { text: 'Your email password is usually the strongest, so fixing it fixes everything downstream.', correct: false }
           ],
-          explanation: `Nearly every service - Instagram, your bank, your university portal - sends password reset links to your email. An attacker who controls your email can lock you out of every account connected to it, one reset at a time. Email is the single highest-priority account to secure in any compromise scenario.`
+          explanation: `Nearly every service sends password reset links to your email. An attacker who controls it can lock you out of every connected account, one reset at a time. Email is the single highest-priority account to secure in any compromise.`
         },
         {
           format: 'truefalse',
@@ -2798,7 +2806,7 @@ const MODULE_CONTENT = [
             { text: 'True', correct: true },
             { text: 'False', correct: false }
           ],
-          explanation: `True - California's Security Breach Act requires organizations to notify affected individuals when their unencrypted personal data is breached. The notice must be in plain language, explain what was exposed and when, and describe what the company is doing to address it. If sensitive data like Social Security numbers was involved, they must also offer at least 12 months of free credit monitoring.`
+          explanation: `True — California's Security Breach Act requires organizations to notify affected individuals when their unencrypted personal data is breached, in plain language explaining what was exposed and what's being done. If sensitive data like SSNs was involved, they must also offer at least 12 months of free credit monitoring.`
         },
         {
           format: 'multiple',
@@ -2809,7 +2817,7 @@ const MODULE_CONTENT = [
             { text: 'Yes - the behavior already meets the legal definition of harassment and constitutes a credible threat. She can report to the platform, campus, and law enforcement simultaneously.', correct: true },
             { text: 'Only if she can prove the person\'s real identity first.', correct: false }
           ],
-          explanation: `California law does not require physical contact before harassment can be reported. Repeated unwanted contact plus "I know where you live" and surveillance photos constitutes a credible threat. Riley can report to the platform (to remove the account), Title IX or Student Conduct (if he's campus-affiliated), campus safety or local police (for the threat), and the IC3 (for online crime). She doesn't need to choose - all channels can be used simultaneously.`
+          explanation: `California law doesn't require physical contact before harassment can be reported. Repeated unwanted contact plus "I know where you live" and surveillance photos is a credible threat. Riley can report to the platform, Title IX or Student Conduct (if campus-affiliated), campus safety or local police, and IC3 — all at the same time. She doesn't have to choose.`
         },
         {
           format: 'multiple',
@@ -2820,7 +2828,7 @@ const MODULE_CONTENT = [
             { text: 'A photo of your screen taken with another phone - this preserves the most metadata.', correct: false },
             { text: 'Only the most recent messages - older ones are less legally useful.', correct: false }
           ],
-          explanation: `Evidence of harassment needs to show pattern and context, not just isolated worst moments. Screenshots should capture: the sender's username/handle, timestamps, and the full thread showing escalation over time. Taking a photo of your screen with another device loses image quality and doesn't capture metadata. The full thread - not cherry-picked messages - is what demonstrates a pattern to investigators, campus officials, or a court.`
+          explanation: `Evidence needs to show pattern and context, not just isolated worst moments. Capture the sender's username, timestamps, and the full thread showing escalation. A photo of your screen with another phone loses quality and metadata. The full thread — not cherry-picked messages — is what demonstrates a pattern to investigators or campus officials.`
         },
         {
           format: 'truefalse',
@@ -2829,7 +2837,7 @@ const MODULE_CONTENT = [
             { text: 'True', correct: false },
             { text: 'False', correct: true }
           ],
-          explanation: `Forwarding strips the original email headers - the metadata that contains sender IP addresses, routing information, and authentication data that investigators need. The right approach is to take a screenshot of the email in place (showing the full sender address and subject line), or to export/save the raw email file. Work from duplicates; always preserve the original untouched.`
+          explanation: `Forwarding strips the original email headers — the metadata containing sender IP addresses, routing info, and authentication data that investigators need. Instead, screenshot the email in place (showing the full sender address and subject line), or export the raw file. Always preserve the original untouched.`
         },
         {
           format: 'multiselect',
@@ -2842,7 +2850,7 @@ const MODULE_CONTENT = [
             { text: 'Accept the credit monitoring offer and consider the matter fully handled.', correct: false }
           ],
           hint: `The monitoring offer is one tool, not the whole solution. Think about what's now exposed and what each exposure enables attackers to do.`,
-          explanation: `All four positive steps are important: changing passwords addresses credential exposure, a credit freeze prevents identity theft by blocking new accounts, monitoring catches fraudulent use of existing accounts, and awareness of targeted phishing is critical because attackers buy breach data specifically to craft more convincing scam messages. The credit monitoring offer is valuable but addresses only one slice of the risk - you need all four steps for complete protection.`
+          explanation: `All four positive steps matter: changing passwords addresses credential exposure, a credit freeze prevents new accounts being opened in your name, monitoring catches fraudulent use of existing accounts, and phishing awareness is critical because attackers buy breach data to craft more convincing scam messages. The monitoring offer covers only one slice of the risk.`
         },
         {
           format: 'multiple',
@@ -2853,7 +2861,7 @@ const MODULE_CONTENT = [
             { text: 'Law enforcement only - platform reports are ineffective.', correct: false },
             { text: 'Wait for the harassment to stop before reporting - premature reports may not be taken seriously.', correct: false }
           ],
-          explanation: `Reporting channels are independent and non-exclusive - using more than one doesn't hurt your case, it strengthens it. Platform reporting removes the content and creates an official record. Campus reporting applies if the harasser is a student or staff member. Law enforcement is appropriate whenever there's a credible threat, stalking, or extortion. You never have to choose just one.`
+          explanation: `Reporting channels are independent — using more than one strengthens your case, it doesn't complicate it. Platform reporting removes the content and creates a record. Campus reporting applies if the harasser is a student or staff. Law enforcement is appropriate when there's a credible threat, stalking, or extortion. You never have to choose just one.`
         },
         {
           format: 'multiple',
@@ -2864,7 +2872,7 @@ const MODULE_CONTENT = [
             { text: 'Doxxing is making false statements about someone online - it\'s a form of defamation.', correct: false },
             { text: 'Doxxing is blocking someone and reporting them to a platform - it\'s only reportable if done falsely.', correct: false }
           ],
-          explanation: `Doxxing is the act of publicly revealing someone's private identifying information - home address, phone number, workplace, real name if they're anonymous - typically to invite harassment from others. The harm is in what it enables: once your address is public, anyone who wants to intimidate or harm you physically knows exactly where to find you. In California, doxxing combined with threats constitutes a criminal act. Document everything and report to campus safety and law enforcement, not just the platform.`
+          explanation: `Doxxing is publicly revealing someone's private identifying information — home address, phone, workplace, real name — typically to invite harassment from others. Once your address is public, anyone wanting to intimidate or harm you physically knows where to find you. In California, doxxing combined with threats is a criminal act. Document everything and report to campus safety and law enforcement, not just the platform.`
         }
       ]
     }
@@ -3552,14 +3560,29 @@ function renderDomainQuiz() {
           <div id="dq-score-area" style="text-align:center;padding:24px 0 28px"></div>
           <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;border:1px solid rgba(15,34,64,0.08)">
             <div style="font-size:20px;margin-bottom:10px">🔍</div>
-            <div class="lesson-title" style="font-size:17px;margin-bottom:12px">The Rules for Reading Email Domains</div>
-            <ul class="lesson-list">
-              <li><strong>The real domain is always the last part before the first slash</strong> - in <em>accounts.google.com/login</em>, the domain is google.com. In <em>google.com.verify-login.net</em>, the domain is verify-login.net.</li>
-              <li><strong>Subdomains are fine - lookalike domains aren't</strong> - accounts.google.com is Google. google-accounts.com is not.</li>
-              <li><strong>Watch for character swaps</strong> - 0 for O, 1 for l, rn for m. Always read the full string character by character if something feels off.</li>
-              <li><strong>"Secure", "help", "alert", "support" in a domain name means nothing</strong> - anyone can register those words. The brand name has to be the actual domain.</li>
-              <li><strong>When in doubt - don't click.</strong> Go directly to the company's website in a new tab and log in from there.</li>
-            </ul>
+            <div class="lesson-title" style="font-size:17px;margin-bottom:16px">The Rules for Reading Email Domains</div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">The real domain is the last part before the first slash</div>
+                <div style="font-size:13px;color:var(--slate);line-height:1.6">In <em>accounts.google.com/login</em>, the domain is google.com. In <em>google.com.verify-login.net</em>, the domain is verify-login.net.</div>
+              </div>
+              <div>
+                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">Subdomains are fine — lookalike domains aren't</div>
+                <div style="font-size:13px;color:var(--slate);line-height:1.6">accounts.google.com is Google. google-accounts.com is not.</div>
+              </div>
+              <div>
+                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">Watch for character swaps</div>
+                <div style="font-size:13px;color:var(--slate);line-height:1.6">0 for O, 1 for l, rn for m. Read the full address character by character if something feels off.</div>
+              </div>
+              <div>
+                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">"Secure", "help", "alert", "support" in a domain means nothing</div>
+                <div style="font-size:13px;color:var(--slate);line-height:1.6">Anyone can register those words. The brand name has to be the actual domain, not just part of a longer string.</div>
+              </div>
+              <div>
+                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">When in doubt — don't click</div>
+                <div style="font-size:13px;color:var(--slate);line-height:1.6">Open a new tab, go directly to the company's website, and log in from there.</div>
+              </div>
+            </div>
           </div>
           <div class="card-nav" style="margin-top:28px">
             <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
@@ -4277,7 +4300,8 @@ function handleOptionClick(idx, isMulti) {
   } else {
     document.getElementById(`opt-${idx}`).classList.add('incorrect');
     wrongAttempts++;
-    if (wrongAttempts === 1) {
+    const isTrueFalse = step.format === 'truefalse';
+    if (wrongAttempts === 1 && !isTrueFalse) {
       showFeedback('hint', step.hint);
       allBtns.forEach(b => b.style.pointerEvents = '');
       document.getElementById(`opt-${idx}`).style.pointerEvents = 'none';
@@ -4630,13 +4654,15 @@ function retakeTest() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-//final exam
+// ═══════════════════════════════════════════════════════════
+// FINAL EXAM
+// ═══════════════════════════════════════════════════════════
 let examQuestions = [];
 let examIndex = 0;
 let examAnswers = [];
 
 function startFinalExam() {
-  // Shuffles questions !!
+  // Shuffle all 22 questions
   examQuestions = [...FINAL_EXAM_QUESTIONS].sort(() => Math.random() - 0.5);
   examIndex = 0;
   examAnswers = [];
@@ -4720,7 +4746,8 @@ function handleExamOption(idx, isMulti) {
   } else {
     document.getElementById(`eopt-${idx}`).classList.add('incorrect');
     window._examWrong++;
-    if (window._examWrong === 1) {
+    const isTrueFalse = q.format === 'truefalse';
+    if (window._examWrong === 1 && !isTrueFalse) {
       showExamFeedback('hint', `💡 Not quite - take another look.`);
       allBtns.forEach(b => b.style.pointerEvents = '');
       document.getElementById(`eopt-${idx}`).style.pointerEvents = 'none';
