@@ -1180,6 +1180,56 @@
     .content-card-body { padding: 24px; }
     .content-card-header { padding: 20px 24px; }
   }
+
+  @media print {
+    @page { size: letter portrait; margin: 0.5in; }
+
+    header,
+    .module-view-header,
+    .cert-actions,
+    body::before { display: none !important; }
+
+    body { background: white; }
+
+    main {
+      padding: 0;
+      margin: 0;
+      max-width: 100%;
+    }
+
+    #cert-view { display: block !important; }
+
+    .certificate {
+      box-shadow: none;
+      border: 1px solid #d0d0d0;
+      max-width: 100%;
+      border-radius: 4px;
+      /* Force backgrounds (gradient header) to print */
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .cert-top {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      padding: 32px 40px 28px;
+    }
+
+    .cert-badge-icon { font-size: 40px; margin-bottom: 10px; }
+    .cert-title { font-size: 26px; }
+
+    .cert-body { padding: 28px 40px; }
+
+    .cert-name { font-size: 30px; }
+
+    .cert-description { margin-bottom: 20px; }
+
+    .cert-divider { margin: 16px 0; }
+
+    .cert-modules { margin-bottom: 20px; }
+
+    .cert-date { margin-bottom: 0; }
+  }
 </style>
 </head>
 <body>
@@ -1499,10 +1549,11 @@ const FINAL_EXAM_QUESTIONS = [
       { text: 'Using platform tools to reset your recommendations when they feel one-sided.', correct: true },
       { text: 'Setting screen time limits to avoid hours of passive autoplay.', correct: true },
       { text: 'Trusting the algorithm - it knows your interests better than you do.', correct: false },
-      { text: 'Pausing when content provokes strong outrage or fear to ask if it\'s designed to provoke that reaction.', correct: true }
+      { text: 'Pausing when content provokes strong outrage or fear to ask if it\'s designed to provoke that reaction.', correct: true },
+      { text: 'Switching to private/incognito mode when using social media so the algorithm can\'t build a profile on you.', correct: false }
     ],
-    hint: `Think about what gives you active control. One option surrenders that control entirely.`,
-    explanation: `Diversifying your feed, using reset tools, limiting passive scrolling, and questioning emotionally charged content all give you agency over a system designed to keep you passive. Trusting the algorithm is the opposite - it optimizes for engagement, not your well-being.`
+    hint: `Think about what gives you genuine active control over your feed. Two options here either surrender that control entirely or target the wrong mechanism.`,
+    explanation: `Diversifying your feed, using reset tools, limiting passive scrolling, and questioning emotionally charged content all give you agency over a system designed to keep you passive. Trusting the algorithm is the opposite — it optimizes for engagement, not your well-being. Incognito mode prevents local browser history but has no effect on platform algorithms — those track you through your logged-in account, not browser cookies.`
   },
   {
     module: 2, format: 'multiple',
@@ -1544,10 +1595,11 @@ const FINAL_EXAM_QUESTIONS = [
       { text: 'Using a password manager to generate and store credentials.', correct: true },
       { text: 'Incrementing your password each year - Password2024 → Password2025.', correct: false },
       { text: 'Answering security questions with random unguessable answers stored in your password manager.', correct: true },
-      { text: 'Creating a dedicated secondary email used only for account recovery.', correct: true }
+      { text: 'Creating a dedicated secondary email used only for account recovery.', correct: true },
+      { text: 'Relying on SMS text message codes as your only form of multi-factor authentication since it\'s more convenient than an authenticator app.', correct: false }
     ],
-    hint: `Which practices actually break attacker patterns - and which ones only feel like they do?`,
-    explanation: `Unique passwords prevent credential stuffing, password managers make that practical, random security answers resist social engineering, and a secret recovery email is hard to target. Incrementing a year is one of the first variations attackers' scripts try - it provides almost no real security.`
+    hint: `Which practices actually break attacker patterns — and which ones only feel like they do or have well-known weaknesses?`,
+    explanation: `Unique passwords prevent credential stuffing, password managers make that practical, random security answers resist social engineering, and a secret recovery email is hard to target. Incrementing a year is one of the first variations attackers' scripts try — almost no real security gain. SMS-based MFA is vulnerable to SIM-swapping, where attackers convince your carrier to transfer your number to a new device, intercepting your codes. An authenticator app or passkey is significantly more secure.`
   },
   {
     module: 3, format: 'multiple',
@@ -1761,7 +1813,16 @@ const MODULE_CONTENT = [
               <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Always confirm via an official channel you found yourself - not a link, number, or address provided in the suspicious email.</div>
             </div>
           </div>`
-        },
+        }
+      ]
+    },
+
+    {
+      type: 'lesson',
+      icon: '🧠',
+      title: 'The Five Psychological Levers Scammers Pull',
+      body: `Understanding <em>why</em> scams work is just as important as spotting them. Attackers don't rely on victims being careless — they deliberately exploit normal human psychology.`,
+      cards: [
         {
           icon: '🧠',
           title: 'The Five Psychological Levers Scammers Pull',
@@ -1772,7 +1833,16 @@ const MODULE_CONTENT = [
           <strong>Scarcity</strong> - "Only 3 spots left." Fear of missing out (FOMO) pushes snap decisions.<br><br>
           <strong>Liking (Affinity)</strong> - building rapport, flattery, or pretending to share interests so you lower your guard. Romance scammers spend weeks on this step alone.<br><br>
           Scammers rarely use just one - they stack them. An email that's "from your boss" (authority), arriving on a Friday afternoon (urgency), asking you to buy gift cards "before the client finds out" (fear + secrecy) is using three at once.`
-        },
+        }
+      ]
+    },
+
+    {
+      type: 'lesson',
+      icon: '🔄',
+      title: 'The Social Engineering Attack Cycle',
+      body: `Every scam — phishing emails, romance scams, fake job offers — follows the same four-phase pattern. Knowing the cycle lets you spot which stage you're in and interrupt it before real damage is done.`,
+      cards: [
         {
           icon: '🔄',
           title: 'The Social Engineering Attack Cycle',
@@ -1934,6 +2004,15 @@ const MODULE_CONTENT = [
               <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Scammers rush you so you don't think. Slowing down costs you 60 seconds. Falling for it can cost thousands.</div>
             </div>
           </div>`
+        },
+        {
+          icon: '🎬',
+          title: 'See It For Yourself (Optional)',
+          body: `This clip is from <strong>2018</strong> — over 8 years ago. At the time, it was considered a landmark demonstration of how convincing AI-generated video had become. The tools that produced it took a team of researchers months to build. Today, comparable deepfakes can be generated in minutes on consumer hardware. Watch the first 30 seconds and ask yourself: if you didn't know this was fabricated, would you?`,
+          video: {
+            embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/cQ54GDm1eL0" title="Jordan Peele Obama deepfake PSA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+            caption: 'BuzzFeed & Jordan Peele, 2018 — made specifically as a public warning about deepfakes. This is what 8-year-old technology looked like.'
+          }
         }
       ]
     },
@@ -2376,10 +2455,11 @@ const MODULE_CONTENT = [
         { text: 'Using a password manager to generate and store strong, unique passwords.', correct: true },
         { text: 'Enabling multi-factor authentication on important accounts like email and banking.', correct: true },
         { text: 'Using a stronger version of the same password pattern - like Panthers2020!! instead.', correct: false },
-        { text: 'Signing up with a different email address for less important sites.', correct: true }
+        { text: 'Signing up with a different email address for less important sites.', correct: true },
+        { text: 'Using private/incognito browsing mode when logging into sensitive accounts.', correct: false }
       ],
-      hint: `Think about what actually breaks the chain - the fact that one password worked everywhere. What strategies address that specific problem?`,
-      explanation: `Three things break the credential stuffing chain: unique passwords (so one breach can't cascade), a password manager (makes unique passwords actually manageable), and MFA on critical accounts (so even a leaked password isn't enough). A different email for throwaway accounts limits exposure further. Tweaking the same password pattern doesn't help — attackers' scripts try common variations automatically.`
+      hint: `Think about what actually breaks the chain - the fact that one password worked everywhere. Some options sound like security improvements but don't touch credential stuffing at all.`,
+      explanation: `Three things break the credential stuffing chain: unique passwords (so one breach can't cascade), a password manager (makes unique passwords actually manageable), and MFA on critical accounts (so even a leaked password isn't enough). A different email for throwaway accounts limits exposure further. Tweaking the same password pattern doesn't help — attackers' scripts try common variations automatically. Private browsing stops your local browser from saving history, but credentials are still captured at the server side during a breach — it provides no protection against credential stuffing.`
     },
     {
       type: 'lesson',
@@ -2678,10 +2758,11 @@ const MODULE_CONTENT = [
         { text: 'Report to her university\'s Title IX office or Student Conduct office, especially if the person is a fellow student.', correct: true },
         { text: 'Contact campus safety or police - "I know where you live" combined with surveillance photos constitutes a credible threat.', correct: true },
         { text: 'File a report with the FBI\'s Internet Crime Complaint Center (IC3) for online threats.', correct: true },
-        { text: 'Nothing - she needs to wait until something physical happens before any of these options apply.', correct: false }
+        { text: 'Nothing - she needs to wait until something physical happens before any of these options apply.', correct: false },
+        { text: 'Post publicly about the harassment to warn others and pressure the platform to act faster.', correct: false }
       ],
-      hint: `Think about who has jurisdiction here: the platform, the campus, local law enforcement, and federal resources for online crime. Riley has multiple simultaneous options - she doesn't have to choose just one.`,
-      explanation: `Riley has four active reporting pathways — and can use all of them at once. Platform reporting creates an official record and can remove the account. Title IX or Student Conduct applies if he's campus-affiliated. Campus safety or police are appropriate because "I know where you live" plus a photo of her building is a credible threat — no physical contact required. IC3 handles internet-based crimes. Under California law, what Riley is experiencing is already illegal.`
+      hint: `Think about who has jurisdiction here: the platform, the campus, local law enforcement, and federal resources for online crime. Riley has multiple simultaneous pathways — but one option here would actively undermine her case.`,
+      explanation: `Riley has four active reporting pathways — and can use all of them at once. Platform reporting creates an official record and can remove the account. Title IX or Student Conduct applies if he's campus-affiliated. Campus safety or police are appropriate because "I know where you live" plus a photo of her building is a credible threat — no physical contact required. IC3 handles internet-based crimes. Waiting for a physical incident is never required. Posting publicly about active harassment, however, can tip off the harasser, compromise an ongoing investigation, and undermine a potential legal case — document and report through official channels instead.`
     },
     {
       type: 'question',
@@ -4712,6 +4793,7 @@ function renderExamQuestion() {
           <button class="btn-nav primary" id="enext" onclick="advanceExam()" style="display:none">
             ${examIndex < examQuestions.length - 1 ? 'Next Question →' : 'See Final Results →'}
           </button>
+          ${examIndex < examQuestions.length - 1 ? `<button onclick="examIndex=examQuestions.length-1;examAnswers=new Array(examQuestions.length-1).fill(true);renderExamQuestion()" style="margin-left:auto;padding:6px 12px;font-size:11px;font-weight:600;background:#dc2626;color:white;border:none;border-radius:6px;cursor:pointer;letter-spacing:0.04em">⚙ DEV: Last Q</button>` : ''}
         </div>
       </div>
     </div>
