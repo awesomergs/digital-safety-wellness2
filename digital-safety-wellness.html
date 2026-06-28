@@ -1776,11 +1776,51 @@ const MODULE_CONTENT = [
         { text: 'Reply to the email - it looks legit enough and the opportunity is too good to pass up.', correct: false },
         { text: 'Go to her university\'s official website and look up the Career Center\'s real contact info to verify.', correct: true },
         { text: 'Forward the email to a friend to see what they think.', correct: false },
-        { text: 'Google the company name mentioned in the email.', correct: false }
+        { text: 'Search for the company\'s account on on Instagram or Twitter.', correct: false }
       ],
       hint: `When an email urges you to act fast and something feels slightly off, that's a signal to slow down - not speed up. Where should Maya go to find the Career Center's real address?`,
       explanation: `<strong>Out-of-band verification</strong> means confirming through a channel the sender can't control. Going to the university's official website to find the real Career Center contact cuts the scammer out entirely. Googling the company or asking a friend won't tell her whether <em>this specific email</em> is real.`
     },
+
+    {
+      type: 'lesson',
+      icon: '🔄',
+      title: 'The Social Engineering Attack Cycle',
+      body: `Every scam — phishing emails, romance scams, fake job offers — follows the same four-phase pattern. Knowing the cycle lets you spot which stage you're in and interrupt it before real damage is done.`,
+      cards: [
+        {
+          icon: '🔄',
+          title: 'The Social Engineering Attack Cycle',
+          body: `Every social engineering attack - whether it's a phishing email, a romance scam, or a fake job offer - follows the same basic pattern:<br><br>
+          <strong>1. Research</strong> - the attacker gathers information on the target first. They check your LinkedIn, social media, university website, or data breach records to build a believable approach. This is why personalized emails feel credible.<br><br>
+          <strong>2. Hook</strong> - they make contact and build initial trust. A convincing email, a friend request, a job offer, a "wrong number" text. The hook is designed to get your attention without triggering suspicion.<br><br>
+          <strong>3. Play</strong> - the actual scam executes. Now they ask for what they want: credentials, money, a wire transfer, personal information. This is where the psychological levers get applied hardest.<br><br>
+          <strong>4. Exit</strong> - once they have what they came for, they disappear. Fake profiles vanish, emails stop, accounts close. If the play failed, they exit quickly and move to the next target.<br><br>
+          Recognizing which phase you're in gives you a chance to interrupt it - especially during the Hook, before the Play begins.`
+        }
+      ]
+    },
+
+    {
+      type: 'lesson',
+      icon: '🧠',
+      title: 'The Five Psychological Levers Scammers Pull',
+      body: `Understanding <em>why</em> scams work is just as important as spotting them. Attackers don't rely on victims being careless — they deliberately exploit normal human psychology.`,
+      cards: [
+        {
+          icon: '🧠',
+          title: 'The Five Psychological Levers Scammers Pull',
+          body: `Social engineering works not because people are stupid - but because attackers deliberately exploit normal human tendencies. These five triggers appear across almost every scam:<br><br>
+          <strong>Authority</strong> - impersonating a boss, bank, IT department, or government agency. We're conditioned to comply with authority figures.<br><br>
+          <strong>Urgency</strong> - "Act now or your account is closed!" Rushing you cuts off rational thinking and prevents you from consulting anyone.<br><br>
+          <strong>Fear</strong> - threatening arrest, account loss, embarrassment, or harm to someone you love. Panic is the goal.<br><br>
+          <strong>Scarcity</strong> - "Only 3 spots left." Fear of missing out (FOMO) pushes snap decisions.<br><br>
+          <strong>Liking (Affinity)</strong> - building rapport, flattery, or pretending to share interests so you lower your guard. Romance scammers spend weeks on this step alone.<br><br>
+          Scammers rarely use just one - they stack them. An email that's "from your boss" (authority), arriving on a Friday afternoon (urgency), asking you to buy gift cards "before the client finds out" (fear + secrecy) is using three at once.`
+        }
+      ]
+    },
+
     {
       type: 'lesson',
       icon: '🎣',
@@ -1817,45 +1857,6 @@ const MODULE_CONTENT = [
       ]
     },
 
-    {
-      type: 'lesson',
-      icon: '🧠',
-      title: 'The Five Psychological Levers Scammers Pull',
-      body: `Understanding <em>why</em> scams work is just as important as spotting them. Attackers don't rely on victims being careless — they deliberately exploit normal human psychology.`,
-      cards: [
-        {
-          icon: '🧠',
-          title: 'The Five Psychological Levers Scammers Pull',
-          body: `Social engineering works not because people are stupid - but because attackers deliberately exploit normal human tendencies. These five triggers appear across almost every scam:<br><br>
-          <strong>Authority</strong> - impersonating a boss, bank, IT department, or government agency. We're conditioned to comply with authority figures.<br><br>
-          <strong>Urgency</strong> - "Act now or your account is closed!" Rushing you cuts off rational thinking and prevents you from consulting anyone.<br><br>
-          <strong>Fear</strong> - threatening arrest, account loss, embarrassment, or harm to someone you love. Panic is the goal.<br><br>
-          <strong>Scarcity</strong> - "Only 3 spots left." Fear of missing out (FOMO) pushes snap decisions.<br><br>
-          <strong>Liking (Affinity)</strong> - building rapport, flattery, or pretending to share interests so you lower your guard. Romance scammers spend weeks on this step alone.<br><br>
-          Scammers rarely use just one - they stack them. An email that's "from your boss" (authority), arriving on a Friday afternoon (urgency), asking you to buy gift cards "before the client finds out" (fear + secrecy) is using three at once.`
-        }
-      ]
-    },
-
-    {
-      type: 'lesson',
-      icon: '🔄',
-      title: 'The Social Engineering Attack Cycle',
-      body: `Every scam — phishing emails, romance scams, fake job offers — follows the same four-phase pattern. Knowing the cycle lets you spot which stage you're in and interrupt it before real damage is done.`,
-      cards: [
-        {
-          icon: '🔄',
-          title: 'The Social Engineering Attack Cycle',
-          body: `Every social engineering attack - whether it's a phishing email, a romance scam, or a fake job offer - follows the same basic pattern:<br><br>
-          <strong>1. Research</strong> - the attacker gathers information on the target first. They check your LinkedIn, social media, university website, or data breach records to build a believable approach. This is why personalized emails feel credible.<br><br>
-          <strong>2. Hook</strong> - they make contact and build initial trust. A convincing email, a friend request, a job offer, a "wrong number" text. The hook is designed to get your attention without triggering suspicion.<br><br>
-          <strong>3. Play</strong> - the actual scam executes. Now they ask for what they want: credentials, money, a wire transfer, personal information. This is where the psychological levers get applied hardest.<br><br>
-          <strong>4. Exit</strong> - once they have what they came for, they disappear. Fake profiles vanish, emails stop, accounts close. If the play failed, they exit quickly and move to the next target.<br><br>
-          Recognizing which phase you're in gives you a chance to interrupt it - especially during the Hook, before the Play begins.`
-        }
-      ]
-    },
-
     // DOMAIN QUIZ
     {
       type: 'interactive',
@@ -1869,9 +1870,9 @@ const MODULE_CONTENT = [
       title: 'The Accidental Venmo',
       persona: 'first',
       text: `You're eating lunch when your phone buzzes - someone named "Alex R." just sent you $250 on Venmo with the memo "rent - oops wrong person."
-      <br><br>A few minutes later you get a message from the same account: <em>"Hey! So embarrassed - I meant to send that to my roommate. My rent is due tonight and I'll get in trouble with my landlord. Can you send it back? I can send you $20 for the trouble."</em>
+      <br><br>A few minutes later you get a message from the same account: <em>"Hey! So embarrassed - I meant to send that to my roommate. My rent is due tonight and if I don't pay it my landlord will lock me out 😭. Can you send it back? I can send you $20 for the trouble."</em>
       <br><br>The $250 is already showing in your Venmo balance. You feel bad for them - it seems like an honest mistake.`,
-      highlight: `"Please send it back quick - my landlord is going to lock me out tonight 😭"`
+      
     },
     {
       type: 'question',
@@ -1884,7 +1885,7 @@ const MODULE_CONTENT = [
         { text: 'A phishing attempt to steal your Venmo login.', correct: false }
       ],
       hint: `Think about what happens to your balance if the original $250 payment gets reversed by the bank - and what would happen to any money you sent back in the meantime.`,
-      explanation: `This is the <strong>accidental payment scam</strong>. The $250 was likely sent from a stolen card or hacked account. Once disputed, the platform reverses it — but any money <em>you</em> already sent back is gone. Never send money back to strangers via P2P apps. Contact the app's support instead.`
+      explanation: `This is the <strong>accidental payment scam</strong>. The $250 was likely sent from a stolen card or hacked account — once the real owner disputes it, the platform reverses the transfer and the money disappears from your balance. But any money <em>you</em> already sent back is gone for good. Never send money back to a stranger through payment apps like Venmo, Zelle, or Cash App. Instead, contact the app's support team and let them handle it.`
     },
     {
       type: 'question',
@@ -2008,7 +2009,7 @@ const MODULE_CONTENT = [
         {
           icon: '🎬',
           title: 'See It For Yourself (Optional)',
-          body: `This clip is from <strong>2018</strong> — over 8 years ago. At the time, it was considered a landmark demonstration of how convincing AI-generated video had become. The tools that produced it took a team of researchers months to build. Today, comparable deepfakes can be generated in minutes on consumer hardware. Watch the first 30 seconds and ask yourself: if you didn't know this was fabricated, would you?`,
+          body: `This clip is from <strong>2018</strong> — over 8 years ago. At the time, it was considered a landmark demonstration of how convincing AI-generated video had become. The tools that produced it took a team of researchers months to build. Today, comparable deepfakes can be generated in minutes on consumer hardware. Watch the first 30 seconds and ask yourself: if you didn't know this was fabricated, would you know it's a scam?`,
           video: {
             embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/cQ54GDm1eL0" title="Jordan Peele Obama deepfake PSA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
             caption: 'BuzzFeed & Jordan Peele, 2018 — made specifically as a public warning about deepfakes. This is what 8-year-old technology looked like.'
@@ -2097,7 +2098,7 @@ const MODULE_CONTENT = [
             { text: 'Don\'t reply. Look up the Financial Aid office number on your university\'s website and call them directly to ask if this is real.', correct: true },
             { text: 'Reply asking for proof that they work there before sharing anything.', correct: false }
           ],
-          explanation: `This is out-of-band verification in practice: verify through a channel you found yourself, not one the sender gave you. Legitimate offices won't ask for your SSN over text. Engaging with the sender at all — even to push back — keeps you in their loop. Find the real number yourself and call.`
+          explanation: `Don't reply to the message at all — even pushing back keeps you in the scammer's loop. Your Social Security Number is one of the most sensitive pieces of information you own; it can be used to open credit cards, take out loans, or steal your identity. Legitimate offices won't ask for it over text, and any real request would come through official, verified channels. Find the Financial Aid office number on your university's website yourself and call to confirm whether this is real.`
         },
         {
           format: 'multiple',
@@ -2211,6 +2212,19 @@ const MODULE_CONTENT = [
       explanation: `Recommendation algorithms optimize for <strong>engagement and watch time</strong>, not accuracy or balance. Emotionally charged, outrage-inducing content keeps people watching longer than calm, nuanced content. The algorithm doesn't know if something is true — it just knows extreme content gets more clicks and shares. That's why rabbit holes form.`
     },
     {
+  format: 'multiselect',
+  question: `Alex wants to take back some control over what the algorithm shows her. Which of these would actually help?`,
+  options: [
+    { text: 'Follow a wider range of accounts and creators — including ones she might not fully agree with.', correct: true },
+    { text: 'Use TikTok\'s "Refresh For You Page" or YouTube\'s "Don\'t recommend this channel" features to reset recommendations.', correct: true },
+    { text: 'Set a daily screen time limit to reduce how much data the algorithm has to work with.', correct: true },
+    { text: 'Only use one platform instead of multiple — that way the algorithm has less competition.', correct: false },
+    { text: 'When content provokes a strong reaction — anger, fear, outrage — pause before engaging or sharing it.', correct: true }
+  ],
+  hint: `Think about what the algorithm is actually optimising for. Which of these disrupts that, and which one doesn't really change anything?`,
+  explanation: `Four moves that actually work: diversifying who you follow breaks the echo chamber, using platform reset tools clears the slate, limiting screen time reduces the data you're feeding it, and pausing before engaging with emotionally charged content stops you from rewarding exactly what the algorithm is trying to serve you more of. Consolidating to one platform doesn't help — each platform has its own algorithm doing the same thing.`
+},
+    {
       type: 'question',
       format: 'multiselect',
       question: `Which of these are good strategies for protecting yourself from algorithmic manipulation? Select all that apply.`,
@@ -2270,6 +2284,19 @@ const MODULE_CONTENT = [
       hint: `Think about the grooming stages: gaining trust, isolating, creating emotional dependency, moving off public platforms. Which of Jake's behaviors match those patterns?`,
       explanation: `Four behaviors are red flags: pushing to move to a private platform (cuts off any platform moderation and oversight), rapid intense emotional connection (manufactured to build dependency quickly), positioning himself as someone Priya is responsible for emotionally (creates obligation and isolation from others), and consistently avoiding in-person contact despite a plausible reason to meet. Mutual followers and a normal-looking profile are not red flags on their own - groomers deliberately construct convincing profiles.`
     },
+    {
+  format: 'multiselect',
+  question: `Jordan is 19 and has been talking to someone they met in a gaming community for three weeks. Which of these should raise a red flag?`,
+  options: [
+    { text: 'They\'ve never video called despite Jordan asking twice — they always have an excuse.', correct: true },
+    { text: 'They message frequently and remember small details Jordan has mentioned.', correct: false },
+    { text: 'They suggested moving the conversation from the game\'s chat to a private messaging app.', correct: true },
+    { text: 'They told Jordan not to mention them to their roommates because "people always misunderstand online friendships".', correct: true },
+    { text: 'They\'ve started sending Jordan small gifts and said they feel a strong connection despite never meeting.', correct: true }
+  ],
+  hint: `Some of these might feel like signs someone really likes Jordan. Think about which ones serve the other person's interests more than Jordan's.`,
+  explanation: `Four red flags: avoiding video calls removes the risk of being identified, pushing to a private platform reduces oversight, encouraging secrecy cuts Jordan off from people who might notice warning signs, and gift-giving combined with rapid emotional bonding is a deliberate trust-building tactic. Frequent messaging and remembering details alone aren't suspicious — groomers are often attentive precisely because building that bond is the strategy.`
+},
     {
       type: 'question',
       format: 'branching',
@@ -2390,7 +2417,7 @@ const MODULE_CONTENT = [
             { text: 'Publicly revealing someone\'s private personal information - like their address, phone number, or workplace - to expose or harm them.', correct: true },
             { text: 'Blocking someone and deleting all conversation history.', correct: false }
           ],
-          explanation: `Doxxing is publicly exposing someone's private info — home address, phone, employer, real name — to invite harassment or intimidation. It's a serious privacy violation and often a criminal act. If it happens to you: document everything, report to the platform, and contact campus security or law enforcement depending on severity.`
+          explanation: `Doxxing is publicly exposing someone's private info — home address, phone, employer, real name — to invite harassment or intimidation. It's a serious privacy violation and often a criminal act. <br><br>If it happens to you: document everything, report to the platform, and contact campus security or law enforcement depending on severity.`
         }
       ]
     }
@@ -3190,6 +3217,35 @@ function nextStep() {
   }
 }
 
+// ─── BACK NAVIGATION ───
+// Back only ever goes one step. Questions and mini-tests stay unidirectional:
+// if the step right behind us is one, back is disabled entirely (no skipping
+// past it to an earlier scenario/lesson). Returns -1 when there's nothing to
+// go back to — the first step, or a question/mini-test immediately behind us.
+function prevBackableStep() {
+  const prev = currentStep - 1;
+  if (prev < 0) return -1;
+  const prevType = MODULE_CONTENT[currentModule][prev].type;
+  if (prevType === 'question' || prevType === 'minitest') return -1;
+  return prev;
+}
+
+function prevStep() {
+  const target = prevBackableStep();
+  if (target < 0) return;
+  currentStep = target;
+  renderStep();              // full re-render = previous step exactly as first seen
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Secondary back button for card footers. Empty string = nothing to go back to,
+// so the button is omitted entirely (first step, or only questions behind us).
+function backBtnHTML() {
+  return prevBackableStep() >= 0
+    ? `<button class="btn-nav secondary" onclick="prevStep()">← Back</button>`
+    : '';
+}
+
 // ─── FOOTPRINT SELF-AUDIT ───
 function renderFootprintAudit() {
 
@@ -3199,26 +3255,65 @@ function renderFootprintAudit() {
   // weight: 1 = minor, 2 = moderate, 3 = significant
   // ──────────────────────────────────────────────────────────────────────────
   const ITEMS = [
-    // ── Active (things you deliberately put out) ──
-    { id:'a1',  category:'active',  weight:2, label:'Posted publicly on Instagram, TikTok, or Twitter/X in the past month',          tooltip:'Public posts are permanently indexable by search engines and visible to anyone - including future employers.' },
-    { id:'a2',  category:'active',  weight:1, label:'Left a public review on Google, Yelp, or Amazon',                               tooltip:'Reviews are tied to your Google/Amazon account and show up in search results for your name.' },
-    { id:'a3',  category:'active',  weight:2, label:'Commented under your real name on a public post, article, or forum',            tooltip:'Comments under your real name are searchable and often cached even after deletion.' },
-    { id:'a4',  category:'active',  weight:3, label:'Posted photos that show your location, home area, or daily routine',            tooltip:'Location data in posts helps people - including bad actors - piece together where you live, work, or go regularly.' },
-    { id:'a5',  category:'active',  weight:2, label:'Shared personal opinions on politics, religion, or controversial topics publicly', tooltip:'These posts are discoverable and can affect hiring decisions, relationships, or make you a target for harassment.' },
-    { id:'a6',  category:'active',  weight:1, label:'Have a public LinkedIn profile with your education and work history',           tooltip:'LinkedIn is intentionally public, but it tells anyone your timeline, employer history, and connections.' },
-    { id:'a7',  category:'active',  weight:2, label:'Tagged or been tagged in photos where your face is clearly visible',            tooltip:'Facial data in public photos can be used in reverse image searches and is increasingly used for facial recognition.' },
-    { id:'a8',  category:'active',  weight:1, label:'Signed up for newsletters, contests, or free trials using your real email',     tooltip:'Your email is now in commercial databases that are regularly bought, sold, and leaked.' },
+  // ── Active (things you deliberately put out) ──
+  { id:'a1', category:'active', weight:2, label:'Posted publicly on Instagram, TikTok, or Twitter/X in the past month',
+    tooltip:'Public posts are permanently indexable by search engines and visible to anyone — including future employers and bad actors.' },
 
-    // ── Passive (collected without you actively sharing) ──
-    { id:'p1',  category:'passive', weight:2, label:'Used Google Search while logged into a Google account',                          tooltip:'Google logs every search query tied to your account - building a detailed profile of your interests, health concerns, and intentions.' },
-    { id:'p2',  category:'passive', weight:2, label:'Used a loyalty or rewards card at a store (grocery, pharmacy, coffee shop)',     tooltip:'Purchase histories are detailed personal data - they reveal diet, health conditions, finances, and daily patterns.' },
-    { id:'p3',  category:'passive', weight:1, label:'Allowed a mobile app to access your location, contacts, or camera',             tooltip:'Apps with these permissions continuously harvest data that goes well beyond what you agreed to read in the terms.' },
-    { id:'p4',  category:'passive', weight:2, label:'Browsed websites while logged into Chrome, Safari, or Firefox with sync on',    tooltip:'Browsing history synced to an account is stored on company servers and used for ad targeting.' },
-    { id:'p5',  category:'passive', weight:1, label:'Used a smart speaker (Alexa, Google Home, Siri) in the past week',              tooltip:'Always-on microphones record clips that are logged and sometimes reviewed by human contractors at these companies.' },
-    { id:'p6',  category:'passive', weight:3, label:'Had your data exposed in a breach - click if unsure (most people have without knowing)',   tooltip:'Most people\'s email addresses, passwords, and personal info have been in at least one breach. Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> - free, safe, and shows you exactly which breaches included your email address.' },
-    { id:'p7',  category:'passive', weight:2, label:'Used public Wi-Fi without a VPN',                                                tooltip:'Unencrypted public Wi-Fi allows network operators and other users to observe your traffic and metadata.' },
-    { id:'p8',  category:'passive', weight:1, label:'Clicked "Accept All" on cookie banners without reading them',                   tooltip:'This grants third-party advertisers permission to track you across every website that uses their ad network.' },
-  ];
+  { id:'a2', category:'active', weight:1, label:'Left a public review on Google, Yelp, or Amazon',
+    tooltip:'Reviews are tied to your account and often appear in search results for your name.' },
+
+  { id:'a3', category:'active', weight:2, label:'Commented under your real name on a public post, article, or forum',
+    tooltip:'Named comments are searchable and often cached by Google even after you delete them.' },
+
+  { id:'a4', category:'active', weight:3, label:'Posted photos or stories that reveal your location, neighborhood, or daily routine',
+    tooltip:'Repeated location signals in posts let anyone — including people you don\'t know — map out where you live, work, or spend time regularly.' },
+
+  { id:'a5', category:'active', weight:2, label:'Shared personal opinions on politics, religion, or controversial topics publicly',
+    tooltip:'These posts are discoverable and can affect hiring decisions, relationships, or make you a target for harassment campaigns.' },
+
+  { id:'a6', category:'active', weight:1, label:'Have a public LinkedIn profile with your education and work history',
+    tooltip:'LinkedIn is intentionally public, but it gives anyone your employer history, school, graduation year, and professional network at a glance.' },
+
+  { id:'a7', category:'active', weight:2, label:'Tagged or been tagged in photos where your face is clearly visible',
+    tooltip:'Public photos with your face can be used in reverse image searches to find your other accounts, and are increasingly used in facial recognition tools.' },
+
+  { id:'a8', category:'active', weight:1, label:'Signed up for newsletters, contests, or free trials using your real email',
+    tooltip:'Your email is now in commercial databases that are regularly bought, sold, and leaked in breaches.' },
+
+  { id:'a9', category:'active', weight:2, label:'Used your real name or photo on a dating app',
+    tooltip:'Dating profiles expose your face, location, age, and personal details to a wide audience with few identity checks — a common starting point for romance scams and stalking.' },
+
+  { id:'a10', category:'active', weight:2, label:'Shared your phone number publicly or used it to sign up for non-essential services',
+    tooltip:'Your phone number is a key identity anchor — it can be used to look up your name and address, target you for SIM swapping, or add you to spam and scam call lists.' },
+
+  // ── Passive (collected without you actively sharing) ──
+  { id:'p1', category:'passive', weight:2, label:'Used Google Search while logged into a Google account',
+    tooltip:'Google logs every search query tied to your account, building a detailed profile of your interests, health concerns, and intentions over time.' },
+
+  { id:'p2', category:'passive', weight:2, label:'Used a loyalty or rewards card at a store (grocery, pharmacy, coffee shop)',
+    tooltip:'Purchase histories reveal diet, health patterns, finances, and daily routines — and are regularly sold to data brokers.' },
+
+  { id:'p3', category:'passive', weight:2, label:'Allowed a mobile app to access your location, contacts, or camera',
+    tooltip:'Many apps harvest far more than the permission sounds like — location "while using" can still log patterns; contact access uploads your entire address book.' },
+
+  { id:'p4', category:'passive', weight:2, label:'Browsed websites while logged into Chrome, Safari, or Firefox with sync enabled',
+    tooltip:'Synced browsing history is stored on company servers and used to build ad targeting profiles tied to your identity.' },
+
+  { id:'p5', category:'passive', weight:1, label:'Used a smart speaker (Alexa, Google Home, Siri) regularly',
+    tooltip:'Always-on devices log audio clips and build a voice profile. Conversations near them — including sensitive ones — can be captured and stored.' },
+
+  { id:'p6', category:'passive', weight:2, label:'Had your data exposed in a known breach (check haveibeenpwned.com if unsure)',
+    tooltip:'Most people\'s emails, passwords, and personal details have been in at least one breach. Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> — free and safe — to see exactly which breaches included your email.' },
+
+  { id:'p7', category:'passive', weight:2, label:'Used public Wi-Fi without a VPN in the past month',
+    tooltip:'On unencrypted public networks, anyone on the same network can observe your traffic and metadata — including which sites you visit and when.' },
+
+  { id:'p8', category:'passive', weight:1, label:'Clicked "Accept All" on cookie banners without reading them',
+    tooltip:'This grants third-party ad networks permission to track you across every website that uses their code — often hundreds of sites sharing the same tracker.' },
+
+  { id:'p9', category:'passive', weight:1, label:'Auto-synced your photos to iCloud or Google Photos',
+    tooltip:'Cloud photo libraries give these companies access to facial recognition data, GPS metadata embedded in photos, and a timestamped visual record of your life.' },
+];
 
   // Store state
   window._fp = { checked: new Set(), items: ITEMS, submitted: false };
@@ -3301,6 +3396,7 @@ function renderFootprintAudit() {
         </div>
 
         <div class="card-nav">
+          ${backBtnHTML()}
           <button class="btn-nav primary" onclick="fpSubmit()">See My Footprint Analysis →</button>
         </div>
       </div>
@@ -3316,6 +3412,7 @@ function renderFootprintAudit() {
         <div class="content-card-body">
           <div id="fp-results-body"></div>
           <div class="card-nav" style="margin-top:28px">
+            ${backBtnHTML()}
             <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
           </div>
         </div>
@@ -3627,6 +3724,11 @@ function renderDomainQuiz() {
         <div id="dq-next-wrap" style="display:none">
           <button id="dq-next-btn" onclick="dqNext()" class="btn-nav primary" style="width:100%">Next →</button>
         </div>
+
+        <!-- Back to previous step (available throughout the quiz) -->
+        <div class="card-nav" style="justify-content:flex-start;margin-top:16px">
+          ${backBtnHTML()}
+        </div>
       </div>
     </div>
 
@@ -3666,6 +3768,7 @@ function renderDomainQuiz() {
             </div>
           </div>
           <div class="card-nav" style="margin-top:28px">
+            ${backBtnHTML()}
             <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
           </div>
         </div>
@@ -3899,6 +4002,7 @@ function renderPasswordLab() {
         </div>
 
         <div class="card-nav">
+          ${backBtnHTML()}
           <button class="btn-nav primary" id="pw-continue-btn" onclick="showPasswordTips()" disabled style="opacity:0.4">
             Continue - see tips →
           </button>
@@ -3954,6 +4058,7 @@ function renderPasswordLab() {
           </div>
 
           <div class="card-nav" style="margin-top:28px">
+            ${backBtnHTML()}
             <button class="btn-nav primary" onclick="nextStep()">Continue to Module 3 →</button>
           </div>
         </div>
@@ -4280,6 +4385,7 @@ function renderLesson(step) {
         <div class="lesson-body">${step.body}</div>
         ${cardsHTML}
         <div class="card-nav" style="margin-top:28px">
+          ${backBtnHTML()}
           <button class="btn-nav primary" onclick="nextStep()">Continue →</button>
         </div>
       </div>
@@ -4313,6 +4419,7 @@ function renderScenario(step) {
         ${imageHTML}
         ${step.highlight ? `<div class="scenario-highlight">${step.highlight}</div>` : ''}
         <div class="card-nav">
+          ${backBtnHTML()}
           <button class="btn-nav primary" onclick="nextStep()">What happens next →</button>
         </div>
       </div>
