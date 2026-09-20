@@ -157,3 +157,87 @@ test('learner artifact has no debug shortcuts, inline handlers, or PDF scripts',
   const script = html.slice(start + '<script>'.length, html.lastIndexOf('</script>'));
   assert.doesNotThrow(() => new Script(script));
 });
+
+test('shared color tokens meet text and control contrast targets', () => {
+  const css = read('src/styles.css');
+  const color = name => {
+    const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6})\\b`, 'i'));
+    assert.ok(match, `Missing semantic color token: ${name}`);
+    return match[1];
+  };
+  const luminance = hex => {
+    const channels = hex.slice(1).match(/../g).map(channel => {
+      const value = parseInt(channel, 16) / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  for (const [foreground, background, minimum] of [
+    ['text', 'surface', 4.5],
+    ['text-muted', 'surface', 4.5],
+    ['text-muted', 'surface-soft', 4.5],
+    ['on-accent', 'accent', 4.5],
+    ['success', 'success-soft', 4.5],
+    ['warning', 'warning-soft', 4.5],
+    ['error', 'error-soft', 4.5],
+    ['control-border', 'surface', 3],
+    ['focus', 'surface', 3],
+  ]) {
+    const values = [luminance(color(foreground)), luminance(color(background))].sort((a, b) => b - a);
+    const ratio = (values[0] + 0.05) / (values[1] + 0.05);
+    assert.ok(ratio >= minimum, `${foreground} on ${background}: ${ratio.toFixed(2)} < ${minimum}`);
+  }
+});
+
+test('presentation is shared, motion is bounded, and core assets are offline', () => {
+  const css = read('src/styles.css');
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /:focus-visible/);
+  assert.doesNotMatch(css, /transition:\s*all\b|(?:font-size|letter-spacing):[^;]*vw/);
+  assert.doesNotMatch(css, /letter-spacing:\s*-/);
+  assert.doesNotMatch(read('src/shell.html'), /\sstyle=/);
+  assert.doesNotMatch(source, /\sstyle=/, 'curriculum must not bypass shared styles');
+  assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+  assert.equal((html.match(/data:font\/woff2;base64,/g) || []).length, 2);
+  assert.match(html, /id="icon-arrow-right"/);
+});
+
+test('password exercise rating, reset, and name escaping keep their existing gates', () => {
+  const elements = new Map();
+  const element = id => {
+    if (!elements.has(id)) elements.set(id, {
+      value: '', textContent: '', innerHTML: '', hidden: false, disabled: false, dataset: {},
+      parentElement: { setAttribute() {} },
+      replaceChildren() { this.innerHTML = ''; },
+    });
+    return elements.get(id);
+  };
+  const lab = createContext({
+    byId: element,
+    studentName: 'Aster',
+    icon: () => '',
+    escapeHTML: api.escapeHTML,
+    setProgress: (id, percentage) => { element(id).percentage = percentage; },
+  });
+  runInContext(read('src/activities.js'), lab);
+  for (const [password, rating] of [
+    ['password', 'Weak'],
+    ['R7!vQ8@k', 'Okay'],
+    ['Tundra!Pebble8Mosaic', 'Strong'],
+    ['', 'Not rated'],
+  ]) {
+    element('pw-input').value = password;
+    runInContext('analyzePassword()', lab);
+    assert.equal(element('pw-rating-label').textContent, rating);
+    assert.equal(element('pw-continue-btn').disabled, rating !== 'Strong');
+    assert.equal(element('pw-gate').hidden, rating !== 'Strong');
+    if (password === 'password') assert.ok(element('pw-composition').innerHTML.includes('below the 12-character exercise target'));
+  }
+  assert.equal(element('pw-meter-bar').percentage, 0);
+  assert.equal(element('pw-crack-row').hidden, true);
+  lab.studentName = '<img>';
+  element('pw-input').value = '<img>AnotherPractice87!';
+  runInContext('analyzePassword()', lab);
+  assert.ok(element('pw-warnings').innerHTML.includes('&lt;img&gt;'));
+  assert.ok(!element('pw-warnings').innerHTML.includes('<img>'));
+});

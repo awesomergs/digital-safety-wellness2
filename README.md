@@ -47,7 +47,7 @@ Sometimes double-clicking opens a program full of confusing text instead of the 
 
 **A couple of things to know:**
 
-- Lessons, activities, assessments, and certificate printing work without internet. Optional web fonts and the embedded video need a connection and contact their respective providers.
+- Lessons, activities, assessments, fonts, icons, and certificate printing work without internet. The optional embedded video and external resource links need a connection and contact their respective providers.
 - Your progress is **not saved** if you close the tab or browser, so try to finish the whole course in one sitting. If you close it, you'll have to start over from the beginning.
 - On the certificate, choose **Print / Save PDF**, then use your browser's printer or PDF destination. This opens a print dialog instead of downloading a PDF automatically.
 - Use only an invented password in the practice lab. The lab is a teaching exercise, not a security assessment or a live breach lookup. Names and activity responses are kept in this tab's memory; there is no account, database, or analytics integration.
@@ -56,9 +56,11 @@ Sometimes double-clicking opens a program full of confusing text instead of the 
 
 A few ideas guided how the course looks and feels:
 
-- **One step at a time.** Each module is broken into small steps - a single lesson, scenario, or question per screen - so learners are never faced with a wall of text. The sequential unlocking (and 80%-to-pass gates) keeps everyone on a shared path and gives a clear sense of progress.
+- **A visible learning path.** Each module is broken into steps, with a course outline and explicit progress. Sequential unlocking and the 80%-to-pass gates are unchanged. On phones the outline is a native disclosure, leaving more room for the lesson.
 
-- **Learning by doing.** Rather than only telling students what to do, the modules include hands-on tools (spotting fake domains, auditing a digital footprint, testing real password strength) so the lessons stick through practice.
+- **Learning by doing.** Existing domain practice, footprint reflection, and the password lab have distinct, readable activity layouts. Domain verdicts include explanations. Footprint responses are a reflection, not a risk score. Password ratings are a teaching heuristic, not a measurement of real password security.
+
+- **Consistent, accessible controls.** Shared colors, typography, focus states, feedback, and buttons replace per-screen inline styles. Lessons use an unframed reading column. Motion is restrained and respects reduced-motion settings.
 
 - **A reward to finish on.** The personalized, printable certificate gives learners a concrete goal and a sense of accomplishment for completing the course.
 
@@ -75,7 +77,8 @@ The downloadable HTML is generated. **Edit `src/`, not `digital-safety-wellness.
 | `src/course.js` | Curriculum validation, shared assessment rules, shuffling, and text escaping |
 | `src/app.js` | Navigation, rendering, completion gates, and event handling |
 | `src/activities.js` | Domain practice, footprint reflection, and password lab |
-| `src/shell.html` and `src/styles.css` | Page structure and the existing visual design |
+| `src/shell.html` and `src/styles.css` | Page structure, responsive layouts, and shared design tokens |
+| `src/assets/` | Bundled Red Hat fonts, Lucide icons, and their licenses; the build embeds these in the download |
 
 With Node.js 22 or newer, no package installation is needed:
 
@@ -89,4 +92,4 @@ Open the generated `digital-safety-wellness.html` in a browser and commit it alo
 
 The checks catch missing step types, invalid question/answer data, stale builds, and grading regressions. A wrong true/false answer finishes that question; other questions permit one retry. Wrong multiselect choices must be explicitly removed. A fully answered assessment must reach 80% to pass.
 
-See [the audit and next-phase backlog](docs/AUDIT.md) for evidence, remaining design/content risks, and a small-team approach to the next scam-spotting activity. Visual redesign, research-led curriculum revisions, persistent progress, and new game mechanics are separate follow-ups. This self-contained teaching course is not a tamper-proof examination or an accredited credential.
+See [the design system and verification notes](docs/DESIGN.md) for the redesign, accessibility checks, screenshot evidence, and remaining limitations. [The original audit](docs/AUDIT.md) documents the architecture work and a small-team approach to future scam-spotting activities. Research-led curriculum revisions, persistent progress, and new game mechanics remain separate follow-ups. This self-contained teaching course is not a tamper-proof examination or an accredited credential.

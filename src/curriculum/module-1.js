@@ -103,26 +103,26 @@ const MODULE_1 = {
           icon: '🔍',
           title: 'How to Spot a Phishing Attempt',
           body: `
-          <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+          <div class="lesson-points">
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Check the actual email domain</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Not just the display name. <em>careers@university-jobs-support.com</em> is not the same as <em>careers@university.edu</em> - anyone can register a lookalike domain.</div>
+              <h4 class="lesson-point-title">Check the actual email domain</h4>
+              <div class="lesson-body">Not just the display name. <em>careers@university-jobs-support.com</em> is not the same as <em>careers@university.edu</em> - anyone can register a lookalike domain.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Urgency + scarcity</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">"Only 3 spots remain!" is a pressure tactic. It's designed to stop you from thinking clearly or consulting anyone else before acting.</div>
+              <h4 class="lesson-point-title">Urgency + scarcity</h4>
+              <div class="lesson-body">"Only 3 spots remain!" is a pressure tactic. It's designed to stop you from thinking clearly or consulting anyone else before acting.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Unsolicited personalization</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Using your name or GPA doesn't mean the email is real - that data is often publicly available (e.g. on LinkedIn) for scammers to harvest.</div>
+              <h4 class="lesson-point-title">Unsolicited personalization</h4>
+              <div class="lesson-body">Using your name or GPA doesn't mean the email is real - that data is often publicly available (e.g. on LinkedIn) for scammers to harvest.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Know what's public about you</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Before assuming an email is legitimate because it mentions personal details, ask yourself: could a stranger have found this on my social media or LinkedIn profile?</div>
+              <h4 class="lesson-point-title">Know what's public about you</h4>
+              <div class="lesson-body">Before assuming an email is legitimate because it mentions personal details, ask yourself: could a stranger have found this on my social media or LinkedIn profile?</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Out-of-band verification</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Always confirm via an official channel you found yourself - not a link, number, or address provided in the suspicious email.</div>
+              <h4 class="lesson-point-title">Out-of-band verification</h4>
+              <div class="lesson-body">Always confirm via an official channel you found yourself - not a link, number, or address provided in the suspicious email.</div>
             </div>
           </div>`
         },
@@ -247,7 +247,7 @@ const MODULE_1 = {
           <strong>The build:</strong> They message constantly, say the right things, and create a sense of emotional intimacy quickly. They'll often claim to be abroad - working on an oil rig, deployed in the military, doing charity work in a remote country - which explains why they can't meet or video call. Every excuse is pre-planned.<br><br>
           <strong>The ask:</strong> After trust is established, a crisis appears. A medical emergency. A business deal gone wrong. A plane ticket to finally visit you. They need money - urgently, via wire transfer, gift cards, or cryptocurrency (all chosen because they're hard to reverse or trace).<br><br>
           <strong>Red flags to know before the next scenario:</strong>
-          <ul class="lesson-list" style="margin-top:8px">
+          <ul class="lesson-list">
             <li>Consistently avoids video calls - camera is always "broken"</li>
             <li>Professes strong feelings unusually quickly</li>
             <li>Always working overseas in a compelling profession</li>
@@ -317,22 +317,22 @@ const MODULE_1 = {
           icon: '🧠',
           title: 'Your Defense Against Deepfakes',
           body: `
-          <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+          <div class="lesson-points">
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Hang up, call back yourself</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Use the number in your contacts - never a number the caller provides. This one step defeats the entire attack.</div>
+              <h4 class="lesson-point-title">Hang up, call back yourself</h4>
+              <div class="lesson-body">Use the number in your contacts - never a number the caller provides. This one step defeats the entire attack.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Set a family code word</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">A word only your family knows to use in real emergencies. If the "emergency" caller doesn't know it, that tells you everything.</div>
+              <h4 class="lesson-point-title">Set a family code word</h4>
+              <div class="lesson-body">A word only your family knows to use in real emergencies. If the "emergency" caller doesn't know it, that tells you everything.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Real emergencies don't require gift cards or Zelle</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Any payment request in an "emergency" - especially via untraceable methods - is a scam signal, full stop.</div>
+              <h4 class="lesson-point-title">Real emergencies don't require gift cards or Zelle</h4>
+              <div class="lesson-body">Any payment request in an "emergency" - especially via untraceable methods - is a scam signal, full stop.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Urgency is a weapon</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Scammers rush you so you don't think. Slowing down costs you 60 seconds. Falling for it can cost thousands.</div>
+              <h4 class="lesson-point-title">Urgency is a weapon</h4>
+              <div class="lesson-body">Scammers rush you so you don't think. Slowing down costs you 60 seconds. Falling for it can cost thousands.</div>
             </div>
           </div>`
         },

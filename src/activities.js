@@ -3,453 +3,185 @@ let domainState = null;
 let passwordPracticeComplete = false;
 
 function renderFootprintAudit(step) {
-
-  // ── Items ──────────────────────────────────────────────────────────────────
-  // Each item: { id, label, category: 'active'|'passive', weight: 1|2|3,
-  //             tooltip: short explanation of why this contributes }
-  // weight: 1 = minor, 2 = moderate, 3 = significant
-  // ──────────────────────────────────────────────────────────────────────────
-  const ITEMS = step.items;
-
-  // Store state
-  footprintState = { checked: new Set(), items: ITEMS, submitted: false };
-
-  const activeItems  = ITEMS.filter(i => i.category === 'active');
-  const passiveItems = ITEMS.filter(i => i.category === 'passive');
-
-  function buildGroup(items) {
-    return items.map(item => `
-      <label id="fp-row-${item.id}" class="footprint-row">
-        <div style="position:relative;flex-shrink:0;margin-top:2px">
-          <input type="checkbox" id="fp-cb-${item.id}"
-            data-footprint="${item.id}" aria-labelledby="fp-label-${item.id}"
-            style="width:18px;height:18px;accent-color:var(--teal);cursor:pointer;margin:0">
-        </div>
-        <div style="flex:1">
-          <div id="fp-label-${item.id}" style="font-size:14px;color:var(--navy);line-height:1.5">${item.label}</div>
-          <div style="font-size:12px;color:var(--slate-light);margin-top:4px;line-height:1.5;display:none" id="fp-tip-${item.id}">${item.tooltip}</div>
-        </div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-          padding:3px 8px;border-radius:100px;flex-shrink:0;margin-top:3px;
-          background:${item.weight === 3 ? 'rgba(192,57,43,0.10)' : item.weight === 2 ? 'rgba(200,146,42,0.12)' : 'rgba(15,34,64,0.06)'};
-          color:${item.weight === 3 ? '#c0392b' : item.weight === 2 ? '#8a6010' : 'var(--slate-light)'}">
-          ${item.weight === 3 ? 'High' : item.weight === 2 ? 'Med' : 'Low'}
-        </div>
+  footprintState = { checked: new Set(), items: step.items, submitted: false };
+  const group = category => step.items.filter(item => item.category === category).map(item => `
+    <div class="footprint-item">
+      <label class="footprint-row" for="fp-cb-${item.id}">
+        <input type="checkbox" id="fp-cb-${item.id}" data-footprint="${item.id}" aria-describedby="fp-tip-${item.id}">
+        <span>${escapeHTML(item.label)}</span>
       </label>
-    `).join('');
-  }
+      <div class="footprint-tip" id="fp-tip-${item.id}" hidden>${item.tooltip}</div>
+    </div>`).join('');
 
-  document.getElementById('step-container').innerHTML = `
+  byId('step-container').innerHTML = `
     <div class="content-card">
       <div class="content-card-header">
-        <span class="content-type-badge scenario">Interactive</span>
-        <div class="content-card-title">What Does Your Footprint Look Like?</div>
+        <span class="content-type-badge">${icon('fingerprint')} Private reflection</span>
+        <h2 class="content-card-title">Your digital footprint</h2>
       </div>
-      <div class="content-card-body">
-        <div class="scenario-text">
-          Check everything that applies to you - honestly. This isn't a test with right or wrong answers. It's a mirror. No one sees your responses; this runs entirely in your browser.
-        </div>
-        <div style="font-size:13px;color:var(--slate-light);margin:-8px 0 28px;font-style:italic">Click any item after checking it to see why it matters.</div>
-
-        <!-- Live footprint size meter -->
-        <div style="background:var(--cream);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:28px;border:1px solid rgba(15,34,64,0.08)">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light)">Your Footprint Size</span>
-            <span id="fp-size-label" style="font-size:13px;font-weight:700;color:var(--slate-light)">None yet</span>
-          </div>
-          <div style="height:10px;background:rgba(15,34,64,0.08);border-radius:10px;overflow:hidden;margin-bottom:10px">
-            <div id="fp-meter" style="height:100%;width:0%;border-radius:10px;transition:width 0.5s,background 0.5s;background:var(--teal)"></div>
-          </div>
-          <div id="fp-breakdown" style="display:flex;gap:16px;font-size:12px;color:var(--slate-light)">
-            <span>👣 Active: <strong id="fp-active-count">0</strong></span>
-            <span>🕵️ Passive: <strong id="fp-passive-count">0</strong></span>
-            <span id="fp-breach-flag" style="display:none;color:var(--error)">⚠️ Possible breach exposure</span>
-          </div>
-        </div>
-
-        <!-- Active section -->
-        <div style="margin-bottom:8px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-            <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0"></div>
-            <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate)">Active Footprint - things you deliberately put out</div>
-          </div>
-          ${buildGroup(activeItems)}
-        </div>
-
-        <!-- Passive section -->
-        <div style="margin-top:24px;margin-bottom:28px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-            <div style="width:10px;height:10px;border-radius:50%;background:var(--navy-mid);flex-shrink:0"></div>
-            <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate)">Passive Footprint - collected without you actively sharing</div>
-          </div>
-          ${buildGroup(passiveItems)}
-        </div>
-
-        <div class="card-nav">
-          ${backBtnHTML()}
-          <button class="btn-nav primary" data-action="footprint-submit">See My Footprint Analysis →</button>
+      <p class="activity-intro">Which of these are part of your digital life? There are no right or wrong answers. Your responses stay in this tab.</p>
+      <div class="reflection-summary">
+        <strong id="fp-selection-status" role="status" aria-live="polite">0 of ${step.items.length} selected</strong>
+        <div class="reflection-counts">
+          <span>Active <strong id="fp-active-count">0</strong></span>
+          <span>Passive <strong id="fp-passive-count">0</strong></span>
         </div>
       </div>
-    </div>
-
-    <!-- Results card -->
-    <div id="fp-results" style="display:none;margin-top:20px">
-      <div class="content-card">
-        <div class="content-card-header">
-          <span class="content-type-badge lesson">Your Results</span>
-          <div class="content-card-title" id="fp-results-title">Footprint Analysis</div>
-        </div>
-        <div class="content-card-body">
-          <div id="fp-results-body"></div>
-          <div class="card-nav" style="margin-top:28px">
-            ${backBtnHTML()}
-            <button class="btn-nav primary" data-action="next-step">Continue →</button>
-          </div>
-        </div>
+      <fieldset class="footprint-group">
+        <legend>What you share</legend>
+        <p>Active footprint</p>
+        ${group('active')}
+      </fieldset>
+      <fieldset class="footprint-group">
+        <legend>What gets collected</legend>
+        <p>Passive footprint</p>
+        ${group('passive')}
+      </fieldset>
+      <div class="card-nav">
+        ${backBtnHTML()}
+        <button class="btn-nav primary" data-action="footprint-submit">See my reflection ${icon('arrow-right')}</button>
       </div>
-    </div>
-  `;
+      <section class="activity-result" id="fp-results" hidden aria-labelledby="fp-results-title">
+        <p class="eyebrow">Your reflection</p>
+        <h2 id="fp-results-title" tabindex="-1">A few things to think about.</h2>
+        <div id="fp-results-body"></div>
+        <div class="card-nav"><button class="btn-nav primary" data-action="next-step">Continue ${icon('arrow-right')}</button></div>
+      </section>
+    </div>`;
 }
 
 function fpToggle(id) {
   const state = footprintState;
-  const cb    = document.getElementById('fp-cb-' + id);
-  const tip   = document.getElementById('fp-tip-' + id);
-  if (!state || !cb || !tip) return;
-
-  if (cb.checked) {
-    state.checked.add(id);
-    if (tip) tip.style.display = 'block';
-  } else {
-    state.checked.delete(id);
-    if (tip) tip.style.display = 'none';
-  }
-
+  const checkbox = byId('fp-cb-' + id);
+  const tip = byId('fp-tip-' + id);
+  if (!state || !checkbox || !tip) return;
+  if (checkbox.checked) state.checked.add(id);
+  else state.checked.delete(id);
+  tip.hidden = !checkbox.checked;
   state.submitted = false;
-  document.getElementById('fp-results').style.display = 'none';
-  fpUpdateMeter();
-}
-
-function fpUpdateMeter() {
-  const state      = footprintState;
-  const checkedItems = state.items.filter(i => state.checked.has(i.id));
-  const totalWeight  = state.items.reduce((s, i) => s + i.weight, 0);
-  const userWeight   = checkedItems.reduce((s, i) => s + i.weight, 0);
-  const pct          = Math.round((userWeight / totalWeight) * 100);
-
-  const activeCount  = checkedItems.filter(i => i.category === 'active').length;
-  const passiveCount = checkedItems.filter(i => i.category === 'passive').length;
-  const hasBreach    = state.checked.has('p6');
-
-  // Meter color
-  const color = pct >= 65 ? '#c0392b' : pct >= 35 ? '#c8922a' : 'var(--teal)';
-  const label = pct >= 65 ? 'Large' : pct >= 35 ? 'Moderate' : pct > 0 ? 'Small' : 'None yet';
-
-  document.getElementById('fp-meter').style.width      = Math.max(pct, pct > 0 ? 4 : 0) + '%';
-  document.getElementById('fp-meter').style.background = color;
-  document.getElementById('fp-size-label').textContent  = label;
-  document.getElementById('fp-size-label').style.color  = color;
-  document.getElementById('fp-active-count').textContent  = activeCount;
-  document.getElementById('fp-passive-count').textContent = passiveCount;
-  document.getElementById('fp-breach-flag').style.display = hasBreach ? 'inline' : 'none';
+  byId('fp-results').hidden = true;
+  const selected = state.items.filter(item => state.checked.has(item.id));
+  byId('fp-selection-status').textContent = `${selected.length} of ${state.items.length} selected`;
+  byId('fp-active-count').textContent = selected.filter(item => item.category === 'active').length;
+  byId('fp-passive-count').textContent = selected.filter(item => item.category === 'passive').length;
 }
 
 function fpSubmit() {
-  const state       = footprintState;
+  const state = footprintState;
   if (!state) return;
   state.submitted = true;
-  const checkedItems = state.items.filter(i => state.checked.has(i.id));
-  const totalWeight  = state.items.reduce((s, i) => s + i.weight, 0);
-  const userWeight   = checkedItems.reduce((s, i) => s + i.weight, 0);
-  const pct          = Math.round((userWeight / totalWeight) * 100);
-  const count        = checkedItems.length;
-
-  const activeChecked  = checkedItems.filter(i => i.category === 'active');
-  const passiveChecked = checkedItems.filter(i => i.category === 'passive');
-  const highRisk       = checkedItems.filter(i => i.weight === 3);
-  const hasBreach      = state.checked.has('p6');
-
-  // ── Headline + tone ──
-  let headline, emoji, tone, meterColor;
-  if (pct >= 65) {
-    headline = 'Your footprint is large'; emoji = '🔴';
-    tone = `You've checked ${count} of ${state.items.length} items - and several are high-impact. That's not a judgment; it's the reality for most people who've been online for years. The goal isn't zero footprint - it's <strong>understanding what's out there and making deliberate choices going forward</strong>.`;
-    meterColor = '#c0392b';
-  } else if (pct >= 35) {
-    headline = 'Your footprint is moderate'; emoji = '🟡';
-    tone = `You've checked ${count} of ${state.items.length} items. You're not starting from scratch, but you're also not overexposed. A few targeted changes - especially on the high and medium items - can meaningfully reduce your risk without overhauling how you use the internet.`;
-    meterColor = '#c8922a';
-  } else if (pct > 0) {
-    headline = 'Your footprint is relatively small'; emoji = '🟢';
-    tone = `You've checked ${count} of ${state.items.length} items - you're more careful than most. That said, even a small footprint has real-world implications. And the passive items in particular can accumulate without you noticing.`;
-    meterColor = 'var(--teal)';
-  } else {
-    headline = 'Nothing checked - yet'; emoji = '⬜';
-    tone = `Either you've had a very offline week, or this is a moment to sit with it honestly. Most college students would check at least 6–8 items on this list without thinking hard. That's not a problem - it's just useful information.`;
-    meterColor = 'var(--slate-light)';
-  }
-
-  // ── High risk callouts ──
-  const highRiskHTML = highRisk.length ? `
-    <div style="margin-bottom:20px">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--error);margin-bottom:10px">⚠️ High-impact items you checked</div>
-      ${highRisk.map(item => `
-        <div style="padding:12px 16px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);
-          border-radius:var(--radius-sm);margin-bottom:8px;font-size:13.5px;color:var(--navy);line-height:1.5">
-          <strong>${item.label}</strong>
-          <div style="font-size:12.5px;color:var(--slate);margin-top:4px">${item.tooltip}</div>
-        </div>
-      `).join('')}
-    </div>` : '';
-
-  // ── Breach callout ──
-  const breachHTML = hasBreach ? `
-    <div style="padding:14px 18px;background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2);
-      border-radius:var(--radius-sm);margin-bottom:20px;font-size:13.5px;line-height:1.6;color:var(--navy)">
-      <strong style="color:var(--error)">⚠️ You may have breach exposure</strong><br>
-      Most people's email and password data has appeared in at least one breach without them knowing.
-      Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener"
-        style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> - it's free, safe, and shows you
-      exactly which breaches included your email address.
-    </div>` : '';
-
-  // ── Actionable takeaways ──
+  const checked = state.items.filter(item => state.checked.has(item.id));
+  const active = checked.filter(item => item.category === 'active');
+  const passive = checked.filter(item => item.category === 'passive');
+  const highImpact = checked.filter(item => item.weight === 3);
   const takeaways = [];
-  if (activeChecked.some(i => i.id === 'a4'))
+  if (state.checked.has('a4'))
     takeaways.push('Turn off location tagging on photos before you post, or crop out recognizable landmarks.');
-  if (activeChecked.some(i => i.id === 'a7'))
+  if (state.checked.has('a7'))
     takeaways.push('Set Instagram and Facebook to require your approval before tagged photos appear on your profile.');
-  if (activeChecked.some(i => ['a1','a3','a5'].includes(i.id)))
+  if (active.some(item => ['a1', 'a3', 'a5'].includes(item.id)))
     takeaways.push('Do a quick Google search of your own name - see what a recruiter, landlord, or stranger would find.');
-  if (passiveChecked.some(i => i.id === 'p1'))
+  if (state.checked.has('p1'))
     takeaways.push('Consider using a search engine that doesn\'t log queries, like DuckDuckGo, for sensitive searches.');
-  if (passiveChecked.some(i => i.id === 'p3'))
+  if (state.checked.has('p3'))
     takeaways.push('Audit your app permissions this week: Settings → Privacy - revoke location and camera access for apps that don\'t genuinely need them.');
-  if (passiveChecked.some(i => i.id === 'p8'))
+  if (state.checked.has('p8'))
     takeaways.push('Install a browser extension like uBlock Origin - it blocks most tracking scripts before they load.');
-  if (passiveChecked.some(i => i.id === 'p7'))
+  if (state.checked.has('p7'))
     takeaways.push('On public Wi-Fi, stick to HTTPS sites only - look for the padlock icon in the address bar.');
-  // Always include one universal tip
   takeaways.push('The question isn\'t "how do I disappear?" - it\'s "am I making deliberate choices?" You can\'t undo the past, but you can change what you do next.');
 
-  const takeawaysHTML = takeaways.length ? `
-    <div style="background:var(--cream);border-radius:var(--radius-sm);padding:18px 20px;border:1px solid rgba(15,34,64,0.08)">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:12px">Concrete next steps for you</div>
-      <ul class="lesson-list">
-        ${takeaways.map(t => `<li>${t}</li>`).join('')}
-      </ul>
-    </div>` : '';
-
-  // ── Passive vs active observation ──
-  let balanceNote = '';
-  if (passiveChecked.length > activeChecked.length + 2) {
-    balanceNote = `<div style="font-size:13.5px;color:var(--slate);line-height:1.65;margin-bottom:16px">
-      Notably, most of your footprint is <strong>passive</strong> - data collected about you rather than content you chose to share. This is harder to control, but being aware of it changes how you think about the tools you use every day.
-    </div>`;
-  } else if (activeChecked.length > passiveChecked.length + 2) {
-    balanceNote = `<div style="font-size:13.5px;color:var(--slate);line-height:1.65;margin-bottom:16px">
-      Most of your footprint is <strong>active</strong> - things you've deliberately put out there. These are the most directly controllable: you can audit your profiles, tighten your privacy settings, and think more carefully about what you share going forward.
-    </div>`;
-  }
-
-  // ── Render results ──
-  document.getElementById('fp-results-title').textContent = headline;
-  document.getElementById('fp-results-body').innerHTML = `
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:20px 24px;
-      background:var(--cream);border-radius:var(--radius-sm);border:1px solid rgba(15,34,64,0.08)">
-      <div style="font-size:40px;flex-shrink:0">${emoji}</div>
-      <div>
-        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:6px">${headline}</div>
-        <div style="height:6px;width:160px;background:rgba(15,34,64,0.08);border-radius:6px;overflow:hidden;margin-bottom:8px">
-          <div style="height:100%;width:${pct}%;background:${meterColor};border-radius:6px"></div>
-        </div>
-        <div style="font-size:13px;color:var(--slate-light)">${count} of ${state.items.length} items · ${activeChecked.length} active, ${passiveChecked.length} passive</div>
-      </div>
-    </div>
-
-    <div style="font-size:15px;color:var(--slate);line-height:1.75;margin-bottom:20px">${tone}</div>
-
-    ${balanceNote}
-    ${breachHTML}
-    ${highRiskHTML}
-    ${takeawaysHTML}
-
-    <div style="margin-top:20px;padding:14px 18px;background:rgba(26,127,120,0.07);border-radius:var(--radius-sm);font-size:13px;color:var(--slate);line-height:1.6;border:1px solid rgba(26,127,120,0.15)">
-      🔒 <strong>Reminder:</strong> your answers weren't recorded. This ran entirely in your browser and nothing was sent anywhere. The exercise only works if you're honest with yourself.
-    </div>
-  `;
-
-  // Show results and scroll
-  document.getElementById('fp-results').style.display = 'block';
-  document.getElementById('fp-results-title').tabIndex = -1;
-  document.getElementById('fp-results-title').focus({ preventScroll: true });
-  document.getElementById('fp-results').scrollIntoView({ block:'start' });
+  byId('fp-results-title').textContent = checked.length ? 'A few things to think about.' : 'Nothing selected.';
+  byId('fp-results-body').innerHTML = `
+    <p class="lesson-body">${checked.length
+      ? 'These are the activities you recognized, not a score of your safety. Start with one change that matters to you.'
+      : 'You can revisit the checklist or continue. This reflection does not measure your safety online.'}</p>
+    <p class="reflection-result-summary">${checked.length} of ${state.items.length} selected &middot; ${active.length} active &middot; ${passive.length} passive</p>
+    ${highImpact.map(item => `<section class="lesson-section"><h3 class="lesson-title">${escapeHTML(item.label)}</h3><div class="lesson-body">${item.tooltip}</div></section>`).join('')}
+    ${state.checked.has('p6') ? `<section class="lesson-section">
+      <h3 class="lesson-title">You selected a known data breach</h3>
+      <p class="lesson-body">Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener">haveibeenpwned.com</a> for breaches involving your email address. This course does not check breach records.</p>
+    </section>` : ''}
+    <section class="reflection-takeaways">
+      <h3>Possible next steps</h3>
+      <ul class="lesson-list">${takeaways.map(text => `<li>${text}</li>`).join('')}</ul>
+    </section>`;
+  byId('fp-results').hidden = false;
+  byId('fp-results-title').focus({ preventScroll: true });
+  byId('fp-results').scrollIntoView({ block: 'start' });
 }
 
-
 function renderDomainQuiz(step) {
-  // ── The 8 email addresses ──────────────────────────────────────────────────
-  // Each entry: { address, verdict: 'real'|'fake', blurb, flags: [strings] }
-  // flags = the specific red flags to highlight after reveal (fake only)
-  // ─────────────────────────────────────────────────────────────────────────
-  const DOMAINS = step.items;
-
-  // Shuffle for variety on revisit
-  const shuffled = shuffle(DOMAINS);
-
-  // Store state on window for access from event handlers
-  domainState = {
-    items:     shuffled,
-    current:   0,
-    correct:   0,
-    answered:  false
-  };
-
-  document.getElementById('step-container').innerHTML = `
+  domainState = { items: shuffle(step.items), current: 0, correct: 0, answered: false };
+  byId('step-container').innerHTML = `
     <div class="content-card">
       <div class="content-card-header">
-        <span class="content-type-badge scenario">Interactive</span>
-        <div class="content-card-title">Real or Fake? - Domain Edition</div>
+        <span class="content-type-badge">${icon('mail')} Put it into practice</span>
+        <h2 class="content-card-title">Spot the suspicious domain</h2>
       </div>
-      <div class="content-card-body">
-        <div class="scenario-text" style="margin-bottom:4px">
-          You've just learned how to spot a suspicious email domain. Now put it to the test - ${DOMAINS.length} email addresses, one at a time. Is each one from a legitimate source or a fake?
+      <p class="activity-intro">Is this the expected domain or a lookalike?</p>
+      <div id="dq-exercise">
+        <div class="activity-position">
+          <span id="dq-counter"></span>
+          <div class="round-track" id="dq-progress" role="progressbar" aria-label="Completed domain rounds" aria-valuemin="0" aria-valuemax="${step.items.length}" aria-valuenow="0"></div>
         </div>
-        <div style="font-size:12px;color:var(--slate-light);margin-bottom:28px">Read the full address carefully before deciding.</div>
-
-        <!-- Progress -->
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
-          <div style="flex:1;height:4px;background:rgba(15,34,64,0.08);border-radius:4px;overflow:hidden">
-            <div id="dq-progress-bar" style="height:100%;width:0%;background:var(--teal);border-radius:4px;transition:width 0.4s"></div>
+        <div class="sender-panel" id="dq-card">
+          <div class="sender-toolbar"><span>${icon('mail')} Sender details</span><span class="meta-text">Practice email</span></div>
+          <div class="sender-body">
+            <span class="eyebrow">From</span>
+            <p class="sender-address" id="dq-address" tabindex="-1"></p>
           </div>
-          <div id="dq-counter" style="font-size:12px;font-weight:600;color:var(--slate-light);white-space:nowrap">1 of ${DOMAINS.length}</div>
         </div>
-
-        <!-- Address card -->
-        <div id="dq-card" style="
-          background:var(--navy);border-radius:var(--radius-md);
-          padding:32px 28px;text-align:center;margin-bottom:24px;
-          min-height:100px;display:flex;align-items:center;justify-content:center;
-        ">
-          <div id="dq-address" style="
-            font-family:monospace;font-size:clamp(13px,2.5vw,18px);
-            color:white;letter-spacing:0.02em;word-break:break-all;line-height:1.5
-          "></div>
+        <div class="domain-choices" id="dq-buttons" role="group" aria-label="Your verdict">
+          <button class="domain-choice" data-action="domain-answer" data-choice="real">${icon('check')} Looks legitimate</button>
+          <button class="domain-choice" data-action="domain-answer" data-choice="fake">${icon('flag')} Looks suspicious</button>
         </div>
-
-        <!-- Verdict buttons -->
-        <div id="dq-buttons" style="display:flex;gap:12px;margin-bottom:20px">
-          <button data-action="domain-answer" data-choice="real" style="
-            flex:1;padding:16px;border-radius:var(--radius-sm);border:2px solid rgba(26,127,120,0.3);
-            background:rgba(26,127,120,0.06);cursor:pointer;font-family:'DM Sans',sans-serif;
-            font-size:15px;font-weight:600;color:var(--teal);transition:all 0.18s
-          ">
-            ✓ Legitimate
-          </button>
-          <button data-action="domain-answer" data-choice="fake" style="
-            flex:1;padding:16px;border-radius:var(--radius-sm);border:2px solid rgba(192,57,43,0.3);
-            background:rgba(192,57,43,0.06);cursor:pointer;font-family:'DM Sans',sans-serif;
-            font-size:15px;font-weight:600;color:var(--error);transition:all 0.18s
-          ">
-            ✗ Fake / Suspicious
-          </button>
-        </div>
-
-        <!-- Feedback area -->
-        <div id="dq-feedback" role="status" aria-live="polite" style="display:none"></div>
-
-        <!-- Next / Finish -->
-        <div id="dq-next-wrap" style="display:none">
-          <button id="dq-next-btn" data-action="domain-next" class="btn-nav primary" style="width:100%">Next →</button>
-        </div>
-
-        <!-- Back to previous step (available throughout the quiz) -->
-        <div class="card-nav" style="justify-content:flex-start;margin-top:16px">
+        <p class="field-note">Domain-pattern practice, not a check of an email's authenticity.</p>
+        <div id="dq-feedback" class="feedback-box" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="card-nav">
           ${backBtnHTML()}
+          <div id="dq-next-wrap" hidden><button id="dq-next-btn" data-action="domain-next" class="btn-nav primary">Next address ${icon('arrow-right')}</button></div>
         </div>
       </div>
-    </div>
-
-    <!-- Results card - hidden until all 8 answered -->
-    <div id="dq-results" style="display:none;margin-top:20px">
-      <div class="content-card">
-        <div class="content-card-header">
-          <span class="content-type-badge lesson">Lesson</span>
-          <div class="content-card-title">What to Remember</div>
-        </div>
-        <div class="content-card-body">
-          <div id="dq-score-area" style="text-align:center;padding:24px 0 28px"></div>
-          <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;border:1px solid rgba(15,34,64,0.08)">
-            <div style="font-size:20px;margin-bottom:10px">🔍</div>
-            <div class="lesson-title" style="font-size:17px;margin-bottom:16px">The Rules for Reading Email Domains</div>
-            <div style="display:flex;flex-direction:column;gap:14px">
-              <div>
-                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">The real domain is the last part before the first slash</div>
-                <div style="font-size:13px;color:var(--slate);line-height:1.6">In <em>accounts.google.com/login</em>, the domain is google.com. In <em>google.com.verify-login.net</em>, the domain is verify-login.net.</div>
-              </div>
-              <div>
-                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">Subdomains are fine — lookalike domains aren't</div>
-                <div style="font-size:13px;color:var(--slate);line-height:1.6">accounts.google.com is Google. google-accounts.com is not.</div>
-              </div>
-              <div>
-                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">Watch for character swaps</div>
-                <div style="font-size:13px;color:var(--slate);line-height:1.6">0 for O, 1 for l, rn for m. Read the full address character by character if something feels off.</div>
-              </div>
-              <div>
-                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">"Secure", "help", "alert", "support" in a domain means nothing</div>
-                <div style="font-size:13px;color:var(--slate);line-height:1.6">Anyone can register those words. The brand name has to be the actual domain, not just part of a longer string.</div>
-              </div>
-              <div>
-                <div style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:3px">When in doubt — don't click</div>
-                <div style="font-size:13px;color:var(--slate);line-height:1.6">Open a new tab, go directly to the company's website, and log in from there.</div>
-              </div>
-            </div>
+      <section id="dq-results" class="activity-result" hidden aria-labelledby="dq-results-title">
+        <p class="eyebrow">Practice complete</p>
+        <h2 id="dq-results-title" tabindex="-1">A closer look pays off.</h2>
+        <div id="dq-score-area"></div>
+        <section class="lesson-section">
+          <h3 class="lesson-title">The rules for reading email domains</h3>
+          <div class="lesson-points">
+            <div><h4 class="lesson-point-title">The real domain is the last part before the first slash</h4>
+              <p class="lesson-body">In <em>accounts.google.com/login</em>, the domain is google.com. In <em>google.com.verify-login.net</em>, the domain is verify-login.net.</p></div>
+            <div><h4 class="lesson-point-title">Subdomains are fine - lookalike domains aren't</h4>
+              <p class="lesson-body">accounts.google.com is Google. google-accounts.com is not.</p></div>
+            <div><h4 class="lesson-point-title">Watch for character swaps</h4>
+              <p class="lesson-body">0 for O, 1 for l, rn for m. Read the full address character by character if something feels off.</p></div>
+            <div><h4 class="lesson-point-title">"Secure", "help", "alert", "support" in a domain means nothing</h4>
+              <p class="lesson-body">Anyone can register those words. The brand name has to be the actual domain, not just part of a longer string.</p></div>
+            <div><h4 class="lesson-point-title">When in doubt - don't click</h4>
+              <p class="lesson-body">Open a new tab, go directly to the company's website, and log in from there.</p></div>
           </div>
-          <div class="card-nav" style="margin-top:28px">
-            ${backBtnHTML()}
-            <button class="btn-nav primary" data-action="next-step">Continue →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
+        </section>
+        <div class="card-nav">${backBtnHTML()}<button class="btn-nav primary" data-action="next-step">Continue ${icon('arrow-right')}</button></div>
+      </section>
+    </div>`;
   dqRender();
 }
 
 function dqRender() {
   const state = domainState;
-  const item  = state.items[state.current];
+  const item = state.items[state.current];
   state.answered = false;
-
-  // Update address display
-  document.getElementById('dq-address').textContent = item.address;
-
-  // Highlight the domain part in a different color
-  const addr    = item.address;
-  const atIdx   = addr.indexOf('@');
-  if (atIdx >= 0) {
-    const user   = addr.slice(0, atIdx + 1);
-    const domain = addr.slice(atIdx + 1);
-    document.getElementById('dq-address').innerHTML =
-      `<span style="color:rgba(255,255,255,0.7)">${escapeHTML(user)}</span><span style="color:white;font-weight:700">${escapeHTML(domain)}</span>`;
-  }
-
-  // Progress
-  const pct = Math.round((state.current / state.items.length) * 100);
-  document.getElementById('dq-progress-bar').style.width = pct + '%';
-  document.getElementById('dq-counter').textContent = `${state.current + 1} of ${state.items.length}`;
-
-  // Reset UI
-  document.getElementById('dq-feedback').style.display  = 'none';
-  document.getElementById('dq-feedback').innerHTML      = '';
-  document.getElementById('dq-next-wrap').style.display = 'none';
-  document.getElementById('dq-buttons').style.display   = 'flex';
-
-  // Re-enable buttons
-  document.querySelectorAll('#dq-buttons button').forEach(b => {
-    b.disabled = false;
-    b.style.opacity = '1';
+  const at = item.address.indexOf('@') + 1;
+  byId('dq-address').innerHTML = `<span>${escapeHTML(item.address.slice(0, at))}</span><strong>${escapeHTML(item.address.slice(at))}</strong>`;
+  byId('dq-counter').textContent = `Round ${state.current + 1} of ${state.items.length}`;
+  byId('dq-progress').setAttribute('aria-valuenow', state.current);
+  byId('dq-progress').innerHTML = state.items.map((_, index) => `<span class="round-mark ${index < state.current ? 'is-complete' : index === state.current ? 'is-current' : ''}" aria-hidden="true"></span>`).join('');
+  byId('dq-feedback').replaceChildren();
+  byId('dq-next-wrap').hidden = true;
+  document.querySelectorAll('#dq-buttons button').forEach(button => {
+    button.disabled = false;
+    button.className = 'domain-choice';
   });
 }
 
@@ -457,284 +189,135 @@ function dqAnswer(choice) {
   const state = domainState;
   if (!state || state.answered || !['real', 'fake'].includes(choice)) return;
   state.answered = true;
-
-  const item     = state.items[state.current];
-  const correct  = choice === item.verdict;
+  const item = state.items[state.current];
+  const correct = choice === item.verdict;
   if (correct) state.correct++;
-
-  // Disable buttons
-  document.querySelectorAll('#dq-buttons button').forEach(b => {
-    b.disabled = true;
-    b.style.opacity = '0.5';
+  document.querySelectorAll('#dq-buttons button').forEach(button => {
+    button.disabled = true;
+    if (button.dataset.choice === choice) button.classList.add('is-picked', correct ? 'is-correct' : 'is-incorrect');
   });
-
-  // Build feedback
-  const isLast = state.current === state.items.length - 1;
-  const flagsHTML = item.flags.length
-    ? `<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
-        ${item.flags.map(f => `
-          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:#7a3020">
-            <span style="flex-shrink:0">🚩</span>${f}
-          </div>`).join('')}
-       </div>`
-    : '';
-
-  const correctLabel  = item.verdict === 'real'
-    ? '<span style="color:var(--teal);font-weight:700">✓ Legitimate</span>'
-    : '<span style="color:var(--error);font-weight:700">✗ Fake / Suspicious</span>';
-
-  const verdictBg = item.verdict === 'real'
-    ? 'rgba(26,127,120,0.09)' : 'rgba(192,57,43,0.07)';
-  const verdictBorder = item.verdict === 'real'
-    ? 'rgba(26,127,120,0.25)' : 'rgba(192,57,43,0.2)';
-
-  const resultIcon = correct ? '✓' : '✗';
-  const resultColor = correct ? 'var(--teal)' : 'var(--error)';
-  const resultText  = correct ? 'Correct' : 'Not quite';
-
-  document.getElementById('dq-feedback').style.display = 'block';
-  document.getElementById('dq-feedback').innerHTML = `
-    <div style="
-      background:${verdictBg};border:1px solid ${verdictBorder};
-      border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px
-    ">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <span style="font-size:16px;color:${resultColor};font-weight:700">${resultIcon} ${resultText}</span>
-        <span style="font-size:13px;color:var(--slate-light)">- this address is ${correctLabel}</span>
-      </div>
-      <div style="font-size:13.5px;color:var(--slate);line-height:1.65">${item.blurb}</div>
-      ${flagsHTML}
-    </div>
-  `;
-
-  // Show next/finish button
-  document.getElementById('dq-next-wrap').style.display = 'block';
-  document.getElementById('dq-next-btn').textContent = isLast ? 'See Results →' : 'Next →';
+  const feedback = byId('dq-feedback');
+  feedback.className = `feedback-box ${correct ? 'correct-feedback' : 'wrong-feedback'}`;
+  feedback.innerHTML = `
+    <span class="feedback-label">${icon(correct ? 'check' : 'book-open')} ${correct ? 'You got it.' : 'Take a closer look.'}</span>
+    <p><strong>${item.verdict === 'real' ? 'Expected domain' : 'Suspicious domain'}</strong></p>
+    <p>${escapeHTML(item.blurb)}</p>
+    ${item.flags.length ? `<ul class="domain-flags">${item.flags.map(flag => `<li>${escapeHTML(flag)}</li>`).join('')}</ul>` : ''}`;
+  byId('dq-next-wrap').hidden = false;
+  byId('dq-next-btn').innerHTML = `${state.current === state.items.length - 1 ? 'See results' : 'Next address'} ${icon('arrow-right')}`;
+  feedback.tabIndex = -1;
+  feedback.focus({ preventScroll: true });
 }
 
 function dqNext() {
   const state = domainState;
   if (!state || !state.answered || state.current >= state.items.length) return;
   state.current++;
-
-  if (state.current >= state.items.length) {
-    dqShowResults();
-  } else {
+  if (state.current >= state.items.length) dqShowResults();
+  else {
     dqRender();
+    byId('dq-address').focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
 }
 
 function dqShowResults() {
-  const state  = domainState;
-  const total  = state.items.length;
-  const score  = state.correct;
-  const pct    = Math.round((score / total) * 100);
-
-  // Fill progress bar to 100%
-  document.getElementById('dq-progress-bar').style.width = '100%';
-  document.getElementById('dq-counter').textContent = `${total} of ${total}`;
-
-  // Hide the main card's action area
-  document.getElementById('dq-buttons').style.display   = 'none';
-  document.getElementById('dq-feedback').style.display  = 'none';
-  document.getElementById('dq-next-wrap').style.display = 'none';
-
-  // Swap address card to summary
-  document.getElementById('dq-card').style.background = 'var(--cream)';
-  document.getElementById('dq-card').style.border = '1px solid rgba(15,34,64,0.08)';
-  document.getElementById('dq-address').innerHTML = `
-    <div style="text-align:center">
-      <div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:4px">${score}/${total}</div>
-      <div style="font-size:14px;color:var(--slate-light)">${pct}% correct</div>
-    </div>
-  `;
-
-  // Score message
-  let msg;
-  if (score === total)      msg = "Perfect - you caught every one. This is exactly the level of attention domain checking requires.";
-  else if (score >= total - 1) msg = "Strong result. The tricky ones are designed to be - attackers invest real effort in making lookalike domains convincing.";
-  else if (score >= total - 3) msg = "Decent - but a few slipped through. Review the ones you missed and look for the pattern: what made them look legitimate?";
-  else                      msg = "Several slipped through - that's normal for a first pass. The explanation for each address shows exactly what to look for next time.";
-
-  document.getElementById('dq-score-area').innerHTML = `
-    <div style="font-size:18px;margin-bottom:10px">${score === total ? '🎯' : score >= total - 2 ? '👍' : '📚'}</div>
-    <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px">${score === total ? 'Perfect score!' : score + ' out of ' + total}</div>
-    <div style="font-size:14px;color:var(--slate-light);line-height:1.6;max-width:420px;margin:0 auto">${msg}</div>
-  `;
-
-  // Show results card
-  const results = document.getElementById('dq-results');
-  results.style.display = 'block';
-  const title = results.querySelector('.content-card-title');
-  title.tabIndex = -1;
-  title.focus({ preventScroll: true });
-  results.scrollIntoView({ block: 'start' });
+  const { correct, items } = domainState;
+  byId('dq-exercise').hidden = true;
+  byId('dq-results').hidden = false;
+  byId('dq-score-area').innerHTML = `<p class="result-count">${correct} / ${items.length}</p>
+    <p class="lesson-body">${correct === items.length ? 'You recognized every domain pattern in this round.' : 'Each explanation is a chance to notice one more detail next time.'} Keep these checks in mind.</p>`;
+  byId('dq-results-title').focus({ preventScroll: true });
+  byId('dq-results').scrollIntoView({ block: 'start' });
 }
-
 
 function renderPasswordLab() {
   passwordPracticeComplete = false;
-  document.getElementById('step-container').innerHTML = `
+  byId('step-container').innerHTML = `
     <div class="content-card">
       <div class="content-card-header">
-        <span class="content-type-badge scenario">Interactive</span>
-        <div class="content-card-title">Password Strength Lab</div>
+        <span class="content-type-badge">${icon('key-round')} Put it into practice</span>
+        <h2 class="content-card-title">Password lab</h2>
       </div>
-      <div class="content-card-body">
-        <div class="scenario-text">
-          Now it's your turn to build a strong password. Type one below and watch how it holds up against real attack criteria - then use what you learn to strengthen it.<br><br>
-          <strong>Don't use a real password you actually use.</strong> Build a new one here. The goal is to understand what "strong" actually means in practice.
-        </div>
-
-        <!-- Input -->
-        <div style="position:relative;margin-bottom:20px">
-          <label class="sr-only" for="pw-input">Practice password (do not use a real password)</label>
-          <input
-            type="password"
-            id="pw-input"
-            placeholder="Type a password to test..."
-            maxlength="128"
-            autocomplete="new-password"
-            style="
-              width:100%;padding:14px 48px 14px 18px;
-              border:1.5px solid rgba(15,34,64,0.15);border-radius:var(--radius-sm);
-              font-family:'DM Sans',sans-serif;font-size:16px;color:var(--navy);
-              background:var(--warm-white);outline:none;transition:border-color 0.2s;
-              letter-spacing:0.08em;
-            "
-          >
-          <button data-action="password-visibility" id="pw-eye" aria-label="Show practice password" aria-pressed="false" style="
-            position:absolute;right:14px;top:50%;transform:translateY(-50%);
-            background:none;border:none;cursor:pointer;font-size:18px;color:var(--slate-light);
-            padding:4px;line-height:1;min-width:44px;min-height:44px
-          ">👁</button>
-        </div>
-
-        <!-- Strength meter bar -->
-        <div style="margin-bottom:20px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate-light)">Strength</span>
-            <span id="pw-rating-label" role="status" style="font-size:13px;font-weight:700;color:var(--slate-light)">-</span>
-          </div>
-          <div style="height:6px;background:rgba(15,34,64,0.08);border-radius:6px;overflow:hidden">
-            <div id="pw-meter-bar" style="height:100%;width:0%;border-radius:6px;transition:width 0.4s,background 0.4s"></div>
-          </div>
-        </div>
-
-        <!-- Character composition row -->
-        <div id="pw-composition" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px"></div>
-
-        <!-- Time to crack -->
-        <div id="pw-crack-row" style="display:none;background:var(--cream);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:16px;border:1px solid rgba(15,34,64,0.08)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:4px">Estimated time to crack</div>
-          <div id="pw-crack-time" style="font-size:22px;font-weight:600;font-family:'DM Serif Display',serif;color:var(--navy)"></div>
-          <div id="pw-crack-method" style="font-size:12px;color:var(--slate-light);margin-top:2px"></div>
-        </div>
-
-        <!-- Weakness flags -->
-        <div id="pw-warnings" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
-
-        <!-- Gated continue - only unlocks on Strong -->
-        <div id="pw-gate" style="display:none">
-          <div style="background:rgba(26,127,120,0.08);border:1px solid rgba(26,127,120,0.2);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px">
-            <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px">✓ Strong password achieved!</div>
-            <div style="font-size:13px;color:var(--slate);line-height:1.6">
-              Good work - but <strong>don't use this specific password anywhere.</strong> The value isn't the password itself; it's the technique you just used to build it. A password manager will generate passwords even stronger than this one automatically.
-            </div>
-          </div>
-        </div>
-
-        <div class="card-nav">
-          ${backBtnHTML()}
-          <button class="btn-nav primary" id="pw-continue-btn" data-action="password-tips" disabled style="opacity:0.4">
-            Continue - see tips →
-          </button>
+      <p class="activity-intro">Try an invented password. Notice how length, variety, and recognizable patterns affect this exercise's rating.</p>
+      <div class="practice-notice">${icon('circle-alert')}<p><strong>Never enter a real password.</strong> This is a teaching exercise, not a security assessment or a live breach check.</p></div>
+      <label class="field-label" for="pw-input">Practice password</label>
+      <div class="password-field" id="pw-field">
+        <input type="password" id="pw-input" placeholder="An invented password" maxlength="128" autocomplete="new-password" spellcheck="false" autocapitalize="off" aria-describedby="pw-help">
+        <button class="icon-button" data-action="password-visibility" id="pw-eye" aria-label="Show practice password" aria-pressed="false" title="Show practice password">${icon('eye')}</button>
+      </div>
+      <p class="field-note" id="pw-help">Only this tab processes what you type. Nothing is saved or sent.</p>
+      <div class="password-meter" id="pw-meter">
+        <div class="password-meter-label"><span>Exercise rating</span><strong id="pw-rating-label" role="status">Not rated</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Password exercise rating" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="pw-meter-bar"></div>
         </div>
       </div>
-    </div>
-
-    <!-- Tips card - hidden until strong password achieved -->
-    <div id="pw-tips-card" style="display:none;margin-top:20px">
-      <div class="content-card">
-        <div class="content-card-header">
-          <span class="content-type-badge lesson">Lesson</span>
-          <div class="content-card-title">Making Passwords Actually Stick</div>
-        </div>
-        <div class="content-card-body">
-          <span class="lesson-icon">💡</span>
-          <div class="lesson-body">Here are the techniques that make a password strong <em>and</em> memorable - without resorting to predictable patterns:</div>
-
-          <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;margin-top:20px;border:1px solid rgba(15,34,64,0.08)">
-            <div style="font-size:20px;margin-bottom:10px">🔀</div>
-            <div class="lesson-title" style="font-size:18px">Techniques That Actually Work</div>
-            <ul class="lesson-list" style="margin-top:12px">
-              <li><strong>Use a passphrase - then make it yours</strong> - string three or four genuinely unrelated words together and add a number or symbol between them: <em>correct-horse-battery-staple</em> becomes <em>Correct!Horse#Battery99</em> - long, hard to brute-force, and easier to remember than a random string. The length alone does most of the work.</li>
-              <li><strong>Lead with a special character or number</strong> - most people add symbols at the end (Password1!). Putting one at the front or middle - <em>!MyDogRan2019</em> - breaks the predictable patterns cracking tools expect. Not a substitute for length, but a meaningful addition.</li>
-              <li><strong>Avoid obvious substitutions as your only strategy</strong> - swapping a for @ or e for 3 is a known technique that cracking tools account for explicitly. "P@ssw0rd" is in breach databases. These substitutions can help as one element of a longer password, but they're not strong on their own.</li>
-              <li><strong>Length beats complexity</strong> - a 16-character passphrase with just lowercase letters has more entropy than an 8-character password with symbols. Prioritize length first, then add variety.</li>
-            </ul>
-          </div>
-
-          <div style="background:var(--cream);border-radius:var(--radius-sm);padding:20px 24px;margin-top:16px;border:1px solid rgba(15,34,64,0.08)">
-            <div style="font-size:20px;margin-bottom:10px">🗝️</div>
-            <div class="lesson-title" style="font-size:18px">The Real Answer: Just Use a Password Manager</div>
-            <div class="lesson-body" style="margin-top:8px">
-              No manual technique beats a randomly generated 20-character password you never have to remember or type. Password managers generate, store, and auto-fill credentials for every account - and they protect them properly. Your passwords are stored in an <strong>encrypted vault</strong>: even if the password manager company's servers were breached, the data is mathematically scrambled without your master password. Here are the most reputable free options:
-            </div>
-            <ul class="lesson-list" style="margin-top:12px">
-              <li>
-                <strong><a href="https://bitwarden.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">Bitwarden</a></strong> - fully open-source (independently audited), free forever, works on every device and browser. The most reputable free option for most people. Uses AES-256 encryption. Can be self-hosted if you want full control over your vault.
-              </li>
-              <li>
-                <strong><a href="https://keepassxc.org" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none">KeePassXC</a></strong> - stores your encrypted vault entirely locally - no cloud, no company servers, no subscription. Completely free and open-source. Best if you're privacy-focused and primarily use one device.
-              </li>
-              <li>
-                <strong>Apple Passwords / iCloud Keychain</strong> - built into every iPhone, iPad, and Mac. Free, end-to-end encrypted, and deeply integrated - generates and fills passwords automatically in Safari and most apps. Strong choice if you're in the Apple ecosystem.
-              </li>
-              <li>
-                <strong>Google Password Manager</strong> - built into Chrome and Android, free, and encrypted. Generates and saves strong passwords automatically. Good option if you're already in the Google ecosystem and use Chrome across devices.
-              </li>
-            </ul>
-            <div style="margin-top:12px;padding:12px 16px;background:rgba(26,127,120,0.07);border-radius:6px;font-size:13px;color:var(--slate)">
-              💬 <strong>The bottom line:</strong> pick any one of these and start using it today. Even using a password manager for just your most important accounts - email, banking, university login - is a massive improvement over reusing passwords.
-            </div>
-          </div>
-
-          <div class="card-nav" style="margin-top:28px">
-            ${backBtnHTML()}
-            <button class="btn-nav primary" data-action="next-step">Continue →</button>
-          </div>
-        </div>
+      <div class="password-composition" id="pw-composition"></div>
+      <details class="password-estimate" id="pw-crack-row" hidden>
+        <summary>Demonstration estimate ${icon('chevron-down')}</summary>
+        <p class="estimate-value" id="pw-crack-time"></p>
+        <p id="pw-crack-method"></p>
+        <p>This simplified model is not a prediction of how long a real password would resist an attack.</p>
+      </details>
+      <div class="password-warnings" id="pw-warnings"></div>
+      <div class="password-ready" id="pw-gate" hidden>${icon('check')}
+        <p><strong>Exercise target reached.</strong>Keep the technique, not this password. Do not use this practice password on any account.</p>
       </div>
-    </div>
-  `;
-
+      <div class="card-nav">
+        ${backBtnHTML()}
+        <button class="btn-nav primary" id="pw-continue-btn" data-action="password-tips" disabled>Continue to tips ${icon('arrow-right')}</button>
+      </div>
+      <section class="activity-result" id="pw-tips-card" hidden aria-labelledby="pw-tips-title">
+        <p class="eyebrow">Take it with you</p>
+        <h2 id="pw-tips-title" tabindex="-1">Making passwords actually stick</h2>
+        <p class="lesson-body">Here are the techniques that make a password strong <em>and</em> memorable - without resorting to predictable patterns:</p>
+        <section class="lesson-section">
+          <h3 class="lesson-title">Techniques that actually work</h3>
+          <ul class="lesson-list">
+            <li><strong>Use a passphrase - then make it yours</strong> - string three or four genuinely unrelated words together and add a number or symbol between them: <em>correct-horse-battery-staple</em> becomes <em>Correct!Horse#Battery99</em> - long, hard to brute-force, and easier to remember than a random string. The length alone does most of the work.</li>
+            <li><strong>Lead with a special character or number</strong> - most people add symbols at the end (Password1!). Putting one at the front or middle - <em>!MyDogRan2019</em> - breaks the predictable patterns cracking tools expect. Not a substitute for length, but a meaningful addition.</li>
+            <li><strong>Avoid obvious substitutions as your only strategy</strong> - swapping a for @ or e for 3 is a known technique that cracking tools account for explicitly. "P@ssw0rd" is in breach databases. These substitutions can help as one element of a longer password, but they're not strong on their own.</li>
+            <li><strong>Length beats complexity</strong> - a 16-character passphrase with just lowercase letters has more entropy than an 8-character password with symbols. Prioritize length first, then add variety.</li>
+          </ul>
+        </section>
+        <section class="lesson-section">
+          <h3 class="lesson-title">The real answer: just use a password manager</h3>
+          <p class="lesson-body">No manual technique beats a randomly generated 20-character password you never have to remember or type. Password managers generate, store, and auto-fill credentials for every account - and they protect them properly. Your passwords are stored in an <strong>encrypted vault</strong>: even if the password manager company's servers were breached, the data is mathematically scrambled without your master password. Here are the most reputable free options:</p>
+          <ul class="lesson-list">
+            <li><strong><a href="https://bitwarden.com" target="_blank" rel="noopener">Bitwarden</a></strong> - fully open-source (independently audited), free forever, works on every device and browser. The most reputable free option for most people. Uses AES-256 encryption. Can be self-hosted if you want full control over your vault.</li>
+            <li><strong><a href="https://keepassxc.org" target="_blank" rel="noopener">KeePassXC</a></strong> - stores your encrypted vault entirely locally - no cloud, no company servers, no subscription. Completely free and open-source. Best if you're privacy-focused and primarily use one device.</li>
+            <li><strong>Apple Passwords / iCloud Keychain</strong> - built into every iPhone, iPad, and Mac. Free, end-to-end encrypted, and deeply integrated - generates and fills passwords automatically in Safari and most apps. Strong choice if you're in the Apple ecosystem.</li>
+            <li><strong>Google Password Manager</strong> - built into Chrome and Android, free, and encrypted. Generates and saves strong passwords automatically. Good option if you're already in the Google ecosystem and use Chrome across devices.</li>
+          </ul>
+          <p class="support-note"><strong>The bottom line:</strong> pick any one of these and start using it today. Even using a password manager for just your most important accounts - email, banking, university login - is a massive improvement over reusing passwords.</p>
+        </section>
+        <div class="card-nav">${backBtnHTML()}<button class="btn-nav primary" data-action="next-step">Continue ${icon('arrow-right')}</button></div>
+      </section>
+    </div>`;
 }
 
 function togglePwVisibility() {
-  const input = document.getElementById('pw-input');
-  const btn   = document.getElementById('pw-eye');
-  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
-  else                           { input.type = 'password'; btn.textContent = '👁'; }
-  btn.setAttribute('aria-pressed', String(input.type === 'text'));
-  btn.setAttribute('aria-label', input.type === 'text' ? 'Hide practice password' : 'Show practice password');
+  const input = byId('pw-input');
+  const button = byId('pw-eye');
+  input.type = input.type === 'password' ? 'text' : 'password';
+  const visible = input.type === 'text';
+  const label = visible ? 'Hide practice password' : 'Show practice password';
+  button.innerHTML = icon(visible ? 'eye-off' : 'eye');
+  button.setAttribute('aria-pressed', String(visible));
+  button.setAttribute('aria-label', label);
+  button.title = label;
 }
 
 function showPasswordTips() {
-  if (document.getElementById('pw-continue-btn').disabled) return;
+  if (byId('pw-continue-btn').disabled) return;
   passwordPracticeComplete = true;
-  const tips = document.getElementById('pw-tips-card');
-  tips.style.display = 'block';
-  const title = tips.querySelector('.content-card-title');
-  title.tabIndex = -1;
-  title.focus({ preventScroll: true });
-  tips.scrollIntoView({ block: 'start' });
+  byId('pw-tips-card').hidden = false;
+  byId('pw-tips-title').focus({ preventScroll: true });
+  byId('pw-tips-card').scrollIntoView({ block: 'start' });
 }
 
-// ── Password analysis engine ──
-
-// Top 50 most-breached passwords - instantly "Weak" regardless of composition
+// Retained teaching word lists and rating rules; these are not a live breach lookup.
 const BREACHED_PASSWORDS = new Set([
   'password','password1','password123','123456','123456789','12345678','1234567',
   '12345','1234567890','qwerty','abc123','monkey','1234','dragon','master',
@@ -769,219 +352,119 @@ const GEO_WORDS = new Set([
 ]);
 
 function analyzePassword() {
-  const raw   = document.getElementById('pw-input').value;
+  const raw = byId('pw-input').value;
   const lower = raw.toLowerCase();
-
   if (!raw) { resetPasswordUI(); return; }
 
-  // ── Composition ──
-  const len        = raw.length;
-  const hasLower   = /[a-z]/.test(raw);
-  const hasUpper   = /[A-Z]/.test(raw);
-  const hasNumber  = /[0-9]/.test(raw);
+  const len = raw.length;
+  const hasLower = /[a-z]/.test(raw);
+  const hasUpper = /[A-Z]/.test(raw);
+  const hasNumber = /[0-9]/.test(raw);
   const hasSpecial = /[^a-zA-Z0-9]/.test(raw);
-  const charTypes  = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length;
-
-  // ── Weakness flags ──
+  const charTypes = [hasLower, hasUpper, hasNumber, hasSpecial].filter(Boolean).length;
   const warnings = [];
+  if (BREACHED_PASSWORDS.has(lower))
+    warnings.push('This exact password (or a close variant) appears in breach databases - attackers try these first, before any other attack. It would be cracked instantly.');
+  if (/(?:19|20)\d{2}/.test(raw))
+    warnings.push('Contains a year - attackers\' tools specifically try year patterns (1900–2026) as they\'re extremely common in passwords.');
 
-  // Breached password list check (rainbow table simulation)
-  if (BREACHED_PASSWORDS.has(lower)) {
-    warnings.push({ icon:'💀', text:'This exact password (or a close variant) appears in breach databases - attackers try these first, before any other attack. It would be cracked instantly.' });
-  }
-
-  // Year pattern 1900–2026
-  if (/(?:19|20)\d{2}/.test(raw)) {
-    warnings.push({ icon:'📅', text:'Contains a year - attackers\' tools specifically try year patterns (1900–2026) as they\'re extremely common in passwords.' });
-  }
-
-  // Student's own name check - split on spaces so "Rohan George" checks both "rohan" and "george"
-  const nameParts = studentName.toLowerCase().split(/\s+/).filter(p => p.length >= 3);
+  const nameParts = studentName.toLowerCase().split(/\s+/).filter(part => part.length >= 3);
   const nameFromUser = nameParts.some(part => lower.includes(part));
   if (nameFromUser) {
     const matchedPart = nameParts.find(part => lower.includes(part));
-    warnings.push({ icon:'🪪', text:`Contains part of your own name ("${escapeHTML(matchedPart)}") - personal details are among the first things attackers try, especially if they found your name from a public profile.` });
+    warnings.push(`Contains part of your own name ("${escapeHTML(matchedPart)}") - personal details are among the first things attackers try, especially if they found your name from a public profile.`);
   }
+  if (!nameFromUser && [...COMMON_NAMES].some(name => lower.includes(name) && name.length >= 4))
+    warnings.push('Contains a common first name - these appear in every dictionary attack wordlist and are tried automatically.');
+  if ([...COMMON_WORDS].some(word => lower.includes(word)))
+    warnings.push('Contains a common word or phrase - dictionary attacks target these specifically before trying random combinations.');
+  if ([...GEO_WORDS].some(word => lower.includes(word)))
+    warnings.push('Contains a city, country, or university name - targeted wordlists include these for attacks aimed at students and professionals.');
+  if (/qwerty|asdf|zxcv|1234|2345|3456|4567|5678|6789|7890|abcd|qazwsx|1qaz|zaq1/.test(lower))
+    warnings.push('Contains a keyboard sequence or number run - attackers\' tools try all common keyboard walks automatically.');
+  if (/(.)\1{2,}/.test(raw))
+    warnings.push('Contains 3+ repeated characters - this drastically reduces effective entropy and is caught by modern cracking rules.');
+  if (charTypes === 1)
+    warnings.push('Uses only one character type - mixing cases, numbers, and symbols multiplies the number of possible combinations exponentially.');
+  if (len < 8)
+    warnings.push('Under 8 characters - brute-forceable in seconds with a consumer GPU, let alone a dedicated cracking rig.');
+  else if (len < 12)
+    warnings.push('Under 12 characters - modern GPU clusters can brute-force 8–11 character passwords. Every additional character makes this exponentially harder.');
 
-  // Common name check (generic list, separate from personal name above)
-  const nameMatch = !nameFromUser && [...COMMON_NAMES].some(n => lower.includes(n) && n.length >= 4);
-  if (nameMatch) {
-    warnings.push({ icon:'👤', text:'Contains a common first name - these appear in every dictionary attack wordlist and are tried automatically.' });
-  }
-
-  // Common word check
-  const wordMatch = [...COMMON_WORDS].some(w => lower.includes(w));
-  if (wordMatch) {
-    warnings.push({ icon:'📖', text:'Contains a common word or phrase - dictionary attacks target these specifically before trying random combinations.' });
-  }
-
-  // Geo/university
-  const geoMatch = [...GEO_WORDS].some(w => lower.includes(w));
-  if (geoMatch) {
-    warnings.push({ icon:'🌍', text:'Contains a city, country, or university name - targeted wordlists include these for attacks aimed at students and professionals.' });
-  }
-
-  // Keyboard walk / sequential run
-  if (/qwerty|asdf|zxcv|1234|2345|3456|4567|5678|6789|7890|abcd|qazwsx|1qaz|zaq1/.test(lower)) {
-    warnings.push({ icon:'⌨️', text:'Contains a keyboard sequence or number run - attackers\' tools try all common keyboard walks automatically.' });
-  }
-
-  // Repeated characters
-  if (/(.)\1{2,}/.test(raw)) {
-    warnings.push({ icon:'🔁', text:'Contains 3+ repeated characters - this drastically reduces effective entropy and is caught by modern cracking rules.' });
-  }
-
-  // Only one character type
-  if (charTypes === 1) {
-    warnings.push({ icon:'🔡', text:'Uses only one character type - mixing cases, numbers, and symbols multiplies the number of possible combinations exponentially.' });
-  }
-
-  // Length warnings
-  if (len < 8) {
-    warnings.push({ icon:'📏', text:'Under 8 characters - brute-forceable in seconds with a consumer GPU, let alone a dedicated cracking rig.' });
-  } else if (len < 12) {
-    warnings.push({ icon:'📏', text:'Under 12 characters - modern GPU clusters can brute-force 8–11 character passwords. Every additional character makes this exponentially harder.' });
-  }
-
-  // ── Score (0–100) ──
-  // Length: primary driver. 12+ chars with variety is genuinely strong.
-  let score = 0;
-  if (len >= 20)      score += 45;
-  else if (len >= 16) score += 38;
-  else if (len >= 12) score += 30;
-  else if (len >= 8)  score += 16;
-  else                score += 5;
-
-  // Character variety bonus
-  if (charTypes >= 4) score += 30;
-  else if (charTypes === 3) score += 20;
-  else if (charTypes === 2) score += 10;
-
-  // Unpredictability bonus - reward lengths beyond 12 even with fewer types
+  let score = len >= 20 ? 45 : len >= 16 ? 38 : len >= 12 ? 30 : len >= 8 ? 16 : 5;
+  score += charTypes >= 4 ? 30 : charTypes === 3 ? 20 : charTypes === 2 ? 10 : 0;
   if (len >= 16 && charTypes >= 2) score += 10;
   if (len >= 20 && charTypes >= 2) score += 5;
-
-  // Deduct for each distinct weakness (not cumulative overkill)
   score -= Math.min(warnings.length * 12, 60);
-
-  // Breached password is always Weak regardless
   const isBreached = BREACHED_PASSWORDS.has(lower);
   if (isBreached) score = 0;
-
   score = Math.max(0, Math.min(100, score));
 
-  // ── Rating ──
-  // Strong: 12+ chars, 2+ types, no warnings, not breached
-  // A 16-char passphrase with uppercase+lowercase is genuinely strong.
-  // A 12-char with upper+lower+number+symbol and no flags is strong.
-  let rating, ratingColor, barColor, barWidth;
+  let rating, percentage;
   if (!isBreached && score >= 50 && len >= 12 && charTypes >= 2 && warnings.length === 0) {
-    rating = 'Strong'; ratingColor = '#1a7f78'; barColor = '#1a7f78'; barWidth = '100%';
+    rating = 'Strong'; percentage = 100;
   } else if (!isBreached && score >= 30 && len >= 8 && warnings.length <= 1) {
-    rating = 'Okay';   ratingColor = '#c8922a'; barColor = '#c8922a'; barWidth = `${Math.max(45, score)}%`;
+    rating = 'Okay'; percentage = Math.max(45, score);
   } else {
-    rating = 'Weak';   ratingColor = '#c0392b'; barColor = '#c0392b'; barWidth = `${Math.max(10, Math.min(score, 40))}%`;
+    rating = 'Weak'; percentage = Math.max(10, Math.min(score, 40));
   }
 
-  // ── Time to crack estimate ──
   // ponytail: legacy teaching heuristic, not measured security; replace after curriculum review.
   let charSpace = 0;
-  if (hasLower)   charSpace += 26;
-  if (hasUpper)   charSpace += 26;
-  if (hasNumber)  charSpace += 10;
+  if (hasLower) charSpace += 26;
+  if (hasUpper) charSpace += 26;
+  if (hasNumber) charSpace += 10;
   if (hasSpecial) charSpace += 32;
   charSpace = Math.max(charSpace, 10);
-
   let combos = Math.pow(charSpace, len);
+  if (isBreached) combos = 1;
+  else if (warnings.length >= 3) combos /= 1e9;
+  else if (warnings.length === 2) combos /= 1e6;
+  else if (warnings.length === 1) combos /= 1e3;
+  const seconds = Math.max(combos, 1) / 1e12;
+  let crackTime;
+  if (seconds < 0.001) crackTime = 'Instantly';
+  else if (seconds < 1) crackTime = 'Under a second';
+  else if (seconds < 60) crackTime = `${Math.round(seconds)}s`;
+  else if (seconds < 3600) crackTime = `${Math.round(seconds / 60)} min`;
+  else if (seconds < 86400) crackTime = `${Math.round(seconds / 3600)} hours`;
+  else if (seconds < 2.628e6) crackTime = `${Math.round(seconds / 86400)} days`;
+  else if (seconds < 3.156e7) crackTime = `${Math.round(seconds / 2.628e6)} months`;
+  else if (seconds < 3.156e9) crackTime = `${Math.round(seconds / 3.156e7)} years`;
+  else if (seconds < 3.156e12) crackTime = `${(seconds / 3.156e9).toFixed(0)}k years`;
+  else crackTime = 'Millions+ years';
 
-  // Dictionary/pattern penalty: known patterns reduce effective search space dramatically
-  if (isBreached)          combos = 1;
-  else if (warnings.length >= 3) combos = combos / 1e9;
-  else if (warnings.length === 2) combos = combos / 1e6;
-  else if (warnings.length === 1) combos = combos / 1e3;
-  combos = Math.max(combos, 1);
-
-  const guessesPerSec = 1e12; // 1 trillion/sec
-  const seconds = combos / guessesPerSec;
-
-  let crackTime, crackMethod;
-  if (seconds < 0.001)        { crackTime = 'Instantly';                    crackMethod = 'Already in breach databases - no attack needed'; }
-  else if (seconds < 1)       { crackTime = 'Under a second';               crackMethod = 'Brute force, basic hardware'; }
-  else if (seconds < 60)      { crackTime = `${Math.round(seconds)}s`;      crackMethod = 'Brute force attack'; }
-  else if (seconds < 3600)    { crackTime = `${Math.round(seconds/60)} min`; crackMethod = 'Brute force or dictionary attack'; }
-  else if (seconds < 86400)   { crackTime = `${Math.round(seconds/3600)} hours`;   crackMethod = 'GPU-accelerated brute force'; }
-  else if (seconds < 2.628e6) { crackTime = `${Math.round(seconds/86400)} days`;   crackMethod = 'High-end GPU cluster'; }
-  else if (seconds < 3.156e7) { crackTime = `${Math.round(seconds/2.628e6)} months`; crackMethod = 'Distributed cracking'; }
-  else if (seconds < 3.156e9) { crackTime = `${Math.round(seconds/3.156e7)} years`;  crackMethod = 'Large-scale distributed attack'; }
-  else if (seconds < 3.156e12){ crackTime = `${(seconds/3.156e9).toFixed(0)}k years`; crackMethod = 'Effectively uncrackable with current tech'; }
-  else                        { crackTime = 'Millions+ years';               crackMethod = 'Beyond any foreseeable attack'; }
-
-  // ── Render UI ──
-  // Meter bar
-  document.getElementById('pw-meter-bar').style.width    = barWidth;
-  document.getElementById('pw-meter-bar').style.background = barColor;
-  document.getElementById('pw-rating-label').textContent  = rating;
-  document.getElementById('pw-rating-label').style.color  = ratingColor;
-
-  // Crack time
-  document.getElementById('pw-crack-row').style.display  = 'block';
-  document.getElementById('pw-crack-time').textContent   = crackTime;
-  document.getElementById('pw-crack-time').style.color   = ratingColor;
-  document.getElementById('pw-crack-method').textContent = `At 1 trillion guesses/sec - ${crackMethod}`;
-
-  // Composition chips
-  const chips = [
-    { label: `${len} chars`, active: len >= 12, icon: '📏' },
-    { label: 'Lowercase',    active: hasLower,   icon: 'a' },
-    { label: 'Uppercase',    active: hasUpper,   icon: 'A' },
-    { label: 'Numbers',      active: hasNumber,  icon: '1' },
-    { label: 'Symbols',      active: hasSpecial, icon: '#' }
+  byId('pw-field').dataset.rating = rating;
+  byId('pw-meter').dataset.rating = rating;
+  setProgress('pw-meter-bar', percentage);
+  byId('pw-rating-label').textContent = rating;
+  byId('pw-meter-bar').parentElement.setAttribute('aria-valuetext', rating);
+  byId('pw-crack-row').hidden = false;
+  byId('pw-crack-time').textContent = crackTime;
+  byId('pw-crack-method').textContent = 'Legacy model output at a fixed 1 trillion guesses per second.';
+  const composition = [
+    { label: `${len} characters`, active: len >= 12, description: len >= 12 ? 'exercise length target met' : 'below the 12-character exercise target' },
+    { label: 'Lowercase', active: hasLower },
+    { label: 'Uppercase', active: hasUpper },
+    { label: 'Numbers', active: hasNumber },
+    { label: 'Symbols', active: hasSpecial },
   ];
-  document.getElementById('pw-composition').innerHTML = chips.map(c => `
-    <div style="
-      display:inline-flex;align-items:center;gap:6px;
-      padding:5px 12px;border-radius:100px;font-size:12px;font-weight:600;
-      background:${c.active ? 'rgba(26,127,120,0.10)' : 'rgba(15,34,64,0.05)'};
-      color:${c.active ? 'var(--teal)' : 'var(--locked)'};
-      border:1px solid ${c.active ? 'rgba(26,127,120,0.25)' : 'rgba(15,34,64,0.08)'};
-      transition:all 0.2s
-    ">
-      <span style="font-size:10px">${c.active ? '✓' : '○'}</span>${c.icon} ${c.label}
-    </div>
-  `).join('');
-
-  // Warning flags
-  document.getElementById('pw-warnings').innerHTML = warnings.map(w => `
-    <div style="
-      display:flex;align-items:flex-start;gap:10px;padding:10px 14px;
-      background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.15);
-      border-radius:var(--radius-sm);font-size:13px;color:#7a3020;line-height:1.5
-    ">
-      <span style="flex-shrink:0;margin-top:1px">${w.icon}</span>${w.text}
-    </div>
-  `).join('');
-
-  // Gate
-  const isStrong = rating === 'Strong';
-  document.getElementById('pw-gate').style.display = isStrong ? 'block' : 'none';
-  const continueBtn = document.getElementById('pw-continue-btn');
-  continueBtn.disabled  = !isStrong;
-  continueBtn.style.opacity = isStrong ? '1' : '0.4';
-
-  // Input border feedback
-  const inp = document.getElementById('pw-input');
-  inp.style.borderColor = rating === 'Strong' ? 'var(--teal)' : rating === 'Okay' ? '#c8922a' : 'rgba(192,57,43,0.5)';
+  byId('pw-composition').innerHTML = composition.map(item => `
+    <span class="composition-item" data-active="${item.active}">${item.active ? icon('check') : '<span aria-hidden="true">&minus;</span>'}${item.label}<span class="sr-only">, ${item.description || (item.active ? 'present' : 'missing')}</span></span>`).join('');
+  byId('pw-warnings').innerHTML = warnings.map(text => `<p class="password-warning">${icon('circle-alert')}<span>${text}</span></p>`).join('');
+  byId('pw-gate').hidden = rating !== 'Strong';
+  byId('pw-continue-btn').disabled = rating !== 'Strong';
 }
 
 function resetPasswordUI() {
-  document.getElementById('pw-meter-bar').style.width    = '0%';
-  document.getElementById('pw-rating-label').textContent = '-';
-  document.getElementById('pw-rating-label').style.color = 'var(--slate-light)';
-  document.getElementById('pw-crack-row').style.display  = 'none';
-  document.getElementById('pw-composition').innerHTML    = '';
-  document.getElementById('pw-warnings').innerHTML       = '';
-  document.getElementById('pw-gate').style.display       = 'none';
-  document.getElementById('pw-continue-btn').disabled    = true;
-  document.getElementById('pw-continue-btn').style.opacity = '0.4';
-  document.getElementById('pw-input').style.borderColor  = 'rgba(15,34,64,0.15)';
+  setProgress('pw-meter-bar', 0);
+  byId('pw-meter-bar').parentElement.setAttribute('aria-valuetext', 'Not rated');
+  byId('pw-rating-label').textContent = 'Not rated';
+  delete byId('pw-meter').dataset.rating;
+  delete byId('pw-field').dataset.rating;
+  byId('pw-crack-row').hidden = true;
+  byId('pw-composition').replaceChildren();
+  byId('pw-warnings').replaceChildren();
+  byId('pw-gate').hidden = true;
+  byId('pw-continue-btn').disabled = true;
 }

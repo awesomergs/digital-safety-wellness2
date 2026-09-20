@@ -83,22 +83,22 @@ const MODULE_3 = {
           title: 'How Password Managers Work',
           body: `A password manager generates, stores, and auto-fills strong passwords for every account you have. You only need to remember <strong>one master password</strong> - the manager handles everything else.<br><br>
           <strong>What you get:</strong>
-          <div style="display:flex;flex-direction:column;gap:14px;margin-top:12px">
+          <div class="lesson-points">
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Unique 16+ character passwords for every site</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Generated randomly - impossible to guess, and never reused across accounts.</div>
+              <h4 class="lesson-point-title">Unique 16+ character passwords for every site</h4>
+              <div class="lesson-body">Generated randomly - impossible to guess, and never reused across accounts.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Encrypted storage</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Your passwords sit in an encrypted vault. Even if the manager's servers were breached, the data is unreadable without your master password.</div>
+              <h4 class="lesson-point-title">Encrypted storage</h4>
+              <div class="lesson-body">Your passwords sit in an encrypted vault. Even if the manager's servers were breached, the data is unreadable without your master password.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Auto-fill across devices</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Works on your phone, laptop, and browser - so there's no temptation to fall back on something simple.</div>
+              <h4 class="lesson-point-title">Auto-fill across devices</h4>
+              <div class="lesson-body">Works on your phone, laptop, and browser - so there's no temptation to fall back on something simple.</div>
             </div>
             <div>
-              <div style="font-weight:600;color:var(--navy);font-size:14.5px;margin-bottom:3px">Breach alerts</div>
-              <div style="font-size:13.5px;color:var(--slate);line-height:1.6">Many managers notify you when a site you use has been compromised, so you can update that password before attackers try it elsewhere.</div>
+              <h4 class="lesson-point-title">Breach alerts</h4>
+              <div class="lesson-body">Many managers notify you when a site you use has been compromised, so you can update that password before attackers try it elsewhere.</div>
             </div>
           </div>`
         }

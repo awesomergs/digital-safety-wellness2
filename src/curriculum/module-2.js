@@ -81,7 +81,7 @@ const MODULE_2 = {
     tooltip:'Always-on devices log audio clips and build a voice profile. Conversations near them — including sensitive ones — can be captured and stored.' },
 
   { id:'p6', category:'passive', weight:2, label:'Had your data exposed in a known breach (check haveibeenpwned.com if unsure)',
-    tooltip:'Most people\'s emails, passwords, and personal details have been in at least one breach. Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">haveibeenpwned.com</a> — free and safe — to see exactly which breaches included your email.' },
+    tooltip:'Most people\'s emails, passwords, and personal details have been in at least one breach. Check <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" class="resource-link">haveibeenpwned.com</a> — free and safe — to see exactly which breaches included your email.' },
 
   { id:'p7', category:'passive', weight:2, label:'Used public Wi-Fi without a VPN in the past month',
     tooltip:'On unencrypted public networks, anyone on the same network can observe your traffic and metadata — including which sites you visit and when.' },
