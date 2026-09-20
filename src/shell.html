@@ -3,184 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Safety & Wellness Modules</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#fcfdfb">
+<meta name="description" content="A student course in recognizing scams, protecting accounts, digital well-being, and finding support.">
+<title>Digital Safety &amp; Wellness | Student Curriculum</title>
 <!-- COURSE_STYLE -->
 </head>
 <body data-view="name-gate-section">
+<!-- COURSE_ICONS -->
 <a class="skip-link" href="#main-content">Skip to course</a>
 
-<!-- ─── HEADER ─── -->
-<header>
-  <div class="header-logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 1L2 4.5V9C2 12.75 5.05 16.25 9 17C12.95 16.25 16 12.75 16 9V4.5L9 1Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M6 9L8 11L12 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <svg class="icon brand-mark" aria-hidden="true"><use href="#icon-shield-check"></use></svg>
+      <span>Digital Safety<br><span class="brand-secondary">&amp; Wellness</span></span>
     </div>
-    <div class="logo-text">
-      Digital Safety & Wellness
-      <span>Training Modules</span>
-    </div>
+    <span class="header-label">Student curriculum</span>
+    <span class="header-learner" id="header-learner" hidden></span>
   </div>
-  <div class="header-badge">Cyber Privacy</div>
 </header>
 
-<!-- ─── MAIN ─── -->
-<main id="main-content" tabindex="-1">
-  <noscript>This course requires JavaScript. Enable JavaScript in your browser to begin.</noscript>
-
-  <!-- ① NAME GATE (shown first) -->
-  <div id="name-gate-section">
-    <div class="hero">
-      <div class="hero-eyebrow">Student Training</div>
-      <h1>Stay Safe in the<br><em>Digital World</em></h1>
-      <p>Four interactive modules covering scams, social media, account security, and your rights - built for real situations you'll actually face.</p>
-    </div>
-
-    <div id="name-gate">
-      <h2>Let's get started</h2>
-      <p>Enter your name to begin. It'll appear on your certificate when you finish all four modules.</p>
-      <form id="name-form" novalidate>
-        <label class="field-label" for="student-name-input">Full name</label>
-        <div class="input-row">
-          <input type="text" id="student-name-input" placeholder="Your full name" autocomplete="name" maxlength="60" required aria-describedby="name-error">
-          <button class="btn-primary" type="submit">Begin →</button>
+<div class="workspace">
+  <aside class="course-rail" id="course-rail" hidden>
+    <details id="course-outline" open>
+      <summary>Course outline <svg class="icon" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></summary>
+      <div class="rail-body">
+        <button class="rail-overview" data-action="hub" aria-describedby="outline-return-note">
+          <svg class="icon" aria-hidden="true"><use href="#icon-book-open"></use></svg> All modules
+        </button>
+        <p class="field-note" id="outline-return-note">Returning restarts your current module or assessment.</p>
+        <ol class="rail-modules" id="rail-modules" role="list"></ol>
+        <div class="rail-note">
+          <svg class="icon" aria-hidden="true"><use href="#icon-award"></use></svg>
+          <span>Four modules.<br>One safer digital life.</span>
         </div>
-        <div class="input-error" id="name-error" role="alert">Please enter your name to continue.</div>
-      </form>
-    </div>
-  </div>
+      </div>
+    </details>
+  </aside>
 
-  <!-- ② MODULE HUB (shown after name entry) -->
-  <div id="module-hub">
-    <div class="hub-greeting">
-      <h1 tabindex="-1">Welcome, <span id="display-name"></span></h1>
-      <p>Complete each module in order to unlock the next, then pass the Final Exam to earn your certificate.</p>
-      <div class="progress-summary">
-        <div class="progress-dot"></div>
-        <span id="hub-progress-text">0 of 4 modules completed</span>
+  <main id="main-content" tabindex="-1">
+    <noscript>This course requires JavaScript. Enable JavaScript in your browser to begin.</noscript>
+
+    <div id="name-gate-section">
+      <div class="page-heading">
+        <p class="eyebrow">Your digital life, with more confidence.</p>
+        <h1>Digital Safety &amp; Wellness</h1>
+        <p class="page-description">Recognize the scam. Protect your accounts. Know where to turn.</p>
+      </div>
+      <div class="overview-layout">
+        <section class="learning-path" aria-labelledby="preview-heading">
+          <div class="section-heading">
+            <h2 id="preview-heading">Your learning path</h2>
+            <span class="meta-text">4 modules + final assessment</span>
+          </div>
+          <ol class="module-list" id="course-preview" role="list"></ol>
+        </section>
+        <aside class="enrollment">
+          <form id="name-form" novalidate>
+            <span class="eyebrow">Start here</span>
+            <h2>Make it yours.</h2>
+            <p class="supporting-text" id="name-help">Your name will appear on your completion certificate.</p>
+            <label class="field-label" for="student-name-input">Full name</label>
+            <input type="text" id="student-name-input" placeholder="Enter your name" autocomplete="name" maxlength="60" required aria-describedby="name-help name-error">
+            <p class="input-error" id="name-error" role="alert" hidden>Please enter your name to continue.</p>
+            <button class="btn-primary" type="submit">Begin course <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+          </form>
+          <div class="session-note">
+            <svg class="icon" aria-hidden="true"><use href="#icon-lock-keyhole"></use></svg>
+            <p>Your name and answers stay in this tab. Progress resets when you close or reload it.</p>
+          </div>
+        </aside>
       </div>
     </div>
 
-    <div class="modules-grid" id="modules-grid">
-      <!-- Cards injected by JS -->
-    </div>
-
-    <div class="completion-banner" id="completion-banner" style="display:none">
-      <div class="banner-text">
-        <h3>🎉 All modules complete!</h3>
-        <p>The Final Exam is now unlocked below. Pass it to earn your certificate.</p>
+    <div id="module-hub" hidden>
+      <div class="page-heading">
+        <p class="eyebrow">Welcome, <span id="display-name"></span></p>
+        <h1 tabindex="-1">Your learning path</h1>
+        <p class="page-description">A little practice now. Better decisions when it matters.</p>
       </div>
-    </div>
-
-    <!-- FINAL EXAM CARD - sits below the module grid like a 5th card -->
-    <div id="final-exam-card" style="margin-top:20px">
-      <div id="final-exam-card-inner" class="module-card locked" style="max-width:100%;cursor:default">
-        <div class="card-bar" style="background:linear-gradient(90deg,#1a7f78,#c8922a,#0f2240)"></div>
-        <div class="card-inner" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
-          <div style="display:flex;align-items:center;gap:20px;flex:1;min-width:0">
-            <div style="width:48px;height:48px;flex-shrink:0">
-              <svg viewBox="0 0 48 48" width="48" height="48">
-                <circle class="ring-bg" cx="24" cy="24" r="18"/>
-                <circle id="exam-ring-fill" class="ring-fill" cx="24" cy="24" r="18" style="stroke-dashoffset:113"/>
-              </svg>
-            </div>
+      <div class="overview-layout">
+        <section class="learning-path" aria-labelledby="modules-heading">
+          <div class="section-heading">
+            <h2 id="modules-heading">Course modules</h2>
+            <span class="meta-text" id="hub-progress-text">0 of 4 complete</span>
+          </div>
+          <ol class="module-list" id="modules-grid" role="list"></ol>
+          <section class="final-assessment" aria-labelledby="final-assessment-title">
+            <svg class="icon module-symbol" aria-hidden="true"><use href="#icon-list-checks"></use></svg>
             <div>
-              <div class="module-number" style="margin-bottom:4px">Final Assessment</div>
-              <h3 style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--navy);max-width:none">Digital Safety &amp; Wellness - Final Exam</h3>
-              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-                <div class="meta-pill">⏱ ~20 min</div>
-                <div class="meta-pill" id="exam-question-count"></div>
-                <div class="meta-pill">🎯 All 4 modules</div>
-              </div>
+              <p class="eyebrow">Bring it together</p>
+              <h2 id="final-assessment-title">Final assessment</h2>
+              <p class="meta-text"><span id="exam-question-count"></span> &middot; 80% to pass</p>
+              <p class="status-text" id="exam-card-status">Complete all 4 modules to unlock</p>
             </div>
+            <button id="exam-card-btn" class="btn-nav secondary" disabled data-action="start-exam">Locked</button>
+          </section>
+        </section>
+        <aside class="course-summary">
+          <p class="eyebrow">Your progress</p>
+          <p class="completion-count"><strong id="hub-completed-count">0</strong><span>/ 4 modules</span></p>
+          <div class="progress-track" role="progressbar" aria-label="Completed modules" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-fill" id="hub-progress-fill"></div>
           </div>
-          <div class="exam-card-actions">
-            <div id="exam-card-status" style="font-size:13px;color:var(--slate-light)">Complete all 4 modules to unlock</div>
-            <button id="exam-card-btn" class="card-action locked" disabled data-action="start-exam">🔒 Locked</button>
+          <p class="supporting-text">Each module ends with a short check-in. Pass with 80% to unlock the next.</p>
+          <div class="completion-banner" id="completion-banner" hidden>
+            <svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+            <p>All modules complete. Your final assessment is ready.</p>
           </div>
-        </div>
-        <div class="lock-overlay" id="exam-lock-overlay">
-          <div class="lock-message">🔒 Complete all 4 modules first</div>
-        </div>
+          <div class="certificate-ready" id="cert-ready-banner" hidden>
+            <svg class="icon" aria-hidden="true"><use href="#icon-award"></use></svg>
+            <h2>You earned it.</h2>
+            <p>Your certificate is ready.</p>
+            <button class="btn-nav primary" data-action="certificate">View certificate <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+          </div>
+          <p class="session-note">Keep this tab open. Progress is not saved after a reload.</p>
+        </aside>
       </div>
     </div>
 
-    <!-- CERTIFICATE BANNER - shown after exam is passed -->
-    <div id="cert-ready-banner" style="
-      display:none;margin-top:20px;
-      background:linear-gradient(135deg,var(--navy),var(--navy-mid));
-      border-radius:var(--radius-lg);padding:28px 36px;
-      display:none;align-items:center;justify-content:space-between;
-      gap:20px;flex-wrap:wrap;box-shadow:var(--shadow-hover)
-    ">
-      <div>
-        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:white;margin-bottom:6px">🎓 You've earned your certificate!</div>
-        <div style="font-size:14px;color:rgba(255,255,255,0.6)">You've passed the Final Exam. Your certificate is ready.</div>
+    <div id="module-view" hidden>
+      <div class="module-view-header">
+        <p class="eyebrow" id="module-number"></p>
+        <h1 class="module-view-title" id="module-view-title" tabindex="-1"></h1>
+        <div class="module-position"><span id="step-position"></span><span id="step-kind"></span></div>
+        <div class="progress-track" role="progressbar" aria-label="Module progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="module-progress-fill"></div>
+        </div>
       </div>
-      <button class="btn-certificate" data-action="certificate">View Certificate 🛡️</button>
+      <div id="step-container"></div>
     </div>
 
-  </div><!-- end #module-hub -->
+    <div id="final-exam-view" hidden>
+      <div class="module-view-header">
+        <p class="eyebrow">Bring it together</p>
+        <h1 class="module-view-title" tabindex="-1">Final assessment</h1>
+        <div class="module-position"><span id="exam-position"></span><span>80% to pass</span></div>
+        <div class="progress-track" role="progressbar" aria-label="Final exam progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="exam-progress-fill"></div>
+        </div>
+      </div>
+      <div id="exam-container"></div>
+    </div>
 
-  <!-- ③ MODULE VIEW (shown when a module is opened) -->
-  <div id="module-view">
-    <div class="module-view-header">
-      <button class="back-btn" data-action="hub">← Back to Modules</button>
-      <h1 class="module-view-title" id="module-view-title" tabindex="-1"></h1>
-    </div>
-    <div class="module-progress-bar" role="progressbar" aria-label="Module progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="module-progress-fill" id="module-progress-fill"></div>
-    </div>
-    <div id="step-container"></div>
-  </div>
-
-  <!-- ④ FINAL EXAM VIEW -->
-  <div id="final-exam-view" style="display:none">
-    <div class="module-view-header">
-      <button class="back-btn" data-action="hub">← Back to Modules</button>
-      <h1 class="module-view-title" tabindex="-1">Final Exam</h1>
-    </div>
-    <div class="module-progress-bar" role="progressbar" aria-label="Final exam progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="module-progress-fill" id="exam-progress-fill"></div>
-    </div>
-    <div id="exam-container"></div>
-  </div>
-
-  <!-- ⑤ CERTIFICATE VIEW -->
-  <div id="cert-view">
-    <div class="module-view-header">
-      <button class="back-btn" data-action="hub">← Back to Modules</button>
-    </div>
-    <div class="cert-stage">
-      <!-- Print only this certificate; controls stay outside it. -->
+    <div id="cert-view" hidden>
+      <div class="module-view-header certificate-toolbar">
+        <button class="back-btn" data-action="hub"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg> All modules</button>
+        <button class="btn-nav primary" id="cert-download-btn" data-action="print-certificate"><svg class="icon" aria-hidden="true"><use href="#icon-printer"></use></svg> Print / Save PDF</button>
+      </div>
       <div class="certificate" id="cert-capture">
         <div class="cert-frame">
-          <div class="cert-seal">🛡️</div>
-          <div class="cert-program">Certificate of Completion</div>
+          <svg class="icon cert-seal" aria-hidden="true"><use href="#icon-award"></use></svg>
+          <p class="cert-program">Certificate of completion</p>
           <h1 class="cert-title" tabindex="-1">Digital Safety &amp; Wellness</h1>
-          <div class="cert-subtitle">Training Program · Cyber Privacy</div>
-          <div class="cert-presented">This certifies that</div>
-          <div class="cert-name" id="cert-name"></div>
-          <div class="cert-description">
-            has successfully completed all four modules of the Digital Safety &amp; Wellness Training Program, demonstrating understanding of cybersecurity, social media well-being, account security, and student digital rights.
-          </div>
-          <div class="cert-modules" id="cert-modules-list"></div>
-          <div class="cert-date" id="cert-date"></div>
+          <p class="cert-presented">Presented to</p>
+          <p class="cert-name" id="cert-name"></p>
+          <p class="cert-description">For completing all four modules and the final assessment in the Digital Safety &amp; Wellness student curriculum.</p>
+          <ul class="cert-modules" id="cert-modules-list" role="list"></ul>
+          <p class="cert-date" id="cert-date"></p>
+          <p class="cert-caption">Student curriculum &middot; Cyber Privacy</p>
         </div>
       </div>
     </div>
-    <div class="cert-actions">
-      <button class="btn-nav secondary" id="cert-download-btn" data-action="print-certificate">Print / Save PDF</button>
-      <button class="btn-nav primary" data-action="hub">← Back to Hub</button>
-    </div>
-  </div>
+  </main>
+</div>
 
-</main>
-
+<footer class="site-footer"><span>Digital Safety &amp; Wellness</span><span>Learn. Notice. Choose.</span></footer>
 <!-- COURSE_SCRIPT -->
-
 </body>
 </html>

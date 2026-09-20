@@ -182,18 +182,18 @@ const MODULE_4 = {
           icon: '📜',
           title: 'California Privacy Protections & Campus Resources',
           body: `
-          <div style="margin-bottom:18px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:6px">California Security Breach Act</div>
-            <div style="font-size:14px;color:var(--slate);line-height:1.7">Any organization that holds your personal data must notify you if that data is breached - in plain language, explaining what was exposed and what they're doing about it. If sensitive data like your SSN was involved, they owe you 12 months of free credit monitoring.</div>
+          <div class="resource-section">
+            <h4 class="lesson-point-title">California Security Breach Act</h4>
+            <div class="lesson-body">Any organization that holds your personal data must notify you if that data is breached - in plain language, explaining what was exposed and what they're doing about it. If sensitive data like your SSN was involved, they owe you 12 months of free credit monitoring.</div>
           </div>
 
-          <div style="margin-bottom:18px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:6px">California Consumer Privacy Act (CCPA)</div>
-            <div style="font-size:14px;color:var(--slate);line-height:1.7">You can request that any business disclose what personal data they hold on you, and in many cases demand it be deleted. This applies to companies - not just social media platforms.</div>
+          <div class="resource-section">
+            <h4 class="lesson-point-title">California Consumer Privacy Act (CCPA)</h4>
+            <div class="lesson-body">You can request that any business disclose what personal data they hold on you, and in many cases demand it be deleted. This applies to companies - not just social media platforms.</div>
           </div>
 
-          <div style="margin-bottom:18px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:10px">Campus Resources - Use Them</div>
+          <div class="resource-section">
+            <h4 class="lesson-point-title">Campus Resources - Use Them</h4>
             <ul class="lesson-list">
               <li><strong>IT Help Desk</strong> - account compromises, device malware, anything technical</li>
               <li><strong>Title IX / Student Conduct</strong> - harassment, stalking, nonconsensual image sharing involving students</li>
@@ -202,8 +202,8 @@ const MODULE_4 = {
             </ul>
           </div>
 
-          <div style="border-top:1px solid rgba(15,34,64,0.08);padding-top:16px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:10px">Technical Recovery Checklist</div>
+          <div class="lesson-section">
+            <h4 class="lesson-point-title">Technical Recovery Checklist</h4>
             <ul class="lesson-list">
               <li>Change all affected passwords - use unique ones for each account</li>
               <li>Enable MFA on every account that offers it</li>
@@ -211,7 +211,7 @@ const MODULE_4 = {
               <li>Clean or reinstall compromised devices with IT help</li>
               <li>Monitor for follow-on phishing - attackers often try again after a breach</li>
             </ul>
-            <div style="margin-top:14px;padding:12px 16px;background:rgba(26,127,120,0.07);border-radius:6px;font-size:13px;color:var(--slate);line-height:1.6;border:1px solid rgba(26,127,120,0.12)">
+            <div class="support-note">
               💬 Emotional recovery matters too. Stress, shame, and fear after a digital incident are normal responses. You are not at fault for being targeted.
             </div>
           </div>`

@@ -1,0 +1,80 @@
+{
+  "completedAtUTC": "2026-09-20T04:21:12.445Z",
+  "environment": "Codex native in-app browser; local generated HTML; synthetic learner data",
+  "finalArtifactSha256": "d0571f223db66f51b55284bf5124628c32014b63fd1dbcfeb6f189b87412fa69",
+  "finalBuild": {
+    "completed": true,
+    "authoredQuestionsExercised": 74,
+    "domainRounds": 8,
+    "recordedLayoutChecks": 109,
+    "viewportWidths": [
+      390,
+      768,
+      320
+    ],
+    "horizontalOverflows": 0,
+    "consoleSnapshot": []
+  },
+  "earlierRegression": {
+    "artifactSha256": "72e6edc154d8937c24301e70664b95ae8574d9811c1ff72ecda3b37a5c9edba8",
+    "completed": true,
+    "authoredQuestionsExercised": 74,
+    "domainRounds": 8,
+    "additionalFailedCheckInQuestions": 8,
+    "recordedLayoutChecks": 129,
+    "viewportWidths": [
+      320,
+      1280,
+      390
+    ],
+    "horizontalOverflows": 0
+  },
+  "verifiedBehaviors": [
+    "Empty name validation and keyboard submission",
+    "Sequential module locks and final assessment gate",
+    "Single-choice retry with disabled rejected option",
+    "Multiselect retry retains correct choices and requires wrong-choice removal",
+    "Failed eight-question check-in prevents completion; retake passes",
+    "Domain verdict feedback and round score",
+    "Empty footprint reflection and invalidation after editing responses",
+    "Weak/Okay/Strong password exercise gates and reset",
+    "Password visibility via keyboard",
+    "Feedback-to-next-button Tab order",
+    "Certificate displayed only after all module checks and final assessment",
+    "Core flow completed with network disabled after initial document load"
+  ],
+  "stressChecks": {
+    "textSize": "200% root font size on password lab and certificate; not a browser-zoom certification",
+    "longName": "60-character synthetic name substituted into the earned certificate and header; checked at 320px with normal and 200% text, then restored",
+    "reducedMotion": "Reduced-motion media emulation produced 0s button transitions"
+  },
+  "printing": {
+    "cssIsolation": "Certificate visible; site header and controls hidden in print media",
+    "nativePdfExport": false,
+    "limitation": "Printing is not available in the native preview browser"
+  },
+  "sourceChecks": {
+    "nodeTests": 14,
+    "passwordComparisonCases": 1010,
+    "passwordComparison": "Rating, continuation gate and numeric demonstration output match baseline for synthetic inputs",
+    "curriculumComparison": "Text, questions, answers and module order match baseline after presentation HTML normalization"
+  },
+  "payloadBytes": {
+    "baseline": {
+      "html": 258337,
+      "gzip": 69395,
+      "inlineJavaScript": 221154
+    },
+    "redesign": {
+      "html": 330173,
+      "gzip": 130503,
+      "inlineJavaScript": 196559
+    }
+  },
+  "limitations": [
+    "Not a student usability study or curriculum fact check",
+    "No VoiceOver/NVDA or physical-device testing",
+    "Actual Print/PDF output still needs manual verification",
+    "Full CDP event history was truncated; console snapshot and successful flow assertions are not a complete performance trace"
+  ]
+}
