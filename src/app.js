@@ -7,6 +7,44 @@ let currentStep = 0;
 let assessment = null;
 let assessmentKind = null;
 
+const PROGRESS_STORAGE_KEY = 'dsw-progress-v1';
+
+function saveProgress() {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ studentName, moduleProgress, finalExamPassed }));
+  } catch {
+    // Storage unavailable (private browsing, disabled cookies/site data, etc.) - progress just won't persist.
+  }
+}
+
+function loadProgress() {
+  try {
+    const data = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY));
+    if (typeof data?.studentName !== 'string' || !data.studentName.trim()) return null;
+    if (!Array.isArray(data.moduleProgress) || data.moduleProgress.length !== COURSE_MODULES.length) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function clearProgress() {
+  try { localStorage.removeItem(PROGRESS_STORAGE_KEY); } catch { /* nothing to clear */ }
+}
+
+function resetProgress() {
+  if (!window.confirm('Start over? This clears the saved progress stored on this device.')) return;
+  clearProgress();
+  studentName = '';
+  moduleProgress.fill(false);
+  finalExamPassed = false;
+  currentModule = null;
+  currentStep = 0;
+  byId('student-name-input').value = '';
+  showView('name-gate-section');
+  focusContent(byId('name-gate-section'));
+}
+
 function focusContent(container) {
   const target = container.querySelector('.question-text') || container.querySelector('h1, h2, .content-card-title');
   if (target) {
@@ -48,6 +86,7 @@ function startTraining() {
   studentName = name;
   input.removeAttribute('aria-invalid');
   byId('name-error').style.display = 'none';
+  saveProgress();
   showHub();
 }
 
@@ -327,6 +366,7 @@ function showAssessmentResults() {
   if (result.answered !== result.total) return;
   const final = assessmentKind === 'final';
   if (final && result.passed) finalExamPassed = true;
+  if (final && result.passed) saveProgress();
   setProgress(final ? 'exam-progress-fill' : 'module-progress-fill', 100);
   const container = byId(final ? 'exam-container' : 'step-container');
   container.innerHTML = `
@@ -360,6 +400,7 @@ function showAssessmentResults() {
 function completeModule() {
   if (assessmentKind !== 'mini' || !assessment?.result.passed || currentModule === null) return;
   moduleProgress[currentModule] = true;
+  saveProgress();
   showHub();
 }
 
@@ -399,6 +440,7 @@ const actions = {
   'password-tips': showPasswordTips,
   credits: showCredits,
   'close-credits': closeCredits,
+  'reset-progress': resetProgress,
 };
 
 let creditsOpener = null;
@@ -438,3 +480,11 @@ byId('credits-overlay').addEventListener('click', event => {
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeCredits();
 });
+
+const savedProgress = loadProgress();
+if (savedProgress) {
+  studentName = savedProgress.studentName;
+  savedProgress.moduleProgress.forEach((done, index) => { moduleProgress[index] = Boolean(done); });
+  finalExamPassed = Boolean(savedProgress.finalExamPassed);
+  showHub();
+}

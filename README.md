@@ -48,7 +48,7 @@ Sometimes double-clicking opens a program full of confusing text instead of the 
 **A couple of things to know:**
 
 - Lessons, activities, assessments, and certificate printing work without internet. Optional web fonts and the embedded video need a connection and contact their respective providers.
-- Your progress is **not saved** if you close the tab or browser, so try to finish the whole course in one sitting. If you close it, you'll have to start over from the beginning.
+- Your progress (name and completed modules) is saved automatically in this browser, so you can close the tab and pick up where you left off - as long as you reopen the same downloaded file in the same browser on the same computer. If a different student is using the same computer, click **"Not you? Start over"** on the module hub to clear the saved progress.
 - On the certificate, choose **Print / Save PDF**, then use your browser's printer or PDF destination. This opens a print dialog instead of downloading a PDF automatically.
 - Use only an invented password in the practice lab. The lab is a teaching exercise, not a security assessment or a live breach lookup. Names and activity responses are kept in this tab's memory; there is no account, database, or analytics integration.
 
