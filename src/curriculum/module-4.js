@@ -223,7 +223,7 @@ const MODULE_4 = {
     {
       type: 'minitest',
       title: `Let's see what stuck`,
-      subtitle: `Module 4 · 8 questions · Need 80% to pass`,
+      subtitle: `Module 4 · 7 questions · Need 80% to pass`,
       questions: [
         {
           format: 'multiple',
@@ -275,19 +275,6 @@ const MODULE_4 = {
             { text: 'False', correct: true }
           ],
           explanation: `Forwarding strips the original email headers — the metadata containing sender IP addresses, routing info, and authentication data that investigators need. Instead, screenshot the email in place (showing the full sender address and subject line), or export the raw file. Always preserve the original untouched.`
-        },
-        {
-          format: 'multiselect',
-          question: `After receiving a data breach notification, which of these steps are appropriate responses? Select all that apply.`,
-          options: [
-            { text: 'Change your password on that site and anywhere else you reused it.', correct: true },
-            { text: 'Place a free credit freeze at the major credit bureaus to prevent new accounts being opened in your name.', correct: true },
-            { text: 'Monitor existing accounts for unfamiliar transactions over the following months.', correct: true },
-            { text: 'Be alert for targeted phishing that uses your breached details to appear credible.', correct: true },
-            { text: 'Accept the credit monitoring offer and consider the matter fully handled.', correct: false }
-          ],
-          hint: `The monitoring offer is one tool, not the whole solution. Think about what's now exposed and what each exposure enables attackers to do.`,
-          explanation: `All four positive steps matter: changing passwords addresses credential exposure, a credit freeze prevents new accounts being opened in your name, monitoring catches fraudulent use of existing accounts, and phishing awareness is critical because attackers buy breach data to craft more convincing scam messages. The monitoring offer covers only one slice of the risk.`
         },
         {
           format: 'multiple',

@@ -249,14 +249,15 @@ const MODULE_3 = {
         },
         {
           format: 'multiple',
-          question: `Sam has a strong unique password but no MFA. An attacker phishes her login and gets in. Which of these would have prevented account access even after the phishing attack succeeded?`,
+          question: `An attacker successfully phishes a student's password and logs into their email. Which of these, if it had already been set up, would have stopped the attacker from getting in?`,
           options: [
-            { text: 'A longer password - 24 characters instead of 18.', correct: false },
-            { text: 'Multi-factor authentication - the attacker would need a second factor (phone, key) they don\'t have.', correct: true },
-            { text: 'A different password manager - some are more phishing-resistant.', correct: false },
-            { text: 'Reporting the phishing email to her university IT department first.', correct: false }
+            { text: 'A longer, randomly generated password from a password manager.', correct: false },
+            { text: 'A separate recovery email used only for account recovery.', correct: false },
+            { text: 'Multi-factor authentication.', correct: true },
+            { text: 'Reporting the phishing email to university IT right after clicking.', correct: false }
           ],
-          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials. MFA is the layer that protects you even when a password is compromised: they'd also need physical access to your second factor (phone, hardware key). This is why MFA on email, banking, and your university account is non-negotiable.`
+          hint: `Think about what the attacker still wouldn't have, even with the correct password already in hand.`,
+          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials, no matter how strong or well-managed they were. A recovery email and reporting the email help with cleanup, but neither blocks the login itself. MFA is the layer that protects you even when a password is compromised: the attacker would also need physical access to your second factor (phone, authenticator app, hardware key). This is why MFA on email, banking, and your university account is non-negotiable.`
         }
       ]
     }

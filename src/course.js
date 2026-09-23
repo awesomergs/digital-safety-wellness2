@@ -68,7 +68,8 @@ function validateCurriculum(modules, exam) {
           requireText(card.title, at, 'card title');
           requireText(card.body, at, 'card body');
           if (card.video) {
-            requireContent(/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]+$/.test(card.video.src), at, 'video must use a YouTube privacy-enhanced embed URL');
+            requireContent(/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/.test(card.video.watchUrl), at, 'video must link to a youtube.com watch URL');
+            requireContent(/^https:\/\/img\.youtube\.com\/vi\/[\w-]+\/hqdefault\.jpg$/.test(card.video.thumbnail), at, 'video must use a youtube.com thumbnail image');
             requireText(card.video.title, at, 'video title');
           }
         }

@@ -101,11 +101,103 @@
   }
 
   .header-badge {
+    font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     font-weight: 500;
     color: rgba(255,255,255,0.5);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    background: none;
+    border: 0;
+    padding: 6px 4px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .header-badge:hover,
+  .header-badge:focus-visible {
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* ─── CREDITS MODAL ─── */
+  .credits-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(15,34,64,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .credits-modal {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    background: var(--warm-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hover);
+    padding: 32px 28px;
+  }
+
+  .credits-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: transparent;
+    color: var(--slate-light);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .credits-close:hover,
+  .credits-close:focus-visible {
+    background: rgba(15,34,64,0.06);
+    color: var(--navy);
+  }
+
+  .credits-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+
+  .credits-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .credits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .credits-row dt {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    margin-bottom: 2px;
+  }
+
+  .credits-row dd {
+    font-size: 15px;
+    color: var(--navy);
+    font-weight: 500;
   }
 
   /* ─── MAIN ─── */
@@ -1246,6 +1338,47 @@
     border-radius: var(--radius-sm);
   }
 
+  .lesson-video-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .lesson-video-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lesson-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 22px;
+    padding-left: 4px;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .lesson-video-link:hover .lesson-video-play,
+  .lesson-video-link:focus-visible .lesson-video-play {
+    background: rgba(204,0,0,0.9);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
   .video-caption {
     font-size: 12px;
     color: var(--slate-light);
@@ -1354,8 +1487,27 @@
       <span>Training Modules</span>
     </div>
   </div>
-  <div class="header-badge">Cyber Privacy</div>
+  <button type="button" class="header-badge" data-action="credits" aria-haspopup="dialog" aria-controls="credits-modal">Project SafeWeb and Shift SC</button>
 </header>
+
+<!-- ─── CREDITS MODAL ─── -->
+<div id="credits-overlay" class="credits-overlay" hidden>
+  <div id="credits-modal" class="credits-modal" role="dialog" aria-modal="true" aria-labelledby="credits-title" tabindex="-1">
+    <button type="button" class="credits-close" data-action="close-credits" aria-label="Close credits">&times;</button>
+    <div class="credits-eyebrow">Project SafeWeb &amp; Shift SC</div>
+    <h2 id="credits-title" class="credits-title">Credits</h2>
+    <dl class="credits-list">
+      <div class="credits-row">
+        <dt>Curriculum Design</dt>
+        <dd>Naya Dukkipati</dd>
+      </div>
+      <div class="credits-row">
+        <dt>Lead Developer</dt>
+        <dd>Rohan George</dd>
+      </div>
+    </dl>
+  </div>
+</div>
 
 <!-- ─── MAIN ─── -->
 <main id="main-content" tabindex="-1">
@@ -1702,7 +1854,7 @@ const MODULE_1 = {
     {
       address:  'no-reply@accounts.google.com',
       verdict:  'real',
-      blurb:    'This one looks suspicious because of the subdomain - but accounts.google.com is a legitimate Google subdomain used for account security emails. The key rule: the domain is always the last two parts before the first slash. Here that\'s google.com. A fake version might look like google.com.accounts-verify.net - where the actual domain is accounts-verify.net, not google.com.',
+      blurb:    'This one looks legitimate because accounts.google.com is a subdomain of google.com, which is the registrable domain. When checking a URL, look at the domain immediately before the public suffix—for example, google.com in accounts.google.com. Be cautious of lookalike URLs such as google.com.accounts-verify.net, where the actual domain is accounts-verify.net, not google.com.',
       flags:    []
     }
   ]
@@ -1856,7 +2008,8 @@ const MODULE_1 = {
           title: 'See It For Yourself (Optional)',
           body: `This clip is from <strong>2018</strong> — over 8 years ago. At the time, it was considered a landmark demonstration of how convincing AI-generated video had become. The tools that produced it took a team of researchers months to build. Today, comparable deepfakes can be generated in minutes on consumer hardware. Watch the first 30 seconds and ask yourself: if you didn't know this was fabricated, would you know it's a scam?`,
           video: {
-            src: 'https://www.youtube-nocookie.com/embed/cQ54GDm1eL0',
+            watchUrl: 'https://www.youtube.com/watch?v=cQ54GDm1eL0',
+            thumbnail: 'https://img.youtube.com/vi/cQ54GDm1eL0/hqdefault.jpg',
             title: 'Jordan Peele Obama deepfake PSA',
             caption: 'BuzzFeed & Jordan Peele, 2018 — made specifically as a public warning about deepfakes. This is what 8-year-old technology looked like.'
           }
@@ -1907,7 +2060,7 @@ const MODULE_1 = {
           options: [
             { text: 'Authority - pretending to be a boss, bank, IT department, or government agency', correct: true },
             { text: 'Urgency - demanding immediate action before you have time to think', correct: true },
-            { text: 'Unexpected "generosity" - offering money or prizes with no obvious catch (note: this can be a setup, not a standalone lever)', correct: false },
+            { text: 'Unexpected "generosity" - offering money or prizes with no obvious catch', correct: false },
             { text: 'Scarcity - "only a few spots left," creating fear of missing out', correct: true },
             { text: 'Fear - threatening consequences like arrest, account closure, or embarrassment', correct: true },
             { text: 'Liking (affinity) - building rapport and trust so you lower your guard', correct: true }
@@ -2593,14 +2746,15 @@ const MODULE_3 = {
         },
         {
           format: 'multiple',
-          question: `Sam has a strong unique password but no MFA. An attacker phishes her login and gets in. Which of these would have prevented account access even after the phishing attack succeeded?`,
+          question: `An attacker successfully phishes a student's password and logs into their email. Which of these, if it had already been set up, would have stopped the attacker from getting in?`,
           options: [
-            { text: 'A longer password - 24 characters instead of 18.', correct: false },
-            { text: 'Multi-factor authentication - the attacker would need a second factor (phone, key) they don\'t have.', correct: true },
-            { text: 'A different password manager - some are more phishing-resistant.', correct: false },
-            { text: 'Reporting the phishing email to her university IT department first.', correct: false }
+            { text: 'A longer, randomly generated password from a password manager.', correct: false },
+            { text: 'A separate recovery email used only for account recovery.', correct: false },
+            { text: 'Multi-factor authentication.', correct: true },
+            { text: 'Reporting the phishing email to university IT right after clicking.', correct: false }
           ],
-          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials. MFA is the layer that protects you even when a password is compromised: they'd also need physical access to your second factor (phone, hardware key). This is why MFA on email, banking, and your university account is non-negotiable.`
+          hint: `Think about what the attacker still wouldn't have, even with the correct password already in hand.`,
+          explanation: `Password length and complexity don't matter once a password is phished — the attacker already has the correct credentials, no matter how strong or well-managed they were. A recovery email and reporting the email help with cleanup, but neither blocks the login itself. MFA is the layer that protects you even when a password is compromised: the attacker would also need physical access to your second factor (phone, authenticator app, hardware key). This is why MFA on email, banking, and your university account is non-negotiable.`
         }
       ]
     }
@@ -2832,7 +2986,7 @@ const MODULE_4 = {
     {
       type: 'minitest',
       title: `Let's see what stuck`,
-      subtitle: `Module 4 · 8 questions · Need 80% to pass`,
+      subtitle: `Module 4 · 7 questions · Need 80% to pass`,
       questions: [
         {
           format: 'multiple',
@@ -2884,19 +3038,6 @@ const MODULE_4 = {
             { text: 'False', correct: true }
           ],
           explanation: `Forwarding strips the original email headers — the metadata containing sender IP addresses, routing info, and authentication data that investigators need. Instead, screenshot the email in place (showing the full sender address and subject line), or export the raw file. Always preserve the original untouched.`
-        },
-        {
-          format: 'multiselect',
-          question: `After receiving a data breach notification, which of these steps are appropriate responses? Select all that apply.`,
-          options: [
-            { text: 'Change your password on that site and anywhere else you reused it.', correct: true },
-            { text: 'Place a free credit freeze at the major credit bureaus to prevent new accounts being opened in your name.', correct: true },
-            { text: 'Monitor existing accounts for unfamiliar transactions over the following months.', correct: true },
-            { text: 'Be alert for targeted phishing that uses your breached details to appear credible.', correct: true },
-            { text: 'Accept the credit monitoring offer and consider the matter fully handled.', correct: false }
-          ],
-          hint: `The monitoring offer is one tool, not the whole solution. Think about what's now exposed and what each exposure enables attackers to do.`,
-          explanation: `All four positive steps matter: changing passwords addresses credential exposure, a credit freeze prevents new accounts being opened in your name, monitoring catches fraudulent use of existing accounts, and phishing awareness is critical because attackers buy breach data to craft more convincing scam messages. The monitoring offer covers only one slice of the risk.`
         },
         {
           format: 'multiple',
@@ -3227,7 +3368,8 @@ function validateCurriculum(modules, exam) {
           requireText(card.title, at, 'card title');
           requireText(card.body, at, 'card body');
           if (card.video) {
-            requireContent(/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]+$/.test(card.video.src), at, 'video must use a YouTube privacy-enhanced embed URL');
+            requireContent(/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/.test(card.video.watchUrl), at, 'video must link to a youtube.com watch URL');
+            requireContent(/^https:\/\/img\.youtube\.com\/vi\/[\w-]+\/hqdefault\.jpg$/.test(card.video.thumbnail), at, 'video must use a youtube.com thumbnail image');
             requireText(card.video.title, at, 'video title');
           }
         }
@@ -3976,7 +4118,7 @@ function renderPasswordLab() {
           <div style="background:rgba(26,127,120,0.08);border:1px solid rgba(26,127,120,0.2);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px">
             <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px">✓ Strong password achieved!</div>
             <div style="font-size:13px;color:var(--slate);line-height:1.6">
-              Good work - but <strong>don't use this specific password anywhere.</strong> The value isn't the password itself; it's the technique you just used to build it. A password manager will generate passwords even stronger than this one automatically.
+              Good work - if you can remember this one, feel free to use it. But you don't have to memorize passwords like this at all: a password manager will generate and remember passwords even stronger than this one for you, automatically.
             </div>
           </div>
         </div>
@@ -4508,9 +4650,11 @@ function renderLesson(step) {
       <h3 class="lesson-title" style="font-size:18px">${escapeHTML(card.title)}</h3>
       <div class="lesson-body">${card.body}</div>
       ${card.video ? `<figure style="margin-top:20px">
-        <iframe class="lesson-video" loading="lazy" src="${escapeHTML(card.video.src)}" title="${escapeHTML(card.video.title)}"
-          allow="encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        ${card.video.caption ? `<figcaption class="video-caption">${escapeHTML(card.video.caption)}</figcaption>` : ''}
+        <a class="lesson-video-link" href="${escapeHTML(card.video.watchUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Watch: ${escapeHTML(card.video.title)} (opens on YouTube in a new tab)">
+          <img class="lesson-video-thumb" loading="lazy" src="${escapeHTML(card.video.thumbnail)}" alt="" />
+          <span class="lesson-video-play" aria-hidden="true">▶</span>
+        </a>
+        <figcaption class="video-caption">${escapeHTML(card.video.title)} - opens on YouTube in a new tab.${card.video.caption ? ' ' + escapeHTML(card.video.caption) : ''}</figcaption>
       </figure>` : ''}
     </div>`).join('');
   byId('step-container').innerHTML = `
@@ -4719,7 +4863,26 @@ const actions = {
   'footprint-submit': fpSubmit,
   'password-visibility': togglePwVisibility,
   'password-tips': showPasswordTips,
+  credits: showCredits,
+  'close-credits': closeCredits,
 };
+
+let creditsOpener = null;
+
+function showCredits(button) {
+  creditsOpener = button || document.activeElement;
+  const overlay = byId('credits-overlay');
+  overlay.hidden = false;
+  byId('credits-modal').focus();
+}
+
+function closeCredits() {
+  const overlay = byId('credits-overlay');
+  if (overlay.hidden) return;
+  overlay.hidden = true;
+  creditsOpener?.focus();
+  creditsOpener = null;
+}
 
 document.addEventListener('click', event => {
   const button = event.target.closest('button[data-action]');
@@ -4734,6 +4897,12 @@ document.addEventListener('input', event => {
 });
 document.addEventListener('change', event => {
   if (event.target.matches('input[data-footprint]')) fpToggle(event.target.dataset.footprint);
+});
+byId('credits-overlay').addEventListener('click', event => {
+  if (event.target === event.currentTarget) closeCredits();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeCredits();
 });
 
 })();

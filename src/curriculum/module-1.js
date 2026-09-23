@@ -187,7 +187,7 @@ const MODULE_1 = {
     {
       address:  'no-reply@accounts.google.com',
       verdict:  'real',
-      blurb:    'This one looks suspicious because of the subdomain - but accounts.google.com is a legitimate Google subdomain used for account security emails. The key rule: the domain is always the last two parts before the first slash. Here that\'s google.com. A fake version might look like google.com.accounts-verify.net - where the actual domain is accounts-verify.net, not google.com.',
+      blurb:    'This one looks legitimate because accounts.google.com is a subdomain of google.com, which is the registrable domain. When checking a URL, look at the domain immediately before the public suffix—for example, google.com in accounts.google.com. Be cautious of lookalike URLs such as google.com.accounts-verify.net, where the actual domain is accounts-verify.net, not google.com.',
       flags:    []
     }
   ]
@@ -341,7 +341,8 @@ const MODULE_1 = {
           title: 'See It For Yourself (Optional)',
           body: `This clip is from <strong>2018</strong> — over 8 years ago. At the time, it was considered a landmark demonstration of how convincing AI-generated video had become. The tools that produced it took a team of researchers months to build. Today, comparable deepfakes can be generated in minutes on consumer hardware. Watch the first 30 seconds and ask yourself: if you didn't know this was fabricated, would you know it's a scam?`,
           video: {
-            src: 'https://www.youtube-nocookie.com/embed/cQ54GDm1eL0',
+            watchUrl: 'https://www.youtube.com/watch?v=cQ54GDm1eL0',
+            thumbnail: 'https://img.youtube.com/vi/cQ54GDm1eL0/hqdefault.jpg',
             title: 'Jordan Peele Obama deepfake PSA',
             caption: 'BuzzFeed & Jordan Peele, 2018 — made specifically as a public warning about deepfakes. This is what 8-year-old technology looked like.'
           }
@@ -392,7 +393,7 @@ const MODULE_1 = {
           options: [
             { text: 'Authority - pretending to be a boss, bank, IT department, or government agency', correct: true },
             { text: 'Urgency - demanding immediate action before you have time to think', correct: true },
-            { text: 'Unexpected "generosity" - offering money or prizes with no obvious catch (note: this can be a setup, not a standalone lever)', correct: false },
+            { text: 'Unexpected "generosity" - offering money or prizes with no obvious catch', correct: false },
             { text: 'Scarcity - "only a few spots left," creating fear of missing out', correct: true },
             { text: 'Fear - threatening consequences like arrest, account closure, or embarrassment', correct: true },
             { text: 'Liking (affinity) - building rapport and trust so you lower your guard', correct: true }

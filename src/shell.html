@@ -24,8 +24,27 @@
       <span>Training Modules</span>
     </div>
   </div>
-  <div class="header-badge">Cyber Privacy</div>
+  <button type="button" class="header-badge" data-action="credits" aria-haspopup="dialog" aria-controls="credits-modal">Project SafeWeb and Shift SC</button>
 </header>
+
+<!-- ─── CREDITS MODAL ─── -->
+<div id="credits-overlay" class="credits-overlay" hidden>
+  <div id="credits-modal" class="credits-modal" role="dialog" aria-modal="true" aria-labelledby="credits-title" tabindex="-1">
+    <button type="button" class="credits-close" data-action="close-credits" aria-label="Close credits">&times;</button>
+    <div class="credits-eyebrow">Project SafeWeb &amp; Shift SC</div>
+    <h2 id="credits-title" class="credits-title">Credits</h2>
+    <dl class="credits-list">
+      <div class="credits-row">
+        <dt>Curriculum Design</dt>
+        <dd>Naya Dukkipati</dd>
+      </div>
+      <div class="credits-row">
+        <dt>Lead Developer</dt>
+        <dd>Rohan George</dd>
+      </div>
+    </dl>
+  </div>
+</div>
 
 <!-- ─── MAIN ─── -->
 <main id="main-content" tabindex="-1">

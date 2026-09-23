@@ -640,7 +640,7 @@ function renderPasswordLab() {
           <div style="background:rgba(26,127,120,0.08);border:1px solid rgba(26,127,120,0.2);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px">
             <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px">✓ Strong password achieved!</div>
             <div style="font-size:13px;color:var(--slate);line-height:1.6">
-              Good work - but <strong>don't use this specific password anywhere.</strong> The value isn't the password itself; it's the technique you just used to build it. A password manager will generate passwords even stronger than this one automatically.
+              Good work - if you can remember this one, feel free to use it. But you don't have to memorize passwords like this at all: a password manager will generate and remember passwords even stronger than this one for you, automatically.
             </div>
           </div>
         </div>

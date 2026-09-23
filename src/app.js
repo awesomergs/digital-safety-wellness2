@@ -184,9 +184,11 @@ function renderLesson(step) {
       <h3 class="lesson-title" style="font-size:18px">${escapeHTML(card.title)}</h3>
       <div class="lesson-body">${card.body}</div>
       ${card.video ? `<figure style="margin-top:20px">
-        <iframe class="lesson-video" loading="lazy" src="${escapeHTML(card.video.src)}" title="${escapeHTML(card.video.title)}"
-          allow="encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        ${card.video.caption ? `<figcaption class="video-caption">${escapeHTML(card.video.caption)}</figcaption>` : ''}
+        <a class="lesson-video-link" href="${escapeHTML(card.video.watchUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Watch: ${escapeHTML(card.video.title)} (opens on YouTube in a new tab)">
+          <img class="lesson-video-thumb" loading="lazy" src="${escapeHTML(card.video.thumbnail)}" alt="" />
+          <span class="lesson-video-play" aria-hidden="true">▶</span>
+        </a>
+        <figcaption class="video-caption">${escapeHTML(card.video.title)} - opens on YouTube in a new tab.${card.video.caption ? ' ' + escapeHTML(card.video.caption) : ''}</figcaption>
       </figure>` : ''}
     </div>`).join('');
   byId('step-container').innerHTML = `
@@ -395,7 +397,26 @@ const actions = {
   'footprint-submit': fpSubmit,
   'password-visibility': togglePwVisibility,
   'password-tips': showPasswordTips,
+  credits: showCredits,
+  'close-credits': closeCredits,
 };
+
+let creditsOpener = null;
+
+function showCredits(button) {
+  creditsOpener = button || document.activeElement;
+  const overlay = byId('credits-overlay');
+  overlay.hidden = false;
+  byId('credits-modal').focus();
+}
+
+function closeCredits() {
+  const overlay = byId('credits-overlay');
+  if (overlay.hidden) return;
+  overlay.hidden = true;
+  creditsOpener?.focus();
+  creditsOpener = null;
+}
 
 document.addEventListener('click', event => {
   const button = event.target.closest('button[data-action]');
@@ -410,4 +431,10 @@ document.addEventListener('input', event => {
 });
 document.addEventListener('change', event => {
   if (event.target.matches('input[data-footprint]')) fpToggle(event.target.dataset.footprint);
+});
+byId('credits-overlay').addEventListener('click', event => {
+  if (event.target === event.currentTarget) closeCredits();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeCredits();
 });
